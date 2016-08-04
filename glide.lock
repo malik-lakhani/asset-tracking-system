@@ -1,0 +1,8 @@
+hash: 070698363a775170c09fdc11412c39e180767c78a5b1cbb6ddc6620e1634bde9
+updated: 2016-08-04T15:05:55.406690056+05:30
+imports:
+- name: github.com/DavidHuie/gomigrate
+  version: 1b90a570dc6b7aaaefa233eacf304be363a89603
+- name: github.com/lib/pq
+  version: 4dd446efc17690bc53e154025146f73203b18309
+testImports: []

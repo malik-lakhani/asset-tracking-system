@@ -1,0 +1,5 @@
+package: github.com/improwised/Tracker
+import:
+- package: github.com/lib/pq
+- package: github.com/fatih/structs
+- package: gopkg.in/yaml.v2
