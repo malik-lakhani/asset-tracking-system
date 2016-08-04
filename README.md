@@ -21,7 +21,7 @@ $ glide install
 ```
 * Create Database
 ```
-$ create database iims
+$ create database ats
 ```
 * Database Migration
 ```

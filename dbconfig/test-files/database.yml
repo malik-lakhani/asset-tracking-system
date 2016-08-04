@@ -1,6 +1,6 @@
 development:
   host: localhost
-  database: tracker
+  database: ats
   username: ashwin
   password: ""
 
@@ -9,12 +9,12 @@ development:
 # Do not set this db to the same as development or production.
 test:
   host: localhost
-  database: tracker_test
+  database: ats_test
   username: ashwin
   password: ""
 
 production:
   host: localhost
-  database: tracker
+  database: ats
   username: ashwin
   password: ""
