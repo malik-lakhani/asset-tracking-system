@@ -7,7 +7,7 @@ import (
   "github.com/DavidHuie/gomigrate"
   "database/sql"
   _"github.com/lib/pq"
-  "github.com/improwised/tracker/dbconfig"
+  "github.com/improwised/cantaloupe/dbconfig"
 )
 
 func main() {

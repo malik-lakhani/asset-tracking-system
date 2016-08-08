@@ -1,0 +1,91 @@
+FORMAT: 1A
+
+# Cantaloupe
+Cantaloupe is an internal asset tracking system.its usefull to keep all records of different components and its invoices.
+
+## All Users [/users{?type}]
+
+Display All Users.
+
++ Parameters
+    + type: 0 - Either Display all Users or only active users. 0 for all users and 1 for active users only
+
+### List All User [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: "host:port/users?type=0"
+
+
+
+## Add New User [/user/add]
+
+### Add New User[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + UsersName: `Name Of User ...`
+        + CompanyEmail: `Company email of user ...`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/user/add"
+
+
+
+## Edit User [/user/edit]
+
+### Edit User[PATCH]
+
++ Request (application/json)
+
+    + Attributes
+        + UsersId:`Id Of User`
+        + UsersName: `Name Of User ...`
+        + CompanyEmail: `Company email of user ...`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/user/edit"
+
+
+
+## Delete User [/user/delete]
+
+### Delete User[DELETE]
+
++ Request (application/json)
+
+    + Attributes
+        + UsersId:`Id Of User`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/user/delete"
+
+
+
+## Display User For Edit [/user/DisplayForEdit]
+
+### Display User For Edit[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + UsersId:`Id Of User`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/user/DisplayForEdit"
+

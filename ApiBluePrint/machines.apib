@@ -1,0 +1,80 @@
+FORMAT: 1A
+
+# Cantaloupe
+Cantaloupe is an internal asset tracking system.its usefull to keep all records of different components and its invoices.
+
+## All Machines [/machines{?type}]
+
+Display All Machines.
+
++ Parameters
+    + type: 0 - Either Display all Machines or only active Machines. 0 for all machines and 1 for active machines only
+
+### List All Machines [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: "host:port/machines?type=0"
+
+## Add New Machine [/machine/add]
+
+### Add New Machine[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + MachinesName: `Name Of Machine ...`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/machine/add"
+
+## Edit Machine [/machine/edit]
+
+### Edit Machine[PATCH]
+
++ Request (application/json)
+
+    + Attributes
+        + machineId:`Id Of Machine`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/machine/edit"
+
+## Delete Machine [/machine/delete]
+
+### Delete Machine[DELETE]
+
++ Request (application/json)
+
+    + Attributes
+        + MachineId:`Id Of Machine`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/machine/delete"
+
+
+## Display Machine Info For Edit [/machine/DisplayForEdit]
+
+### Display Machine Info For Edit[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + machineId:`Id Of MAchine`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/machine/DisplayForEdit"

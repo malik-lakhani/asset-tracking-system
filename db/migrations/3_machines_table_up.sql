@@ -3,5 +3,5 @@ create table machines(
 	name varchar(256) NOT NULL,
 	created_at timestamp,
 	modified_at timestamp,
-	deleted_at timestamp NOT NULL
+	deleted_at timestamp
 )

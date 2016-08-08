@@ -3,7 +3,7 @@ package dbconfig_test
 import (
 	"os"
 
-	"github.com/improwised/apricot/dbconfig"
+	"github.com/improwised/cantaloupe/dbconfig"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
