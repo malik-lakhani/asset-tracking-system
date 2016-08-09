@@ -1,0 +1,82 @@
+FORMAT: 1A
+
+# Cantaloupe - Incidents
+Cantaloupe is an internal asset tracking system.its usefull to keep all records of different components and its invoices.
+
+## All Incidents [/incidents]
+
+Display All Incidents.
+
+### List All Incidents [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: "host:port/incidents"
+
+## Add New Incident [/incident/add]
+
+### Add New Incident[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + ComponentId: `Id Of Perticular components ...`
+        + InceidentTitle: `Title of incident ...`
+        + Description: `Entire Description of Incident`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/incident/add"
+
+## Edit incident [/incident/edit]
+
+### Edit incident[PATCH]
+
++ Request (application/json)
+
+    + Attributes
+        + IncidentId: `Id Of Current Incident`
+        + ComponentId: `Id Of Perticular components which will replace with current one...`
+        + InceidentTitle: `Title of incident  which will replace with current title...`
+        + Description: `Entire Description of Incident which will replace with current Description...`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/incident/edit"
+
+## Delete Incident [/incident/delete]
+
+### Delete Incident[DELETE]
+
++ Request (application/json)
+
+    + Attributes
+        + IncidentId:`Id Of Incident`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/incodent/delete"
+
+## Display Incident For Edit [/incident/DisplayForEdit]
+
+### Display Incodent For Edit[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + IncidentId:`Id Of Incident`
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Link: "host:port/incident/DisplayForEdit"
+
