@@ -1,7 +1,16 @@
-FORMAT: 1A
+# Group  Incidents
 
-# Cantaloupe - Incidents
-Cantaloupe is an internal asset tracking system.its usefull to keep all records of different components and its invoices.
+## Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+
+## Atributes
+- **id** : id of incident(Required, int)
+- **component_id** : id of incident on which incident happened(Required, string)
+- **title** : Brief title of incident(Required, string)
+- **description** : Entire description of incident (Optional, string)
+- **status** : status of comonent whether its in process or not(Required, string)
+- **resolved_at** : Timestamp of resolved component(Required, string)
+- **created_at** : Timestamp when incedent happened(Required, string)
 
 ## All Incidents [/incidents]
 
@@ -15,68 +24,97 @@ Display All Incidents.
 
             Link: "host:port/incidents"
 
-## Add New Incident [/incident/add]
+    + Body
+
+            [{
+                id : "1"
+                component_id : "1"
+                title : "Component Damaged"
+                description : "component damaged Due to power cut"
+                status : "active"
+                resolved_at : ""
+                created_at : "08/08/2016:12:12:12"
+            }]
+
+
+## Add New Incident [/incident]
 
 ### Add New Incident[POST]
 
 + Request (application/json)
 
     + Attributes
-        + ComponentId: `Id Of Perticular components ...`
-        + InceidentTitle: `Title of incident ...`
-        + Description: `Entire Description of Incident`
+        + component_id: "1"
+        + incident_title: `Component Damaged`
+        + description: `Component damaged Due to power cut`
 
 + Response 201 (application/json)
 
     + Headers
 
-            Link: "host:port/incident/add"
+            Link: "host:port/incidents"
 
-## Edit incident [/incident/edit]
+## Edit incident [/incident?id=1]
 
 ### Edit incident[PATCH]
 
++ Parameters
+    + id: 1 - Id of incident to be update
+
 + Request (application/json)
 
-    + Attributes
-        + IncidentId: `Id Of Current Incident`
-        + ComponentId: `Id Of Perticular components which will replace with current one...`
-        + InceidentTitle: `Title of incident  which will replace with current title...`
-        + Description: `Entire Description of Incident which will replace with current Description...`
+    + Body
 
-+ Response 201 (application/json)
+            + component_id: "1",
+            + incident_title: "Component Damaged",
+            + description: "Component damaged Due to power cut"
+
++ Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/incident/edit"
+            Link: "host:port/incidents?id=1"
 
-## Delete Incident [/incident/delete]
+## Delete Incident [/incidents?id=2]
 
 ### Delete Incident[DELETE]
 
-+ Request (application/json)
++ Parameters
+    + id: 1 - Id of incident to delete
 
-    + Attributes
-        + IncidentId:`Id Of Incident`
++ Request (application/json)
 
 + Response 201 (application/json)
 
     + Headers
 
-            Link: "host:port/incodent/delete"
+            Link: "host:port/incidents?id=2"
 
-## Display Incident For Edit [/incident/DisplayForEdit]
+## Display Incident For Edit [/incidents?id=3]
 
-### Display Incodent For Edit[POST]
+### Display Incident For Edit[GET]
+
++ Parameters
+    + id: 1 - Id of incident to display
 
 + Request (application/json)
-
-    + Attributes
-        + IncidentId:`Id Of Incident`
 
 + Response 201 (application/json)
 
     + Headers
 
-            Link: "host:port/incident/DisplayForEdit"
+            Link: "host:port/incidents?id=3"
+
+    + Body
+
+            {
+                id : "1"
+                component_id : "1"
+                title : "Component Damaged"
+                description : "component damaged Due to power cut"
+                status : "active"
+                resolved_at : ""
+                created_at : "08/08/2016:12:12:12"
+                modified_at : ""
+            }
 

@@ -1,14 +1,24 @@
-FORMAT: 1A
+# Group Users
 
-# Cantaloupe - Users
-Cantaloupe is an internal asset tracking system.its usefull to keep all records of different components and its invoices.
+perform different user releated operations.
 
-## All Users [/users{?type}]
+## Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+
+## Atributes
+- **id** : id of user(Required, int)
+- **user_name** : Name Of User(Required, string)
+- **company_email** : Company Email Id Of User(Optional, string)
+- **created_at** : Created Timestamp of User(Required, string)
+- **deleted_at** : Deleted Timesramo of User(Required, string)
+
+## All Users [/users?active=false]
 
 Display All Users.
 
 + Parameters
-    + type: 0 - Either Display all Users or only active users. 0 for all users and 1 for active users only
+    + active: false - Display all Users. On true it will display only active users.
+              By default it will display active users only.
 
 ### List All User [GET]
 
@@ -16,76 +26,94 @@ Display All Users.
 
     + Headers
 
-            Link: "host:port/users?type=0"
+            Link: "host:port/users?active=true"
 
+    + body
 
+            [{
+            id : "1"
+            user_name : "ashvin"
+            company_email : "ashvin@improwised.com"
+            created_at : "10/08/2016:12:12:12"
+            deleted_at : ""
+            }]
 
-## Add New User [/user/add]
+## Add New User [/users]
 
 ### Add New User[POST]
 
 + Request (application/json)
 
+    + user_name:false - Display all Users.on true it will display only active users.
+              By default it will display active users only.
+
     + Attributes
-        + UsersName: `Name Of User ...`
-        + CompanyEmail: `Company email of user ...`
+        + user_name: `Ashvin Kumbhani`
+        + company_email: `ashvin@improwised.com`
 
 + Response 201 (application/json)
 
     + Headers
 
-            Link: "host:port/user/add"
+            Link: "host:port/users"
 
-
-
-## Edit User [/user/edit]
+## Edit User [/users?id={id}]
 
 ### Edit User[PATCH]
 
++ Parameters
+    + id: 1 - Id of user whose information wants to update.
+
 + Request (application/json)
 
     + Attributes
-        + UsersId:`Id Of User`
-        + UsersName: `Name Of User ...`
-        + CompanyEmail: `Company email of user ...`
+        + user_name: `Ashvin Kumbhani`
+        + company_email: `ashvin@improwised.com`
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/user/edit"
+            Link: "host:port/user?id={id}"
 
-
-
-## Delete User [/user/delete]
+## Delete User [/users?id={user_id}]
 
 ### Delete User[DELETE]
 
-+ Request (application/json)
-
-    + Attributes
-        + UsersId:`Id Of User`
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/user/delete"
-
-
-
-## Display User For Edit [/user/DisplayForEdit]
-
-### Display User For Edit[POST]
++ Parameters
+    + user_id: 1 - Id of user wants to remove.
 
 + Request (application/json)
 
-    + Attributes
-        + UsersId:`Id Of User`
-
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/user/DisplayForEdit"
+            Link: "host:port/users?id={user_id}"
+
+## Display User For Edit [/users?id={users_id}]
+
+### Display User For Edit[GET]
+
++ Parameters
+    + users_id: 1 - Id of user whose information wants to display.
+
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: "host:port/users?id={users_id}"
+
+    + Body
+
+            {
+            id : "1"
+            user_name : "ashvin"
+            company_email : "ashvin@improwised.com"
+            created_at : "10/08/2016:12:12:12"
+            deleted_at : ""
+            }
+
 

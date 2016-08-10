@@ -1,14 +1,23 @@
-FORMAT: 1A
+# Group Machines
 
-# Cantaloupe - Machines
-Cantaloupe is an internal asset tracking system.its usefull to keep all records of different components and its invoices.
+perform different machines releated operations.
 
-## All Machines [/machines{?type}]
+## Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+
+## Atributes
+- **id** : id of machine(Required, int)
+- **machine_name** : Name Of Machine(Required, string)
+- **created_at** : Created Timestamp of Machine(Required, string)
+- **deleted_at** : Deleted Timesramo of Machine(Optional, string)
+
+## All Machines [/machines?active=false]
 
 Display All Machines.
 
 + Parameters
-    + type: 0 - Either Display all Machines or only active Machines. 0 for all machines and 1 for active machines only
+    + active: false - Either Display all Machines or only active Machines. false for all machines and true for active machines only.
+               By Default active machines will be display
 
 ### List All Machines [GET]
 
@@ -16,65 +25,87 @@ Display All Machines.
 
     + Headers
 
-            Link: "host:port/machines?type=0"
+            Link: "host:port/machines?active=true"
 
-## Add New Machine [/machine/add]
+    + Body
+
+            [{
+                id : "1",
+                machine_name : "mako",
+                created_at : "12/08/2016:12:12:12",
+                deleted_at : ""
+            }]
+
+## Add New Machine [/machines]
 
 ### Add New Machine[POST]
 
 + Request (application/json)
 
     + Attributes
-        + MachinesName: `Name Of Machine ...`
+        + machine_name: `mako`
 
 + Response 201 (application/json)
 
     + Headers
 
-            Link: "host:port/machine/add"
+            Link: "host:port/machines"
 
-## Edit Machine [/machine/edit]
+## Edit Machine [/machines?id=3]
 
 ### Edit Machine[PATCH]
 
++ Parameters
+    + id: 2 - Id of machine to be update
+
 + Request (application/json)
 
     + Attributes
-        + machineId:`Id Of Machine`
+        + machine_id:`Id Of Machine`
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/machine/edit"
+            Link: "host:port/machines?id={id}"
 
-## Delete Machine [/machine/delete]
+## Delete Machine [/machines?id=1]
 
 ### Delete Machine[DELETE]
 
-+ Request (application/json)
-
-    + Attributes
-        + MachineId:`Id Of Machine`
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/machine/delete"
-
-
-## Display Machine Info For Edit [/machine/DisplayForEdit]
-
-### Display Machine Info For Edit[POST]
++ Parameters
+    + id: 1 - Id of machine to be delete
 
 + Request (application/json)
 
-    + Attributes
-        + machineId:`Id Of MAchine`
-
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/machine/DisplayForEdit"
+            Link: "host:port/machine?id=machine_id"
+
+## Display Machine Info For Edit [/machines?id=2]
+
+### Display Machine Info For Edit[GET]
+
++ Parameters
+    + id: 3 - Id of machine to display information of it.
+
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: "host:port/machines?id={machines_id}"
+
+
+    + Body
+
+            {
+                id : "1",
+                machine_name : "mako",
+                created_at : "12/08/2016:12:12:12",
+                deleted_at : ""
+            }
+
