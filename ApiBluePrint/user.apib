@@ -2,22 +2,18 @@
 
 perform different user releated operations.
 
-## Error States
-The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+- **id** : id of user(string, Required)
+- **user_name** : Name Of User(string, Required)
+- **company_email** : Company Email Id Of User(string, Required)
+- **created_at** : Created Timestamp of User(string, Required)
+- **deleted_at** : Deleted Timesramo of User(string, Required)
 
-## Atributes
-- **id** : id of user(Required, int)
-- **user_name** : Name Of User(Required, string)
-- **company_email** : Company Email Id Of User(Optional, string)
-- **created_at** : Created Timestamp of User(Required, string)
-- **deleted_at** : Deleted Timesramo of User(Required, string)
-
-## All Users [/users?active=false]
+## All Users [/users{?active}]
 
 Display All Users.
 
 + Parameters
-    + active: false - Display all Users. On true it will display only active users.
+    + active : false - Display all Users. On true it will display only active users.
               By default it will display active users only.
 
 ### List All User [GET]
@@ -26,16 +22,16 @@ Display All Users.
 
     + Headers
 
-            Link: "host:port/users?active=true"
+            Link: "host:port/users{?active}"
 
     + body
 
             [{
-            id : "1"
-            user_name : "ashvin"
-            company_email : "ashvin@improwised.com"
-            created_at : "10/08/2016:12:12:12"
-            deleted_at : ""
+            id : `1`,
+            user_name : `ashvin`,
+            company_email : `ashvin@improwised.com`,
+            created_at : `2016-08-08T02:15:15Z`,
+            deleted_at : ` `
             }]
 
 ## Add New User [/users]
@@ -43,9 +39,6 @@ Display All Users.
 ### Add New User[POST]
 
 + Request (application/json)
-
-    + user_name:false - Display all Users.on true it will display only active users.
-              By default it will display active users only.
 
     + Attributes
         + user_name: `Ashvin Kumbhani`
@@ -57,12 +50,12 @@ Display All Users.
 
             Link: "host:port/users"
 
-## Edit User [/users?id={id}]
+## Edit User [/users{?user_id}]
 
 ### Edit User[PATCH]
 
 + Parameters
-    + id: 1 - Id of user whose information wants to update.
+    + user_id : 1 - Id of user whose information wants to update.
 
 + Request (application/json)
 
@@ -74,14 +67,14 @@ Display All Users.
 
     + Headers
 
-            Link: "host:port/user?id={id}"
+            Link: "host:port/user{?user_id}"
 
-## Delete User [/users?id={user_id}]
+## Delete User [/users{?users_id}]
 
 ### Delete User[DELETE]
 
 + Parameters
-    + user_id: 1 - Id of user wants to remove.
+    + users_id : 1 - Id of user wants to remove.
 
 + Request (application/json)
 
@@ -89,14 +82,14 @@ Display All Users.
 
     + Headers
 
-            Link: "host:port/users?id={user_id}"
+            Link: "host:port/users{?users_id}"
 
-## Display User For Edit [/users?id={users_id}]
+## Display User For Edit [/users{?user_Id}]
 
 ### Display User For Edit[GET]
 
 + Parameters
-    + users_id: 1 - Id of user whose information wants to display.
+    + user_Id: 1 - Id of user whose information wants to display.
 
 + Request (application/json)
 
@@ -104,16 +97,16 @@ Display All Users.
 
     + Headers
 
-            Link: "host:port/users?id={users_id}"
+            Link: "host:port/users{?user_Id}"
 
     + Body
 
             {
-            id : "1"
-            user_name : "ashvin"
-            company_email : "ashvin@improwised.com"
-            created_at : "10/08/2016:12:12:12"
-            deleted_at : ""
+            id : `1`
+            user_name : `ashvin`
+            company_email : `ashvin@improwised.com`
+            created_at : `2016-08-08T02:15:15Z`
+            deleted_at : ` `
             }
 
 

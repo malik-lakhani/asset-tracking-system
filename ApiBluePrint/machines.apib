@@ -2,16 +2,12 @@
 
 perform different machines releated operations.
 
-## Error States
-The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+- **id** : id of machine(string, Required)
+- **machine_name** : Name Of Machine(string, Required)
+- **created_at** : Created Timestamp of Machine(string, Required)
+- **deleted_at** : Deleted Timesramo of Machine(string, Optional)
 
-## Atributes
-- **id** : id of machine(Required, int)
-- **machine_name** : Name Of Machine(Required, string)
-- **created_at** : Created Timestamp of Machine(Required, string)
-- **deleted_at** : Deleted Timesramo of Machine(Optional, string)
-
-## All Machines [/machines?active=false]
+## All Machines [/machines{?active}]
 
 Display All Machines.
 
@@ -25,15 +21,15 @@ Display All Machines.
 
     + Headers
 
-            Link: "host:port/machines?active=true"
+            Link: "host:port/machines{?active}"
 
     + Body
 
             [{
-                id : "1",
-                machine_name : "mako",
-                created_at : "12/08/2016:12:12:12",
-                deleted_at : ""
+                id : `1`,
+                machine_name : `mako`,
+                created_at : `2016-08-08T02:15:15Z`,
+                deleted_at : ` `
             }]
 
 ## Add New Machine [/machines]
@@ -51,7 +47,7 @@ Display All Machines.
 
             Link: "host:port/machines"
 
-## Edit Machine [/machines?id=3]
+## Edit Machine [/machines{?id}]
 
 ### Edit Machine[PATCH]
 
@@ -60,21 +56,18 @@ Display All Machines.
 
 + Request (application/json)
 
-    + Attributes
-        + machine_id:`Id Of Machine`
-
 + Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/machines?id={id}"
+            Link: "host:port/machines{?id}"
 
-## Delete Machine [/machines?id=1]
+## Delete Machine [/machines{?machine_id}]
 
 ### Delete Machine[DELETE]
 
 + Parameters
-    + id: 1 - Id of machine to be delete
+    + machine_id : 1 - Id of machine to be delete
 
 + Request (application/json)
 
@@ -82,30 +75,30 @@ Display All Machines.
 
     + Headers
 
-            Link: "host:port/machine?id=machine_id"
+            Link: "host:port/machine{?machine_id}"
 
-## Display Machine Info For Edit [/machines?id=2]
+## Display Machine Info For Edit [/machines{?machine_Id}]
 
 ### Display Machine Info For Edit[GET]
 
 + Parameters
-    + id: 3 - Id of machine to display information of it.
+    + machine_Id : 3 - Id of machine to display information of it.
 
 + Request (application/json)
 
 + Response 200 (application/json)
 
-    + Headers
+    + Headers1
 
-            Link: "host:port/machines?id={machines_id}"
+            Link: "host:port/machines{?machine_Id}"
 
 
     + Body
 
             {
-                id : "1",
-                machine_name : "mako",
-                created_at : "12/08/2016:12:12:12",
-                deleted_at : ""
+                id : `1`,
+                machine_name : `mako`,
+                created_at : `2016-08-08T02:15:15Z`,
+                deleted_at : ` `
             }
 

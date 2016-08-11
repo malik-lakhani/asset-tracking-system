@@ -1,94 +1,40 @@
-FORMAT: 1A
+# Group Components
 
-# Cantaloupe - Components
-Cantaloupe is an internal asset tracking system.its usefull to keep all records of different components and its invoices.
+- **id** : Id of Component(string, Required)
+- **name** : Name of Component(string, Required)
+- **inv_id** : Id of Invoice(string, Required)
+- **warranty_till** : Warranty of Component(string, Required)
+- **desc** : Description(string, Optional)
+- **active** : Component is acti(string, Required)ve or not
+- **deleted_at** : Deleted Timestamp of Component(string, Optional)
+- **created_at** : Created Timestmp of Component(string, Optional)
 
-## All Compontnts [/components]
+## Display Components [/components{?active}]
 
-Display All Components.
+Display All Components
 
-### List All Component [GET]
+### Display Components [GET]
 
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: "host:port/components"
-
-## Add New component [/component/add]
-
-### Add New Component[POST]
-
-+ Request (application/json)
-
-    + Attributes
-        + InvoiceNo: `Invoice Number ...`
-        + InvoicerName: `Name Of Invoicer ...`
-        + InvoicerAdd: `Address Of Invoicer ...`
-        + InvoicerContact: `Contact Of Invoicer`
-        + Components: [`list of Components`]
-        + ComponentDesc: `Description of Components`
-        + InvoiceDesc: 'Description Of Invoice'
-        + InvoiceDate: 'Date Of Invoice'
-        + WarrantyTill: 'Warranty Of Components'
++ Parameters
+    + active : false - Display all Components. On true it will display only active Components.
+              By default it will display active Components only.
 
 + Response 201 (application/json)
 
     + Headers
 
-            Link: "host:port/component/add"
+            Link: "host:port/components{?active}"
 
-## Edit Component [/component/edit]
+    + Body
 
-### Edit Component[PATCH]
-
-+ Request (application/json)
-
-    + Attributes
-        + InvoiceId : `Id Of Invoice to be Update`
-        + InvoiceNo: `Invoice Number which will replace with current one...`
-        + InvoicerName: `Name Of Invoicer which will replace with current Invoicer...`
-        + InvoicerAdd: `Address Of Invoicer which will replace with current Invoicer...`
-        + InvoicerContact: `Contact Of Invoicer which will replace with current Invoicer`
-        + Components: [`list of Components`] to be update
-        + ComponentDesc: `Description of Components to update`
-        + InvoiceDesc: 'Description Of Invoice to be update'
-        + InvoiceDate: 'Date Of Invoice'
-        + WarrantyTill: 'Warranty Of Components'
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/component/edit"
-
-## Delete Component [/component/delete]
-
-### Delete Component[DELETE]
-
-+ Request (application/json)
-
-    + Attributes
-        + component:`Id Of Component`
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/compontnt/delete"
-
-## Display Component For Edit [/Component/DisplayForEdit]
-
-### Display Component For Edit[POST]
-
-+ Request (application/json)
-
-    + Attributes
-        + ComponentId:`Id Of Component`
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/component/DisplayForEdit"
+	    	[{
+	    		id : `1`,
+	    		name : `Mouse`,
+	    		inv_id : `1`,
+	    		warranty_till : `12-04-2017`,
+	    		desc : `description of mouse`,
+	    		active : `true`,
+	    		delted_at : ``
+	    		created_at : `08-08-2016T12:12:12`
+	    	}]
 

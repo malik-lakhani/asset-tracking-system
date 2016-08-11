@@ -1,16 +1,12 @@
 # Group  Incidents
 
-## Error States
-The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
-
-## Atributes
-- **id** : id of incident(Required, int)
-- **component_id** : id of incident on which incident happened(Required, string)
-- **title** : Brief title of incident(Required, string)
-- **description** : Entire description of incident (Optional, string)
-- **status** : status of comonent whether its in process or not(Required, string)
-- **resolved_at** : Timestamp of resolved component(Required, string)
-- **created_at** : Timestamp when incedent happened(Required, string)
+- **id** : id of incident(string, Required)
+- **component_id** : id of incident on which incident happened(string, Required)
+- **title** : Brief title of incident(string, Required)
+- **description** : Entire description of incident (string, Optional)
+- **status** : status of comonent whether its in process or not(string, Required)
+- **resolved_at** : Timestamp of resolved component(string, Required)
+- **created_at** : Timestamp when incedent happened(string, Required)
 
 ## All Incidents [/incidents]
 
@@ -27,13 +23,13 @@ Display All Incidents.
     + Body
 
             [{
-                id : "1"
-                component_id : "1"
-                title : "Component Damaged"
-                description : "component damaged Due to power cut"
-                status : "active"
-                resolved_at : ""
-                created_at : "08/08/2016:12:12:12"
+                id : `1`
+                component_id : `1`
+                title : `Component Damaged`
+                description : `component damaged Due to power cut`
+                status : `active`
+                resolved_at : ` `
+                created_at : `2016-08-08T02:15:15Z`
             }]
 
 
@@ -44,7 +40,7 @@ Display All Incidents.
 + Request (application/json)
 
     + Attributes
-        + component_id: "1"
+        + component_id: `1`
         + incident_title: `Component Damaged`
         + description: `Component damaged Due to power cut`
 
@@ -54,7 +50,7 @@ Display All Incidents.
 
             Link: "host:port/incidents"
 
-## Edit incident [/incident?id=1]
+## Edit incident [/incidents{?id}]
 
 ### Edit incident[PATCH]
 
@@ -65,56 +61,56 @@ Display All Incidents.
 
     + Body
 
-            + component_id: "1",
-            + incident_title: "Component Damaged",
-            + description: "Component damaged Due to power cut"
+            + component_id: `1`,
+            + incident_title: `Component Damaged`,
+            + description: `Component damaged Due to power cut`
 
 + Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/incidents?id=1"
+            Link: "host:port/incidents{?id}"
 
-## Delete Incident [/incidents?id=2]
+## Delete Incident [/incidents{?incident_id}]
 
 ### Delete Incident[DELETE]
 
 + Parameters
-    + id: 1 - Id of incident to delete
+    +  incident_id : 1 - id of incident to delete
 
 + Request (application/json)
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/incidents?id=2"
+            Link: "host:port/incidents{?incident_id}"
 
-## Display Incident For Edit [/incidents?id=3]
+## Display Incident For Edit [/incidents{?incident_Id}]
 
 ### Display Incident For Edit[GET]
 
 + Parameters
-    + id: 1 - Id of incident to display
+    + incident_Id : 1 - Id of incident to display
 
 + Request (application/json)
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
-            Link: "host:port/incidents?id=3"
+            Link: "host:port/incidents{?incident_Id}"
 
     + Body
 
             {
-                id : "1"
-                component_id : "1"
-                title : "Component Damaged"
-                description : "component damaged Due to power cut"
-                status : "active"
-                resolved_at : ""
-                created_at : "08/08/2016:12:12:12"
-                modified_at : ""
+                id : `1`
+                component_id : `1`
+                title : `Component Damaged`
+                description : `component damaged Due to power cut`
+                status : `active`
+                resolved_at : ` `
+                created_at : `2016-08-08T02:15:15Z`
+                modified_at : ` `
             }
 
