@@ -21,8 +21,6 @@ Display All Machines.
 
     + Headers
 
-            Link: "host:port/machines{?active}"
-
     + Body
 
             [{
@@ -41,11 +39,7 @@ Display All Machines.
     + Attributes
         + machine_name: `mako`
 
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/machines"
++ Response 201
 
 ## Edit Machine [/machines{?id}]
 
@@ -56,11 +50,10 @@ Display All Machines.
 
 + Request (application/json)
 
-+ Response 200 (application/json)
+    + Attributes
+        + machine_name: `Thor`
 
-    + Headers
-
-            Link: "host:port/machines{?id}"
++ Response 200
 
 ## Delete Machine [/machines{?machine_id}]
 
@@ -69,13 +62,7 @@ Display All Machines.
 + Parameters
     + machine_id : 1 - Id of machine to be delete
 
-+ Request (application/json)
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: "host:port/machine{?machine_id}"
++ Response 204
 
 ## Display Machine Info For Edit [/machines{?machine_Id}]
 
@@ -84,14 +71,9 @@ Display All Machines.
 + Parameters
     + machine_Id : 3 - Id of machine to display information of it.
 
-+ Request (application/json)
-
 + Response 200 (application/json)
 
-    + Headers1
-
-            Link: "host:port/machines{?machine_Id}"
-
+    + Headers
 
     + Body
 

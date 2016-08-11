@@ -18,8 +18,6 @@ Display All Incidents.
 
     + Headers
 
-            Link: "host:port/incidents"
-
     + Body
 
             [{
@@ -44,11 +42,7 @@ Display All Incidents.
         + incident_title: `Component Damaged`
         + description: `Component damaged Due to power cut`
 
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/incidents"
++ Response 201
 
 ## Edit incident [/incidents{?id}]
 
@@ -59,17 +53,12 @@ Display All Incidents.
 
 + Request (application/json)
 
-    + Body
+    + Attributes
+        + component_id: `1`,
+        + incident_title: `Component Damaged`,
+        + description: `Component damaged Due to power cut`
 
-            + component_id: `1`,
-            + incident_title: `Component Damaged`,
-            + description: `Component damaged Due to power cut`
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: "host:port/incidents{?id}"
++ Response 200
 
 ## Delete Incident [/incidents{?incident_id}]
 
@@ -78,13 +67,7 @@ Display All Incidents.
 + Parameters
     +  incident_id : 1 - id of incident to delete
 
-+ Request (application/json)
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: "host:port/incidents{?incident_id}"
++ Response 204
 
 ## Display Incident For Edit [/incidents{?incident_Id}]
 
@@ -93,13 +76,9 @@ Display All Incidents.
 + Parameters
     + incident_Id : 1 - Id of incident to display
 
-+ Request (application/json)
-
 + Response 200 (application/json)
 
     + Headers
-
-            Link: "host:port/incidents{?incident_Id}"
 
     + Body
 

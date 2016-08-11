@@ -22,12 +22,10 @@ Display All Users.
 
     + Headers
 
-            Link: "host:port/users{?active}"
-
     + body
 
             [{
-            id : `1`,
+            id : `2`,
             user_name : `ashvin`,
             company_email : `ashvin@improwised.com`,
             created_at : `2016-08-08T02:15:15Z`,
@@ -44,11 +42,7 @@ Display All Users.
         + user_name: `Ashvin Kumbhani`
         + company_email: `ashvin@improwised.com`
 
-+ Response 201 (application/json)
-
-    + Headers
-
-            Link: "host:port/users"
++ Response 201
 
 ## Edit User [/users{?user_id}]
 
@@ -63,11 +57,7 @@ Display All Users.
         + user_name: `Ashvin Kumbhani`
         + company_email: `ashvin@improwised.com`
 
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: "host:port/user{?user_id}"
++ Response 200
 
 ## Delete User [/users{?users_id}]
 
@@ -76,13 +66,7 @@ Display All Users.
 + Parameters
     + users_id : 1 - Id of user wants to remove.
 
-+ Request (application/json)
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: "host:port/users{?users_id}"
++ Response 204
 
 ## Display User For Edit [/users{?user_Id}]
 
@@ -96,8 +80,6 @@ Display All Users.
 + Response 200 (application/json)
 
     + Headers
-
-            Link: "host:port/users{?user_Id}"
 
     + Body
 
