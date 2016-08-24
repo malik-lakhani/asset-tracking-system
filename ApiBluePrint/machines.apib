@@ -3,16 +3,18 @@
 perform different machines releated operations.
 
 - **id** : id of machine(string, Required)
-- **machine_name** : Name Of Machine(string, Required)
+- **name** : Name Of Machine(string, Required)
+- **component_id** : Id of Component(string, Required)
+- **component_name** : Name of Component(string, Required)
 - **created_at** : Created Timestamp of Machine(string, Required)
 - **deleted_at** : Deleted Timesramo of Machine(string, Optional)
 
-## All Machines [/machines{?active}]
+## All Machines [/machines{?all}]
 
 Display All Machines.
 
 + Parameters
-    + active: false - Either Display all Machines or only active Machines. false for all machines and true for active machines only.
+    + all: true - Either Display all Machines or only active Machines. true for all machines and false for active machines only.
                By Default active machines will be display
 
 ### List All Machines [GET]
@@ -24,10 +26,10 @@ Display All Machines.
     + Body
 
             [{
-                id : `1`,
-                machine_name : `mako`,
-                created_at : `2016-08-08T02:15:15Z`,
-                deleted_at : ` `
+                "id" : "1",
+                "name" : "mako",
+                "created_at" : "2016-08-08T02:15:15Z",
+                "deleted_at" : "2016-08-08T02:15:15Z"
             }]
 
 ## Add New Machine [/machines]
@@ -37,25 +39,23 @@ Display All Machines.
 + Request (application/json)
 
     + Attributes
-        + machine_name: `mako`
+        + name: `mako`
 
 + Response 201
 
-## Edit Machine [/machines{?id}]
+## Edit Machine [/machines/{machine_id}]
 
 ### Edit Machine[PATCH]
 
 + Parameters
-    + id: 2 - Id of machine to be update
+    + machine_id: 2 - Id of machine to be update
 
 + Request (application/json)
 
     + Attributes
-        + machine_name: `Thor`
+        + name: `Thor`
 
 + Response 200
-
-## Delete Machine [/machines{?machine_id}]
 
 ### Delete Machine[DELETE]
 
@@ -64,12 +64,10 @@ Display All Machines.
 
 + Response 204
 
-## Display Machine Info For Edit [/machines{?machine_Id}]
-
-### Display Machine Info For Edit[GET]
+### Display One Machine Info [GET]
 
 + Parameters
-    + machine_Id : 3 - Id of machine to display information of it.
+    + machine_id : 3 - Id of machine to display information of it.
 
 + Response 200 (application/json)
 
@@ -78,9 +76,81 @@ Display All Machines.
     + Body
 
             {
-                id : `1`,
-                machine_name : `mako`,
-                created_at : `2016-08-08T02:15:15Z`,
-                deleted_at : ` `
+                "id" : 1,
+                "name" : "mako",
+                "created_at" : "2016-08-08T02:15:15Z",
+                "deleted_at" : "2016-08-08T02:15:15Z"
             }
 
+## Display All Components With Machine [/machines/{machine_id}/components{?all}]
+
+Display Machine Components.
+
++ Parameters
+    + all : true - Display all components included deleted components. On false it will display only active components.
+              By default it will display active components only.
+    + machine_id : 1 - Id of Machine to Display Components
+
+### Display Components [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            {
+                "id" : "1",
+                "machine_id" : "1",
+                "name" : "mako",
+                "components":[{
+                                "id" : 1,
+                                "name" : "Mouse",
+                                "deleted_at" : "2016-08-08T02:15:15Z",
+                                "created_at" : "2016-08-08T02:15:15Z"
+
+                }]
+            }
+
+## Add Component to machine [/machines/{machine_id}/components]
+
++ Parameters
+    + machine_id : 1 - Id of Machine
+
+### Add Component to Machine [POST]
+
++ Request (application/json)
+
+    + Attributes
+        + information
+            + id : `1`
+            + machine_id : `2`
+            + name : `mako`
+            + components_id : 2 (array)
+            + components_name : `MotherBoard` (array)
+            + created_at : `2016-08-08T02:15:15Z`
+
++ Response 201
+
+## Remove Component From Machine [/machines/{machine_id}/components/{component_id}]
+
++ Parameters
+    + machine_id : 1 - Id of Machine
+    + component_id : 1 - id of Component
+
+### Remove Component From Machine [DELETE]
+
++ Parameters
+    + component_id : 1 - Id to Remove Component From Machine.
+
++ Response 204
+
+## Assign Machine to User [/machines/{machine_id}/users/{user_id}]
+
+### Remove User From Machine[DELETE]
+
++ Parameters
+    +  user_id : 1 - id of user to Remove Machine
+    +  machine_id : 2 - id of Machine
+
++ Response 204

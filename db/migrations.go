@@ -2,8 +2,8 @@ package main
 
 import (
   "os"
-  "fmt"
-  "strings"
+  // "fmt"
+  // "strings"
   "github.com/DavidHuie/gomigrate"
   "database/sql"
   _"github.com/lib/pq"
@@ -40,15 +40,15 @@ func main() {
       }
       migrator.Migrate()
    }
-// ************ uncomment following code to show connected user's info  **********
-  settings := dbconfig.Settings(connectionString)
-  connection := []string{
-    "host=", settings["host"], " ",
-    "password=", settings["password"], " ",
-    "user=", settings["username"], " ",
-    "dbname=", settings["database"], " ",
-    }
-  fmt.Println(strings.Join(connection, ""))
-// **********************************************************************
+// // ************ uncomment following code to show connected user's info  **********
+//   settings := dbconfig.Settings(connectionString)
+//   connection := []string{
+//     "host=", settings["host"], " ",
+//     "password=", settings["password"], " ",
+//     "user=", settings["username"], " ",
+//     "dbname=", settings["database"], " ",
+//     }
+//   fmt.Println(strings.Join(connection, ""))
+// // **********************************************************************
     defer db.Close()
 }

@@ -1,0 +1,109 @@
+# Group  Incidents
+
+- **id** : id of incident(string, Required)
+- **component_id** : id of incident on which incident happened(string, Required)
+- **title** : Brief title of incident(string, Required)
+- **description** : Entire description of incident (string, Optional)
+- **status** : status of comonent whether its in process or not(string, Required)
+- **resolved_at** : Timestamp of resolved component(string, Required)
+- **created_at** : Timestamp when incedent happened(string, Required)
+
+## Incidents [/incidents]
+
+Incidents dealing with components.
+
+### List Incidents [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            [{
+                "id" : 1,
+                "component_id" : 1,
+                "title" : "Component Damaged",
+                "description" : "component damaged Due to power cut",
+                "status" : "active",
+                "resolved_at" : "2016-08-08T02:15:15Z",
+                "created_at" : "2016-08-08T02:15:15Z"
+            }]
+
+### Add New Incident [POST]
+
++ Request (application/json)
+
+    + Attributes
+        + component_id: `1`
+        + title: `Component Damaged`
+        + description: `Component damaged Due to power cut`
+
++ Response 201
+
+## Edit incident [/incidents/{incident_id}]
+
+### Edit incident[PATCH]
+
++ Parameters
+    + incident_id: 1 - Id of incident to be update
+
++ Request (application/json)
+
+    + Attributes
+        + component_id: `1`,
+        + title: `Component Damaged`,
+        + description: `Component damaged Due to power cut`
+
++ Response 200
+
+### Delete Incident[DELETE]
+
++ Parameters
+    +  incident_id : 1 - id of incident to delete
+
++ Response 204
+
+
+### Display Info of One Incident[GET]
+
++ Parameters
+    + incident_id : 1 - Id of incident to display
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            {
+                "id" : 1,
+                "component_id" : 1,
+                "title" : "Component Damaged",
+                "description" : "component damaged Due to power cut",
+                "status" : "active",
+                "resolved_at" : "2016-08-08T02:15:15Z",
+                "created_at" : "2016-08-08T02:15:15Z",
+                "modified_at" : "2016-08-08T02:15:15Z"
+            }
+
+## Update Incidents [/incidents/{incident_id}/update]
+
++ Parameters
+    + incident_id : 1 - Id of incident
+
+### Incident Updates [POST]
+
++ Request (application/json)
+
+    + Attributes
+        + component_id: `1`
+        + description: `Component has been Replaced Successfully...`
+
++ Response 201
+
+
+
+
+
+

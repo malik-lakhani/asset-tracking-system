@@ -1,0 +1,37 @@
+# Group Invoices
+
+- **id** : invoice Id(string, Required)
+- **number** : Invoice Number(string, Required)
+- **invoicer_name** : Name Of Invoicer(string, Required)
+- **invoicer_address** : Address Of Invoicer(string, Optional)
+- **invoicer_contact** : Contact Of Invoicer(string, Optional)
+- **components** : Group Of Components(string[], Required)
+- **warranty_till** : Warrenty of Components(string[], Required)
+- **component_description** : Description of Each Component(string[], Optional)
+- **invoice_description** : Description Of Invoice(string, Optional)
+- **invoice_date** : Date of Invoice(string, Required)
+
+## Add invoice [/invoices]
+
+Add New Invoice
+
+### Add Invoice [POST]
+
++ Request (application/json)
+
+     + Attributes
+      + all_informations
+          + number : `12SOECE11230`
+          + invoicer_details
+            + name:"ashvin"
+            + address:"Rajkot"
+            + contact:"9909970574"
+          + components
+            - name : Mouse, keyboard
+            - warranty_till : 10/5/2017, 10/10/2017
+            - description : Nothing, Nothing
+          + description : `Invoice Description Should Mention Here`
+          + date : `10-08-2016`
+
+
++ Response 201

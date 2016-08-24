@@ -2,36 +2,39 @@
 
 - **id** : Id of Component(string, Required)
 - **name** : Name of Component(string, Required)
-- **inv_id** : Id of Invoice(string, Required)
+- **invoice_id** : Id of Invoice(string, Required)
 - **warranty_till** : Warranty of Component(string, Required)
-- **desc** : Description(string, Optional)
-- **active** : Component is acti(string, Required)ve or not
+- **description** : Description(string, Optional)
+- **active** : Component is active(string, Required) or not
 - **deleted_at** : Deleted Timestamp of Component(string, Optional)
 - **created_at** : Created Timestmp of Component(string, Optional)
 
-## Display Components [/components{?active}]
+## Display Components [/components{?all}]
 
 Display All Components
 
 ### Display Components [GET]
 
 + Parameters
-    + active : false - Display all Components. On true it will display only active Components.
+    + all : true - Display all Components. On false it will display only active Components.
               By default it will display active Components only.
 
-+ Response 201
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+            "id": 1,
+            "name": "Mouse",
+            "invoice_id": 1,
+            "warranty_till": "12-04-2017 ",
+            "description": "description of mouse",
+            "active": true,
+            "deleted_at":"08-08-2016T12:12:12",
+            "created_at":"08-08-2016T12:12:12"
+            }]
 
 
-	+ Body
-
-	    	[{
-	    		id : `1`,
-	    		name : `Mouse`,
-	    		inv_id : `1`,
-	    		warranty_till : `12-04-2017`,
-	    		desc : `description of mouse`,
-	    		active : `true`,
-	    		delted_at : ``
-	    		created_at : `08-08-2016T12:12:12`
-	    	}]
 

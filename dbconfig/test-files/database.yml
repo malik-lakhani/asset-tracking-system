@@ -1,7 +1,7 @@
 development:
   host: localhost
   database: ats
-  username: ashwin
+  username: postgress
   password: ""
 
 # Warning: The database defined as "test" will be erased and
@@ -10,11 +10,11 @@ development:
 test:
   host: localhost
   database: ats_test
-  username: ashwin
+  username: postgress
   password: ""
 
 production:
   host: localhost
   database: ats
-  username: ashwin
+  username: postgress
   password: ""

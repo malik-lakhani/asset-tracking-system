@@ -1,4 +1,4 @@
-create table invoice(
+create table invoices(
 	id SERIAL PRIMARY KEY NOT NULL,
 	invoice_number varchar(32) NOT NULL,
 	invoicer_name varchar(256) NOT NULL,
