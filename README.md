@@ -21,9 +21,30 @@ $ glide install
 ```
 * Create Database
 ```
-$ create database ats
+$ create database cantaloupe
 ```
 * Database Migration
 ```
 $ go run ./db/migration.go
 ```
+## Testing
+
+TODO: How to run tests
+
+Run following command from apricot
+```
+GO_ENV2=testing go test
+```
+# Copyright & License
+
+Copyright 2016 Improwised Technologies Pvt Ltd
+www.improwised.com
+
+This work is the sole property of Improwised Technologies Pvt Ltd brand
+you may not use this work except in compliance with the License.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
