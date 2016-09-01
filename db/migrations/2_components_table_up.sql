@@ -6,6 +6,6 @@ create table components(
 	description varchar(256),
 	active boolean,
 	deleted_at timestamp,
-	created_at timestamp,
+	created_at timestamp not null default now(),
 	modified_at timestamp
 )

@@ -11,7 +11,7 @@ type ComponentInfo struct {
 	Invoice_id int
 	Warranty_till *time.Time
 	Description string
-	active string
+	Active bool
 	Deleted_at *time.Time
 }
 
@@ -19,7 +19,7 @@ func DisplayComponents(all string) []byte {
 	sess := SetupDB()
 	components := []ComponentInfo{}
 	query := sess.Select("id, name, invoice_id, warranty_till, description, active, deleted_at").
-							From("components")
+		From("components")
 
 	//display all components or active components only ...
 	if(all == "false") {

@@ -1,7 +1,7 @@
 create table machines(
 	id SERIAL PRIMARY KEY NOT NULL,
 	name varchar(256) NOT NULL,
-	created_at timestamp,
-	modified_at timestamp,
-	deleted_at timestamp
+	deleted_at timestamp,
+	created_at timestamp not null default now(),
+	modified_at timestamp
 )

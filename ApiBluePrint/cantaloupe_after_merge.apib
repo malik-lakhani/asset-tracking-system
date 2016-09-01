@@ -1,8 +1,11 @@
 # Canaloupe - API Documentation
 
-# Cantaloupe
+## Cantaloupe
 
 Cantaloupe is an asset tracking system to deals with the components and easily keep its records.
+
+## Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
 
 # Group Users
 
@@ -282,19 +285,19 @@ Add New Invoice
 + Request (application/json)
 
      + Attributes
-      + all_informations
+      + invoice
           + number : `12SOECE11230`
           + invoicer_details
-            + name:"ashvin"
-            + address:"Rajkot"
-            + contact:"9909970574"
-          + components
-            - name : Mouse, keyboard
-            - warranty_till : 10/5/2017, 10/10/2017
-            - description : Nothing, Nothing
+              + name:"ashvin"
+              + address:"Rajkot"
+              + contact:"9909970574"
+
+          + component_details
+              - name : Mouse, keyboard
+              - warranty_till : 10/5/2017, 10/10/2017
+              - description : Nothing, Nothing
           + description : `Invoice Description Should Mention Here`
           + date : `10-08-2016`
-
 
 + Response 201
 
@@ -398,6 +401,7 @@ Incidents dealing with components.
 
     + Attributes
         + component_id: `1`
+        + incident_id : `1`
         + description: `Component has been Replaced Successfully...`
 
 + Response 201

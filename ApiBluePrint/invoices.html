@@ -32,71 +32,78 @@
 </ul>
 <div id="invoices-add-invoice" class="resource"><h3 class="resource-heading">Add invoice <a href="#invoices-add-invoice" class="permalink">&nbsp;&para;</a></h3><p>Add New Invoice</p>
 <div id="invoices-add-invoice-post" class="action post"><h4 class="action-heading"><div class="name">Add Invoice</div><a href="#invoices-add-invoice-post" class="method post">POST</a><code class="uri">/invoices</code></h4><h4>Example URI</h4><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname"></span>/invoices</span></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
-  "<span class="hljs-attribute">number</span>": <span class="hljs-value"><span class="hljs-string">"12SOECE11230"</span></span>,
-  "<span class="hljs-attribute">invoicer_details</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"\"ashvin\""</span></span>,
-    "<span class="hljs-attribute">address</span>": <span class="hljs-value"><span class="hljs-string">"\"Rajkot\""</span></span>,
-    "<span class="hljs-attribute">contact</span>": <span class="hljs-value"><span class="hljs-string">"\"9909970574\""</span>
-  </span>}</span>,
-  "<span class="hljs-attribute">components</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
-      <span class="hljs-string">"Mouse"</span>,
-      <span class="hljs-string">"keyboard"</span>
-    ]</span>,
-    "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value">[
-      <span class="hljs-string">"10/5/2017"</span>,
-      <span class="hljs-string">"10/10/2017"</span>
-    ]</span>,
-    "<span class="hljs-attribute">description</span>": <span class="hljs-value">[
-      <span class="hljs-string">"Nothing"</span>,
-      <span class="hljs-string">"Nothing"</span>
-    ]
-  </span>}</span>,
-  "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Invoice Description Should Mention Here"</span></span>,
-  "<span class="hljs-attribute">date</span>": <span class="hljs-value"><span class="hljs-string">"10-08-2016"</span>
+  "<span class="hljs-attribute">invoice</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">number</span>": <span class="hljs-value"><span class="hljs-string">"12SOECE11230"</span></span>,
+    "<span class="hljs-attribute">invoicer_details</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"\"ashvin\""</span></span>,
+      "<span class="hljs-attribute">address</span>": <span class="hljs-value"><span class="hljs-string">"\"Rajkot\""</span></span>,
+      "<span class="hljs-attribute">contact</span>": <span class="hljs-value"><span class="hljs-string">"\"9909970574\""</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">component_details</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+        <span class="hljs-string">"Mouse"</span>,
+        <span class="hljs-string">"keyboard"</span>
+      ]</span>,
+      "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value">[
+        <span class="hljs-string">"10/5/2017"</span>,
+        <span class="hljs-string">"10/10/2017"</span>
+      ]</span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value">[
+        <span class="hljs-string">"Nothing"</span>,
+        <span class="hljs-string">"Nothing"</span>
+      ]
+    </span>}</span>,
+    "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Invoice Description Should Mention Here"</span></span>,
+    "<span class="hljs-attribute">date</span>": <span class="hljs-value"><span class="hljs-string">"10-08-2016"</span>
+  </span>}
 </span>}</code></pre><div style="height: 1px;"></div><h5>Schema</h5><pre><code>{
   "<span class="hljs-attribute">$schema</span>": <span class="hljs-value"><span class="hljs-string">"http://json-schema.org/draft-04/schema#"</span></span>,
   "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
   "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">number</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
-    </span>}</span>,
-    "<span class="hljs-attribute">invoicer_details</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">invoice</span>": <span class="hljs-value">{
       "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
       "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-        "<span class="hljs-attribute">name</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">number</span>": <span class="hljs-value">{
           "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
         </span>}</span>,
-        "<span class="hljs-attribute">address</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
+        "<span class="hljs-attribute">invoicer_details</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+          "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">name</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
+            </span>}</span>,
+            "<span class="hljs-attribute">address</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
+            </span>}</span>,
+            "<span class="hljs-attribute">contact</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
+            </span>}
+          </span>}
         </span>}</span>,
-        "<span class="hljs-attribute">contact</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
-        </span>}
-      </span>}
-    </span>}</span>,
-    "<span class="hljs-attribute">components</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
-      "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-        "<span class="hljs-attribute">name</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
-        </span>}</span>,
-        "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+        "<span class="hljs-attribute">component_details</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+          "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">name</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+            </span>}</span>,
+            "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+            </span>}</span>,
+            "<span class="hljs-attribute">description</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+            </span>}
+          </span>}
         </span>}</span>,
         "<span class="hljs-attribute">description</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">date</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
         </span>}
       </span>}
-    </span>}</span>,
-    "<span class="hljs-attribute">description</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
-    </span>}</span>,
-    "<span class="hljs-attribute">date</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
     </span>}
   </span>}
-</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>201</code></strong></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 16 Aug 2016</p><script>/* eslint-env browser */
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>201</code></strong></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 29 Aug 2016</p><script>/* eslint-env browser */
 /* eslint quotes: [2, "single"] */
 'use strict';
 

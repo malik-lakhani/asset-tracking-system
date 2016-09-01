@@ -5,6 +5,6 @@ create table incidents(
 	description text,
 	status varchar(16) NOT NULL,
 	resolved_at timestamp,
-	created_at timestamp,
+	created_at timestamp not null default now(),
 	modified_at timestamp
 )

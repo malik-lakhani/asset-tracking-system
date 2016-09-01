@@ -4,9 +4,10 @@ import (
   "os"
   // "fmt"
   // "strings"
-  "github.com/DavidHuie/gomigrate"
   "database/sql"
+
   _"github.com/lib/pq"
+  "github.com/DavidHuie/gomigrate"
   "github.com/improwised/cantaloupe/dbconfig"
 )
 

@@ -20,18 +20,18 @@ Add New Invoice
 + Request (application/json)
 
      + Attributes
-      + all_informations
+      + invoice
           + number : `12SOECE11230`
           + invoicer_details
-            + name:"ashvin"
-            + address:"Rajkot"
-            + contact:"9909970574"
-          + components
-            - name : Mouse, keyboard
-            - warranty_till : 10/5/2017, 10/10/2017
-            - description : Nothing, Nothing
+              + name:"ashvin"
+              + address:"Rajkot"
+              + contact:"9909970574"
+
+          + component_details
+              - name : Mouse, keyboard
+              - warranty_till : 10/5/2017, 10/10/2017
+              - description : Nothing, Nothing
           + description : `Invoice Description Should Mention Here`
           + date : `10-08-2016`
-
 
 + Response 201
