@@ -1,8 +1,8 @@
 package services
 
 import(
-		"time"
 		"encoding/json"
+		"time"
 )
 
 type ComponentInfo struct {

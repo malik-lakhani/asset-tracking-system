@@ -18,6 +18,7 @@ type Configuration struct {
   UserName string
 }
 
+//will return database connection string either for test or development and run migrations accoringly ...
 func DbConnectionString() string {
   var path string
   Go_Env := (os.Getenv("GO_ENV2"))

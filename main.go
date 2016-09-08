@@ -1,14 +1,14 @@
 package main
 
 import (
-		"strconv"
 		"net/http"
+		"strconv"
 
-		"./services"
 		_"github.com/lib/pq"
 		"github.com/zenazn/goji"
 		_"github.com/gocraft/dbr"
 		"github.com/zenazn/goji/web"
+		"./services"
  )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {

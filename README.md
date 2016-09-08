@@ -30,7 +30,7 @@ $ go run ./db/migration.go
 ## Testing
 
 TODO: How to run tests
-
+s
 Run following command from apricot
 ```
 GO_ENV2=testing go test

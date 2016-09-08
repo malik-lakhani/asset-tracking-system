@@ -1,8 +1,8 @@
 package services
 
 import(
-	"time"
 	"encoding/json"
+	"time"
 )
 
 type IncidentInfo struct {
@@ -29,9 +29,9 @@ func AddIncident(componentsId int, title string, description string) {
 	CheckErr(err)
 
 	_, err1 := sess.Update("components").
-							Set("active", "false").
-							Where("id = ?", componentsId).
-							Exec()
+		Set("active", "false").
+		Where("id = ?", componentsId).
+		Exec()
 	CheckErr(err1)
 }
 
@@ -148,9 +148,9 @@ func IncidentUpdates(incidentId int, componentId int, description string) {
 
 	//===Add resolved date in incidents table after resolved component
 	_, err5 := sess.Update("incidents").
-							Set("resolved_at", "NOW()").
-							Where("id = ?", incidentId).
-							Exec()
+		Set("resolved_at", "NOW()").
+		Where("id = ?", incidentId).
+		Exec()
 	CheckErr(err5)
 	//===========================================================
 }
