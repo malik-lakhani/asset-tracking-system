@@ -102,10 +102,6 @@ Display All Users.
             "deleted_at": "2016-08-08T02:15:15Z"
             }
 
-
-
-
-
 # Group Machines
 
 perform different machines releated operations.
@@ -136,7 +132,6 @@ Display All Machines.
             [{
                 "id" : "1",
                 "name" : "mako",
-                "created_at" : "2016-08-08T02:15:15Z",
                 "deleted_at" : "2016-08-08T02:15:15Z"
             }]
 
@@ -186,7 +181,6 @@ Display All Machines.
             {
                 "id" : 1,
                 "name" : "mako",
-                "created_at" : "2016-08-08T02:15:15Z",
                 "deleted_at" : "2016-08-08T02:15:15Z"
             }
 
@@ -214,9 +208,7 @@ Display Machine Components.
                 "components":[{
                                 "id" : 1,
                                 "name" : "Mouse",
-                                "deleted_at" : "2016-08-08T02:15:15Z",
-                                "created_at" : "2016-08-08T02:15:15Z"
-
+                                "deleted_at" : "2016-08-08T02:15:15Z"
                 }]
             }
 
@@ -236,7 +228,6 @@ Display Machine Components.
             + name : `mako`
             + components_id : 2 (array)
             + components_name : `MotherBoard` (array)
-            + created_at : `2016-08-08T02:15:15Z`
 
 + Response 201
 
@@ -276,7 +267,7 @@ Display Machine Components.
 - **invoice_description** : Description Of Invoice(string, Optional)
 - **invoice_date** : Date of Invoice(string, Required)
 
-## Add invoice [/invoices]
+## invoice [/invoices]
 
 Add New Invoice
 
@@ -293,6 +284,7 @@ Add New Invoice
               + contact:"9909970574"
 
           + component_details
+              - serial_no : 12SOECE11230, 12SOECE11231
               - name : Mouse, keyboard
               - warranty_till : 10/5/2017, 10/10/2017
               - description : Nothing, Nothing
@@ -300,6 +292,22 @@ Add New Invoice
           + date : `10-08-2016`
 
 + Response 201
+
+
+### List All Invoices [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+            "id": 1,
+            "number": "MOU1122",
+            "invoicer": "improwised technologies",
+            "date" : `11-12-2016`
+            }]
 
 # Group  Incidents
 
@@ -441,13 +449,13 @@ Display All Components
 
             [{
             "id": 1,
+            "serial_no":"12SOECE11230",
             "name": "Mouse",
             "invoice_id": 1,
             "warranty_till": "12-04-2017 ",
             "description": "description of mouse",
             "active": true,
-            "deleted_at":"08-08-2016T12:12:12",
-            "created_at":"08-08-2016T12:12:12"
+            "deleted_at":"08-08-2016T12:12:12"
             }]
 
 

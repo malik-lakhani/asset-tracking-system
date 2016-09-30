@@ -7,6 +7,7 @@ import(
 
 type ComponentInfo struct {
 	Id int
+	Serial_no string
 	Name string
 	Invoice_id int
 	Warranty_till *time.Time
@@ -18,13 +19,13 @@ type ComponentInfo struct {
 func DisplayComponents(all string) []byte {
 	sess := SetupDB()
 	components := []ComponentInfo{}
-	query := sess.Select("id, name, invoice_id, warranty_till, description, active, deleted_at").
+	query := sess.Select("id, name, serial_no, invoice_id, warranty_till, description, active, deleted_at").
 		From("components")
 
 	//display all components or active components only ...
 	if(all == "false") {
 		query.Where("deleted_at IS NULL").
-					LoadStruct(&components)
+			LoadStruct(&components)
 	} else {
 		query.LoadStruct(&components)
 	}

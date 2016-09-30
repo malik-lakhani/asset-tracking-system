@@ -1,9 +1,7 @@
 package services
 
 import(
-
 	"encoding/json"
-
 )
 
 type AllInvoiceDetails struct {
@@ -17,6 +15,7 @@ type AllInvoiceDetails struct {
 		Name []string `json:"name"`
 		Description []string `json:"description"`
 		WarrantyTill []string `json:"warranty_till"`
+		SerialNo []string `json:"serial_no"`
 	} `json:"component_details"`
 	Description string `json:"description"`
 	Date string `json:"date"`
@@ -33,6 +32,7 @@ type InvoiceDetails struct {
 
 type ComponentsInfo struct {
 	Name string
+	SerialNo string
 	Description string
 	WarrantyTill string
 	InvoiceId int64
@@ -43,7 +43,6 @@ func AddInvoice(details string) {
 	var m AllInvoiceDetails
 	err := json.Unmarshal([]byte(details), &m)//converting JSON Object to GO structure ...
 	CheckErr(err)
-
 	sess := SetupDB()
 	i := InvoiceDetails{}
 	i.InvoiceNumber = m.Number
@@ -52,7 +51,6 @@ func AddInvoice(details string) {
 	i.Invoicer_contact = m.InvoicerDetails.Contact
 	i.Description = m.Description
 	i.InvoiceDate = m.Date
-
 	_, err1 := sess.InsertInto("invoices").
 		Columns("invoice_number", "invoicer_name", "invoicer_add", "invoicer_contact", "description", "invoice_date").
 		Record(i).
@@ -67,16 +65,35 @@ func AddInvoice(details string) {
 	c := ComponentsInfo{}
 	c.InvoiceId = recentInsertedId
 	c.Active = true
-
 	for i := 0; i < len(m.ComponentDetails.Name); i++ {
 		c.Name = m.ComponentDetails.Name[i]
+		c.SerialNo = m.ComponentDetails.SerialNo[i]
 		c.Description = m.ComponentDetails.Description[i]
 		c.WarrantyTill = m.ComponentDetails.WarrantyTill[i]
-
 		_, err3 := sess.InsertInto("components").
-			Columns("invoice_id", "name", "warranty_till", "description", "active").
+			Columns("invoice_id", "serial_no", "name", "warranty_till", "description", "active").
 			Record(c).
 			Exec()
 		CheckErr(err3)
 	}
+}
+
+type DisplayInvoice struct{
+	Id int
+	Invoice_number string
+	Invoicer_name string
+	Invoice_date string
+}
+
+func DisplayInvoices() []byte { // Display one User's Information ..
+	sess := SetupDB()
+	invoicesDetails := []DisplayInvoice{}
+	sess.Select("id, invoice_number, invoicer_name, invoice_date").
+		From("invoices").
+		LoadStruct(&invoicesDetails)
+
+	b, err := json.Marshal(invoicesDetails)
+	CheckErr(err)
+
+	return b
 }

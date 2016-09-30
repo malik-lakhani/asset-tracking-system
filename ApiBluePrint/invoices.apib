@@ -11,7 +11,7 @@
 - **invoice_description** : Description Of Invoice(string, Optional)
 - **invoice_date** : Date of Invoice(string, Required)
 
-## Add invoice [/invoices]
+## invoice [/invoices]
 
 Add New Invoice
 
@@ -28,6 +28,7 @@ Add New Invoice
               + contact:"9909970574"
 
           + component_details
+              - serial_no : 12SOECE11230, 12SOECE11231
               - name : Mouse, keyboard
               - warranty_till : 10/5/2017, 10/10/2017
               - description : Nothing, Nothing
@@ -35,3 +36,19 @@ Add New Invoice
           + date : `10-08-2016`
 
 + Response 201
+
+
+### List All Invoices [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+            "id": 1,
+            "number": "MOU1122",
+            "invoicer": "improwised technologies",
+            "date" : `11-12-2016`
+            }]

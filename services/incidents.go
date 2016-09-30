@@ -62,8 +62,8 @@ func DeleteIncident(incidentId int) {
 	CheckErr(err1)
 
 	_, err2 := sess.DeleteFrom("incidents").
-			Where("id = ?", incidentId).
-			Exec()
+		Where("id = ?", incidentId).
+		Exec()
 	CheckErr(err2)
 }
 
@@ -120,7 +120,6 @@ func IncidentUpdates(incidentId int, componentId int, description string) {
 	CheckErr(err1)
 	//===========================================================
 
-
 	//Add replaces components after resolved ....================
 	components := ComponentInfo{}
 	components.Active = true
@@ -129,7 +128,6 @@ func IncidentUpdates(incidentId int, componentId int, description string) {
 		Where("id = ? ", id).
 		LoadStruct(&components)
 	CheckErr(err2)
-
 
 	_, err3 := sess.InsertInto("components").
 		Columns("name", "invoice_id", "warranty_till", "description", "active").
