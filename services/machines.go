@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	// "fmt"
 	"io"
 	"log"
 	"strconv"
@@ -12,7 +13,10 @@ import (
 type MachineInfo struct{
 	Id int
 	Name string
+	User string
 	Deleted_at *time.Time
+	UserId int
+	UserName string
 }
 
 func AddNewMachine(name string) {
@@ -50,12 +54,15 @@ func DeleteMachine(id int) {
 func DisplayMachines(allMachiens string) []byte {
 	sess := SetupDB()
 	machinesInfo := []MachineInfo{}
-	query := sess.Select("id, name, deleted_at").
-		From("machines")
+
+	query := sess.Select("u.id, u.name, machines.name as User").
+	From("users u").
+    LeftJoin("users_machine", "u.id = users_machine.user_id").
+    LeftJoin("machines", "machines.id = users_machine.machine_id")
 
 	//display all machines or active machines only ...
 	if(allMachiens == "false") {
-		query.Where("deleted_at IS NULL").
+		query.Where("u.deleted_at IS NULL").
 					LoadStruct(&machinesInfo)
 	} else {
 		query.LoadStruct(&machinesInfo)
@@ -68,9 +75,12 @@ func DisplayMachines(allMachiens string) []byte {
 func DisplayMachine(id int) []byte { // Display Single machine's information ...
 	sess := SetupDB()
 	machineInfo := MachineInfo{}
-	sess.Select("id, name, deleted_at").
-		From("machines").
-		Where("id = ?", id).
+
+	sess.Select("u.id, u.name, machines.name").
+		From("users u").
+	    LeftJoin("users_machine", "u.id = users_machine.user_id").
+	    LeftJoin("machines", "machines.id = users_machine.machine_id").
+		Where("u.id = 1").
 		LoadStruct(&machineInfo)
 
 	b, err := json.Marshal(machineInfo)
@@ -78,51 +88,84 @@ func DisplayMachine(id int) []byte { // Display Single machine's information ...
 	return b
 }
 
-type Components struct{
+type AllComponents struct {
  	Id int
  	Name string
-	Deleted_at *time.Time
+ 	SerialNo string
+ 	Description string
+ 	Warranty_till string
+ 	Created_at string
 }
 
-type MachinesComponentInfo struct{
-	Components []Components
-	MachineName string
-	MachineId int
+type AllIncidents struct {
+ 	Id int
+ 	LastUpdate string
+ 	Title string
+ 	Description string
+ 	Status string
+}
+
+type PastUses struct {
+	Begin string
+	End string
+	User string
+}
+
+type AllInfoOfMachine struct {
+	Components[] AllComponents
+	Incidents[] AllIncidents
+	PastUses[] PastUses
+
+	Id int
+	Name string
+	UserName string
+	UsingSince string
 }
 
 func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	sess := SetupDB()
 	//all machine's information ....========
-	machineInfo := MachineInfo{}
-	err := sess.Select("id, name").From("machines").
-		Where("id = ?", machineId).
+	machineInfo := AllInfoOfMachine{}
+	sess.Select("machines.id, machines.name, users_machine.created_at AS UsingSince, users.id AS UserId, users.name AS UserName").
+		From("machines").
+		LeftJoin("users_machine","users_machine.machine_id = machines.id").
+		LeftJoin("users","users_machine.user_id = users.id").
+		Where("machines.id = ? AND users_machine.deleted_at IS NULL", machineId).
 		LoadStruct(&machineInfo)
-	CheckErr(err)
 	//==================================
 
 	//all information of machine's components ===========
-	MachineComponents := []Components{}
-	query := sess.Select("machine_components.id, machine_components.deleted_at, components.name").
-		From("machine_components").
-		LeftJoin("components", "machine_components.component_id = components.id")
+	MachineComponents := []AllComponents{}
+	query := sess.Select("components.id, components.name, components.serial_no, components.description, components.warranty_till, machine_components.created_at").
+		From("components").
+		Join("machine_components", "machine_components.component_id = components.id")
 
-	if(allComponents == "false") {//display only active components ....
-		query.Where("machine_components.machine_id = ? AND machine_components.deleted_at IS NULL", machineId).
-					LoadStruct(&MachineComponents)
-	} else {// display all components ...
-		query.Where("machine_components.machine_id = ?", machineId).
-					LoadStruct(&MachineComponents)//defaults it will display only active components ...
-	}
-	//=============================================
+	query.Where("machine_components.machine_id = ?", machineId).
+			LoadStruct(&MachineComponents)
+
+	incidents := []AllIncidents{}
+	sess.Select("incidents.id, incidents.title, incidents.description, incidents.status").
+		From("incidents").
+		LeftJoin("components", "incidents.component_id=components.id").
+		LeftJoin("machine_components", "machine_components.component_id=components.id").
+		Where("machine_components.machine_id = ?", machineId).
+		LoadStruct(&incidents)
+
+	pastUses := []PastUses{}
+	sess.Select("users_machine.created_at AS Begin, users_machine.deleted_at AS End, users.name AS User").
+		From("users_machine").
+		Join("users", "users_machine.user_id = users.id").
+		Where("users_machine.machine_id = ? AND users_machine.deleted_at IS NULL", machineId).
+		LoadStruct(&pastUses)
 
 	//merge all info of machine and it's components in single object=======
-	allInfo := MachinesComponentInfo{}
-	allInfo.MachineId = machineInfo.Id
-	allInfo.MachineName = machineInfo.Name
-	allInfo.Components = MachineComponents
+	m := AllInfoOfMachine{}
+	m.PastUses = pastUses
+	m.Incidents = incidents
+	m.Components = MachineComponents
 	//============================================
 
-	b, err := json.Marshal(allInfo)
+	b, err := json.Marshal(m)
 	CheckErr(err)
 	return b
 }

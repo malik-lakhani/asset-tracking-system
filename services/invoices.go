@@ -2,6 +2,7 @@ package services
 
 import(
 	"encoding/json"
+	"time"
 )
 
 type AllInvoiceDetails struct {
@@ -28,6 +29,7 @@ type InvoiceDetails struct {
 	Invoicer_contact string
 	Description string
 	InvoiceDate string
+	// InvoiceDate time.Time
 }
 
 type ComponentsInfo struct {
@@ -82,16 +84,22 @@ type DisplayInvoice struct{
 	Id int
 	Invoice_number string
 	Invoicer_name string
+	Invoice_timestamp time.Time
 	Invoice_date string
 }
 
-func DisplayInvoices() []byte { // Display one User's Information ..
+func DisplayInvoices() []byte {
 	sess := SetupDB()
 	invoicesDetails := []DisplayInvoice{}
-	sess.Select("id, invoice_number, invoicer_name, invoice_date").
+	sess.Select("id, invoice_number, invoicer_name, invoice_date as Invoice_timestamp").
 		From("invoices").
 		LoadStruct(&invoicesDetails)
-
+	//extract only date from timestamp========
+	for i := 0; i < len(invoicesDetails); i++ {
+		t := invoicesDetails[i].Invoice_timestamp
+		invoicesDetails[i].Invoice_date = t.Format("2006-01-02")
+	}
+	//================================
 	b, err := json.Marshal(invoicesDetails)
 	CheckErr(err)
 

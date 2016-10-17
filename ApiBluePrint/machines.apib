@@ -6,7 +6,7 @@ perform different machines releated operations.
 - **name** : Name Of Machine(string, Required)
 - **component_id** : Id of Component(string, Required)
 - **component_name** : Name of Component(string, Required)
-- **created_at** : Created Timestamp of Machine(string, Required)
+- **user** : Name Of User(string, Required)
 - **deleted_at** : Deleted Timesramo of Machine(string, Optional)
 
 ## All Machines [/machines{?all}]
@@ -28,6 +28,7 @@ Display All Machines.
             [{
                 "id" : "1",
                 "name" : "mako",
+                "user" : "Ashivn",
                 "deleted_at" : "2016-08-08T02:15:15Z"
             }]
 
@@ -77,6 +78,7 @@ Display All Machines.
             {
                 "id" : 1,
                 "name" : "mako",
+                "user" : "Ashvin",
                 "deleted_at" : "2016-08-08T02:15:15Z"
             }
 

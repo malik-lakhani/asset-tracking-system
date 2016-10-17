@@ -1,6 +1,7 @@
 create table incidents(
 	id SERIAL PRIMARY KEY NOT NULL,
 	component_id int references components(id),
+	recorder varchar(32) NOT NULL,
 	title text,
 	description text,
 	status varchar(16) NOT NULL,

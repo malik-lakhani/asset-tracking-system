@@ -1,10 +1,10 @@
 package main
 
 import (
+		"fmt"
 		"io/ioutil"
 		"net/http"
 		"strconv"
-		"fmt"
 		_"github.com/lib/pq"
 		"github.com/zenazn/goji"
 		_"github.com/gocraft/dbr"
@@ -26,7 +26,6 @@ func addUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	company_email := r.FormValue("company_email")
 	machine_id, err := strconv.Atoi(r.FormValue("machine_id")) // converting from string to int ...
-	fmt.Println(name, company_email, machine_id)
 	services.CheckErr(err) //PATH : /services/functions.go
 	services.AddNewUser(name, company_email, machine_id) //PATH : /services/users.go
 }
@@ -135,11 +134,14 @@ func incidentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func addIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	component_id, err :=  strconv.Atoi(r.FormValue("component_id")) // converting from string to int ...
+	body, err := ioutil.ReadAll(r.Body) // read all dara of form ....
 	services.CheckErr(err)
-	title := r.FormValue("title")
-	description := r.FormValue("description")
-	services.AddIncident(component_id, title, description) //PATH : /services/incidents.go
+	// component_id, err :=  strconv.Atoi(r.FormValue("component_id")) // converting from string to int ...
+	// services.CheckErr(err)
+	// title := r.FormValue("title")
+	// description := r.FormValue("description")
+	// recorder := r.FormValue("recorder")
+	services.AddIncident(string(body)) //PATH : /services/incidents.go
 }
 
 func editIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -183,6 +185,19 @@ func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(response))
 }
 
+func componentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	component_id, err := strconv.Atoi(c.URLParams["component_id"]) // converting from string to int ...
+	services.CheckErr(err)
+	response := services.DisplayComponentInformation(component_id) //PATH : /services/components.go
+	w.Write([]byte(response))
+}
+
+func componentsNameHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	fmt.Println("******")
+	response := services.ListAllComponentsName() //PATH : /services/components.go
+	w.Write([]byte(response))
+}
+
 func saveHandler(w http.ResponseWriter, r *http.Request) {
     // allow cross domain AJAX requests
     w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -221,6 +236,8 @@ func main() {
 
 	//dealing with components ...
 	goji.Get("/components", componentsHandler)
+	goji.Get("/components/:component_id", componentInfoHandler)
+	goji.Get("/componentNames", componentsNameHandler)
 
 	goji.Serve()
 }

@@ -9,30 +9,34 @@ type IncidentInfo struct {
 	Id int
 	Component_id int
 	Title string
+	Recorder string
+	Component string
+	Warranty_timestamp time.Time
+	Warranty_till string
+	Machine string
 	Description string
 	Status string
 	Resolved_at *time.Time
 }
 
-func AddIncident(componentsId int, title string, description string) {
+func AddIncident(data string) {
 	sess := SetupDB()
 	i := IncidentInfo{}
-	i.Component_id = componentsId
-	i.Title = title
-	i.Description = description
+	err := json.Unmarshal([]byte(data), &i)//converting JSON Object to GO structure ...
+	CheckErr(err)
 	i.Status = "active"
 
-	_, err := sess.InsertInto("incidents").
-		Columns("component_id", "title", "description", "status").
+	_, err2 := sess.InsertInto("incidents").
+		Columns("component_id", "title", "recorder", "description", "status").
 		Record(i).
 		Exec()
-	CheckErr(err)
+	CheckErr(err2)
 
-	_, err1 := sess.Update("components").
+	_, err3 := sess.Update("components").
 		Set("active", "false").
-		Where("id = ?", componentsId).
+		Where("id = ?", i.Component_id).
 		Exec()
-	CheckErr(err1)
+	CheckErr(err3)
 }
 
 func EditIncident(incidentId int, componentsId int, title string, description string) {
@@ -70,9 +74,21 @@ func DeleteIncident(incidentId int) {
 func DisplayIncidents() []byte {
 	sess := SetupDB()
 	incidentInfo := []IncidentInfo{}
-	err := sess.Select("id, component_id, title, description, status, resolved_at").
-		From("incidents").
-		LoadStruct(&incidentInfo)
+
+	query := sess.Select("i.id, i.title, i.description, i.status, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
+		From("incidents i").
+		LeftJoin("components", "i.component_id = components.id").
+		LeftJoin("machine_components", "i.component_id = machine_components.component_id").
+		LeftJoin("machines", "machines.id = machine_components.component_id")
+	query.LoadStruct(&incidentInfo)
+
+	//extract only date from timestamp========
+	for i := 0; i < len(incidentInfo); i++ {
+		t := incidentInfo[i].Warranty_timestamp
+		incidentInfo[i].Warranty_till = t.Format("2006-01-02")
+	}
+	//================================
+
 	b, err := json.Marshal(incidentInfo)
 	CheckErr(err)
 	return b
@@ -121,7 +137,7 @@ func IncidentUpdates(incidentId int, componentId int, description string) {
 	//===========================================================
 
 	//Add replaces components after resolved ....================
-	components := ComponentInfo{}
+	components := DisplayAllComponents{}
 	components.Active = true
 	err2 := sess.Select("name, invoice_id, warranty_till, description, active").
 		From("components").

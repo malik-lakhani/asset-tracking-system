@@ -16,7 +16,6 @@ perform different user releated operations.
 - **machine_id** : Id of Machine(string, required)
 - **machine_name** : Name of Machine(string, optional)
 - **company_email** : Company Email Id of User(string, Required)
-- **created_at** : Created Timestamp of User(string, Required)
 - **deleted_at** : Deleted Timesramo of User(string, Required)
 
 ## All Users [/users{?all}]
@@ -102,6 +101,10 @@ Display All Users.
             "deleted_at": "2016-08-08T02:15:15Z"
             }
 
+
+
+
+
 # Group Machines
 
 perform different machines releated operations.
@@ -110,7 +113,7 @@ perform different machines releated operations.
 - **name** : Name Of Machine(string, Required)
 - **component_id** : Id of Component(string, Required)
 - **component_name** : Name of Component(string, Required)
-- **created_at** : Created Timestamp of Machine(string, Required)
+- **user** : Name Of User(string, Required)
 - **deleted_at** : Deleted Timesramo of Machine(string, Optional)
 
 ## All Machines [/machines{?all}]
@@ -132,6 +135,7 @@ Display All Machines.
             [{
                 "id" : "1",
                 "name" : "mako",
+                "user" : "Ashivn",
                 "deleted_at" : "2016-08-08T02:15:15Z"
             }]
 
@@ -181,6 +185,7 @@ Display All Machines.
             {
                 "id" : 1,
                 "name" : "mako",
+                "user" : "Ashvin",
                 "deleted_at" : "2016-08-08T02:15:15Z"
             }
 
@@ -311,13 +316,15 @@ Add New Invoice
 
 # Group  Incidents
 
-- **id** : id of incident(string, Required)
-- **component_id** : id of incident on which incident happened(string, Required)
+- **id** : Id of incident(string, Required)
+- **component_id** : Id of component on which incident happened(string, Required)
+- **component** : Name of incident on which incident happened(string, Required)
+- **machine** : Name of Machine(string, Required)
 - **title** : Brief title of incident(string, Required)
 - **description** : Entire description of incident (string, Optional)
 - **status** : status of comonent whether its in process or not(string, Required)
 - **resolved_at** : Timestamp of resolved component(string, Required)
-- **created_at** : Timestamp when incedent happened(string, Required)
+
 
 ## Incidents [/incidents]
 
@@ -334,11 +341,12 @@ Incidents dealing with components.
             [{
                 "id" : 1,
                 "component_id" : 1,
+                "component" : "Mouse",
+                "machine" : "Mako",
                 "title" : "Component Damaged",
                 "description" : "component damaged Due to power cut",
                 "status" : "active",
-                "resolved_at" : "2016-08-08T02:15:15Z",
-                "created_at" : "2016-08-08T02:15:15Z"
+                "resolved_at" : "2016-08-08T02:15:15Z"
             }]
 
 ### Add New Incident [POST]
@@ -347,6 +355,7 @@ Incidents dealing with components.
 
     + Attributes
         + component_id: `1`
+        + recorder: `ashivn`
         + title: `Component Damaged`
         + description: `Component damaged Due to power cut`
 
@@ -429,7 +438,7 @@ Incidents dealing with components.
 - **description** : Description(string, Optional)
 - **active** : Component is active(string, Required) or not
 - **deleted_at** : Deleted Timestamp of Component(string, Optional)
-- **created_at** : Created Timestmp of Component(string, Optional)
+- **machine_name** : Name of Machine to With Component Connected(string, Optional)
 
 ## Display Components [/components{?all}]
 
@@ -451,11 +460,44 @@ Display All Components
             "id": 1,
             "serial_no":"12SOECE11230",
             "name": "Mouse",
+            "machine_name": "mako",
             "invoice_id": 1,
             "warranty_till": "12-04-2017 ",
             "description": "description of mouse",
             "active": true,
             "deleted_at":"08-08-2016T12:12:12"
             }]
+
+## Display Component Incidents [/components/1]
+
+Display Component Incidents
+
+### Component Incidents [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            {
+            "invoice_id": 1,
+            "invoice_number":"12SOECE11230",
+            "component_id": "1",
+            "component": "Mouse",
+            "user_id": 1,
+            "user": "ashivn",
+            "machine_id": "1",
+            "machine": "mako",
+            "description":"description of component",
+            "status":"active",
+            "warranty_till":"08-08-2016",
+            "incidents":[{
+                                "id" : 1,
+                                "title" : "title of incidents",
+                                "description" : "description of incidents",
+                                "status" : active
+                }]
+            }
 
 

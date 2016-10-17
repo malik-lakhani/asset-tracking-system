@@ -7,7 +7,7 @@
 - **description** : Description(string, Optional)
 - **active** : Component is active(string, Required) or not
 - **deleted_at** : Deleted Timestamp of Component(string, Optional)
-- **created_at** : Created Timestmp of Component(string, Optional)
+- **machine_name** : Name of Machine to With Component Connected(string, Optional)
 
 ## Display Components [/components{?all}]
 
@@ -29,12 +29,45 @@ Display All Components
             "id": 1,
             "serial_no":"12SOECE11230",
             "name": "Mouse",
+            "machine_name": "mako",
             "invoice_id": 1,
             "warranty_till": "12-04-2017 ",
             "description": "description of mouse",
             "active": true,
             "deleted_at":"08-08-2016T12:12:12"
             }]
+
+## Display Component Incidents [/components/1]
+
+Display Component Incidents
+
+### Component Incidents [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            {
+            "invoice_id": 1,
+            "invoice_number":"12SOECE11230",
+            "component_id": "1",
+            "component": "Mouse",
+            "user_id": 1,
+            "user": "ashivn",
+            "machine_id": "1",
+            "machine": "mako",
+            "description":"description of component",
+            "status":"active",
+            "warranty_till":"08-08-2016",
+            "incidents":[{
+                                "id" : 1,
+                                "title" : "title of incidents",
+                                "description" : "description of incidents",
+                                "status" : active
+                }]
+            }
 
 
 
