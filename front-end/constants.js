@@ -1,0 +1,6 @@
+export const ADD_INVOICE = 'ADD_INVOICE';
+export const SET_FIELDS = 'SET_FIELDS';
+export const DISPLAY_USERS = 'DISPLAY_USERS';
+export const DISPLAY_INVOICES = 'DISPLAY_INVOICES';
+export const FILTERED_USERS = 'FILTERED_USERS';
+export const DISPLAY_MACHINES = 'DISPLAY_USERS';

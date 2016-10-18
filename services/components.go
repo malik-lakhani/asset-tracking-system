@@ -51,7 +51,6 @@ type DisplayComponentInfo struct {
 	Incidents []Incidents
 	User User
 	Machine Machine
-
 	Invoice_id int
 	Invoice_number string
 	Component string

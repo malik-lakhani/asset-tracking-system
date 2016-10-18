@@ -4,3 +4,5 @@ import:
 - package: github.com/fatih/structs
 - package: github.com/gocraft/dbr
   version: v2.1
+- package: github.com/rs/cors
+  version: v1.0
