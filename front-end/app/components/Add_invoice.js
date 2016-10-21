@@ -5,50 +5,50 @@ import {renderField, rendreTextArea, renderComponents} from '../fields/fields'
 
 
 const validate = values => {
-	alert('called');
+
 	console.log(values);
-  const errors = {}
-  if(!values.Invoice_Number) {
-    errors.Invoice_Number = 'Required'
-  }
-   if(!values.Invoicer_Name) {
-    errors.Invoicer_Name = 'Required'
-  }
-   if(!values.Invoicer_Address) {
-    errors.Invoicer_Address = 'Required'
-  }
-  if(!values.Invoicer_Contact) {
-    errors.Invoicer_Contact = 'Required'
-  }
-  if(!values.Date) {
-    errors.Date = 'Required'
-  }
-   if(!values.Description) {
-    errors.Description = 'Required'
-  }
+	const errors = {}
+	if(!values.Invoice_Number) {
+		errors.Invoice_Number = 'Required'
+	}
+	 if(!values.Invoicer_Name) {
+		errors.Invoicer_Name = 'Required'
+	}
+	 if(!values.Invoicer_Address) {
+		errors.Invoicer_Address = 'Required'
+	}
+	if(!values.Invoicer_Contact) {
+		errors.Invoicer_Contact = 'Required'
+	}
+	if(!values.Date) {
+		errors.Date = 'Required'
+	}
+	 if(!values.Description) {
+		errors.Description = 'Required'
+	}
 
 
-  // if (!values.component || !values.component.length) {
-  //   errors.Component = { _error: 'At least one component must be entered' }
-  // } else {
-  //   const componentsArrayErrors = []
-  //   values.component.forEach((component, componentIndex) => {
-      // const componentErrors = {}
-  //     if (!component || !component.name) {
-  //       componentErrors.name = 'Required'
-  //       componentsArrayErrors[componentIndex] = componentErrors
-  //     }
-  //     if (!component || !component.serialNo) {
-  //       componentErrors.serialNo = 'Required'
-  //       componentsArrayErrors[componentIndex] = componentErrors
-  //     }
-  //     return componentErrors
-  //   })
-  //   if(componentsArrayErrors.length) {
-  //     errors.component = componentsArrayErrors
-  //   }
-  // }
-  return errors
+	// if (!values.component || !values.component.length) {
+	//   errors.Component = { _error: 'At least one component must be entered' }
+	// } else {
+	//   const componentsArrayErrors = []
+	//   values.component.forEach((component, componentIndex) => {
+			// const componentErrors = {}
+	//     if (!component || !component.name) {
+	//       componentErrors.name = 'Required'
+	//       componentsArrayErrors[componentIndex] = componentErrors
+	//     }
+	//     if (!component || !component.serialNo) {
+	//       componentErrors.serialNo = 'Required'
+	//       componentsArrayErrors[componentIndex] = componentErrors
+	//     }
+	//     return componentErrors
+	//   })
+	//   if(componentsArrayErrors.length) {
+	//     errors.component = componentsArrayErrors
+	//   }
+	// }
+	return errors
 }
 
 class addInvoice extends Component {
@@ -91,11 +91,11 @@ class addInvoice extends Component {
 			.send(invoice)
 			.set('Accept', 'application/json')
 			.end(function(err, res){
-			  if(err != null){
-			  	console.log(err);
-			  } else {
-			  	location.href="http://localhost:8080/public/#/invoices/?_k=ycsmgk";
-			  }
+				if(err != null){
+					console.log(err);
+				} else {
+					location.href="http://localhost:8080/public/#/invoices/?_k=ycsmgk";
+				}
 		});
 
 		// this.props.actions.addInvoice(invoice);//pass all details of invoice to action ...

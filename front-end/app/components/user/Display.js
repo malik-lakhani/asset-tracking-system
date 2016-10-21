@@ -1,6 +1,7 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
-import request from 'superagent';
+import { Link } from 'react-router'
+import './styles.css';
 
 function onAfterSaveCell(row, cellName, cellValue){
 	var url = 'http://localhost:8000/users/'+row.Id ;
@@ -34,48 +35,43 @@ var selectRowProp = {
 	clickToSelect: true
 }
 
-function afterInsert(){
-	alert('called');
-}
-
 var deleteRow = {
-	afterDeleteRow : deleteFromDatabase,
-	afterInsertRow : afterInsert
+	afterDeleteRow : deleteFromDatabase
 }
 
-class DataTable extends Component {
-
+class Display_users extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: this.props.props.main.data,
+			data :[]
 		};
-		// this.dipslayUsers = this.dipslayUsers.bind(this);
+		// this.filterUsers = this.filterUsers.bind(this);
 	}
 
-	dipslayUsers(e){
+	filterUsers(e) {
+		alert(e.target.value);
 		var all = false;
-		if(e.target.value == "all"){
+		if(e.target.value == "all") {
 			all = true
 		}
-		this.getUsers(all); 
+		this.props.actions.fetchUsers(all, this.props.dispatch);
 	}
 
-	componentDidMount() {
-		this.props.actions.dipslayUsers("active", this.props.dispatch);
-	}
+ 	componentDidMount() {
+    // Mount Function
+    this.props.actions.fetchUsers(true, this.props.dispatch);
+  }
 
 	render() {
-		console.log('####1122state', this.state);
 		return (
 			<div>
-				<select name="select2" onChange={this.dipslayUsers} className="select2">
+				<select name="select2" onChange={this.filterUsers} className="selectpicker" data-width="auto">
 					<option value="active">Active</option>
 					<option value="all">All</option>
 				</select>
 				<div>
-					<BootstrapTable data={this.state.data} pagination={true} insertRow={true} options={deleteRow} deleteRow={true} selectRow={selectRowProp} cellEdit={cellEditProp}  search={true} striped={true} hover={true}>
-						<TableHeaderColumn  width="60" isKey={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
+					<BootstrapTable data={this.props.state.users.AllUsers} pagination={true} insertRow={true} options={deleteRow} deleteRow={true} selectRow={selectRowProp} cellEdit={cellEditProp}  search={true} striped={true} hover={true}>
+						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
 						<TableHeaderColumn width="260" dataSort={true} dataField="Name">User</TableHeaderColumn>
 						<TableHeaderColumn width="350" dataSort={true} dataField="Company_email">E-mail</TableHeaderColumn>
 						<TableHeaderColumn hidden={true} dataField="Machine_id">Machine Id</TableHeaderColumn>
@@ -87,4 +83,4 @@ class DataTable extends Component {
 	}
 }
 
-export default DataTable
+export default Display_users

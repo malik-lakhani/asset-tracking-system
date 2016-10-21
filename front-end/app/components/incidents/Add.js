@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
 import { textarea, Field, FieldArray, reduxForm } from 'redux-form'
-import request from 'superagent';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {renderField, rendreTextArea, renderComponents, rendreLabel} from '../../fields/fields'
+import './styles.css';
 
-import Dropdown from 'react-dropdown'
-
-class component_Information extends Component {
+class Add_incident extends Component {
 	constructor(props) {
 		super(props);
 		this.handleState = this.handleState.bind(this);
@@ -18,21 +16,20 @@ class component_Information extends Component {
 	}
 
 	handleState(e) {
-		console.log(this.props.props.main.title);
-		request
-			.post("http://localhost:8000/incidents")
-			.send({component_id: 1})
-			.send({title: this.props.props.main.title})
-			.send({recorder: this.props.props.main.recorder})
-			.send({description: this.props.props.main.description})
-			.set('Accept', 'application/json')
-			.end(function(err, res) {
-			  if(err != null) {
-			  	console.log(err);
-			  } else {
-			  	location.href="http://localhost:8080/public/#/incidents/?_k=0iufjw";
-			  }
-			});
+		// request
+		// 	.post("http://localhost:8000/incidents")
+		// 	.send({component_id: 1})
+		// 	.send({title: this.props.props.main.title})
+		// 	.send({recorder: this.props.props.main.recorder})
+		// 	.send({description: this.props.props.main.description})
+		// 	.set('Accept', 'application/json')
+		// 	.end(function(err, res) {
+		// 		if(err != null) {
+		// 			console.log(err);
+		// 		} else {
+		// 			location.href="http://localhost:8080/public/#/incidents/?_k=0iufjw";
+		// 		}
+		// 	});
 		}
 
 	handleFields(e) {
@@ -51,16 +48,15 @@ class component_Information extends Component {
 
 		return (
 			<div>
-				<Dropdown options={options} onChange={this._onSelect} placeholder="Select Component" />
 				<div className="clearfix">
-				  <div className="col-lg-4">
-				    <h4> Record New Incident </h4>
-				  </div>
-				  <div className="pull-right">
-				    <form onSubmit={this.handleState} >
-						  <button type="submit" className="btn btn-info marginLeftRecord">Submit</button>
+					<div className="col-lg-4">
+						<h4> Record New Incident </h4>
+					</div>
+					<div className="pull-right">
+						<form onSubmit={this.handleState} >
+							<button type="submit" className="btn btn-info marginLeftRecord">Submit</button>
 						</form>
-				  </div>
+					</div>
 				</div>
 				<div style={letterStyle} className = "">
 					<div className = "marginLeftRecordNewIncident">
@@ -92,5 +88,5 @@ class component_Information extends Component {
 
 export default reduxForm({
 	form: 'component_Info',// a unique identifier for this form
-})(component_Information)
+})(Add_incident)
 

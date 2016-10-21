@@ -1,55 +1,56 @@
 import React, {component} from 'react'
 import request from 'superagent';
 import { Field, reduxForm } from 'redux-form'
+import './styles.css';
 
 const renderField = ({ input, label, type, placeholder, meta: { touched, error } }) => (
-  <div >
-    <label >{label}</label>
-    <div >
-      <input {...input} type={type} placeholder={placeholder}/>
-      {touched && error && <span>{error}</span>}
-    </div>
-  </div>
+	<div >
+		<label >{label}</label>
+		<div >
+			<input {...input} type={type} placeholder={placeholder}/>
+			{touched && error && <span>{error}</span>}
+		</div>
+	</div>
 )
 
 const Add_user = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props
-  return (
-    <form onSubmit={handleSubmit(add_user)}>
-      <Field name={`${component}.Name`} type="text" component={renderField} label="Name :" placeholder="Name" />
-      <Field name={`${component}.email`} type="email" component={renderField} label="Email :" placeholder="Email" />
-      <div>
-        <label>Machine : </label>
-        <div>
-          <Field name="machine" component="select">
-            <option></option>
-            <option value="1">Mako</option>
-            <option value="2">Olaf</option>
-            <option value="3">Thor</option>
-          </Field>
-        </div>
-      </div>
-      <div>
-        <button type="submit" disabled={pristine || submitting}>Submit</button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
-      </div>
-    </form>
-  )
+	const { handleSubmit, pristine, reset, submitting } = props
+	return (
+		<form onSubmit={handleSubmit(add_user)}>
+			<Field name={`${component}.Name`} type="text" component={renderField} label="Name :" placeholder="Name" />
+			<Field name={`${component}.email`} type="email" component={renderField} label="Email :" placeholder="Email" />
+			<div>
+				<label>Machine : </label>
+				<div>
+					<Field name="machine" component="select">
+						<option></option>
+						<option value="1">Mako</option>
+						<option value="2">Olaf</option>
+						<option value="3">Thor</option>
+					</Field>
+				</div>
+			</div>
+			<div>
+				<button type="submit" disabled={pristine || submitting}>Submit</button>
+				<button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+			</div>
+		</form>
+	)
 }
 
 const validate = values => {
-  console.log(values.undefined);
-  const errors = {}
-  if(!values.Name) {
-    errors.Name = 'Required'
-  }
-   if(!values.email) {
-    errors.email = 'Required'
-  }
-   if(!values.machine) {
-    errors.machine = 'Required'
-  }
-  return errors
+	console.log(values.undefined);
+	const errors = {}
+	if(!values.Name) {
+		errors.Name = 'Required'
+	}
+	 if(!values.email) {
+		errors.email = 'Required'
+	}
+	 if(!values.machine) {
+		errors.machine = 'Required'
+	}
+	return errors
 }
 
 function add_user(props){
@@ -77,6 +78,6 @@ function add_user(props){
 }
 
 export default reduxForm({
-  form: 'add_user',  // a unique identifier for this form
-  validate
+	form: 'add_user',  // a unique identifier for this form
+	validate
 })(Add_user)

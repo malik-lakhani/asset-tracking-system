@@ -15,7 +15,7 @@ module.exports = {
       'src',
       'node_modules'
     ],
-    extensions: [ '', '.json', '.js' ,'.jsx']
+    extensions: [ '', '.json', '.js' ,'.jsx', '.css','.jsx']
   },
   module: {
     loaders: [
@@ -24,9 +24,12 @@ module.exports = {
         loader: 'babel',
         exclude: /node_modules/,
         query: {
-          cacheDirectory: true,
-          presets: ['react', 'es2015']
+          presets: ["es2015", "stage-0", "react"]
         }
+      },
+      {
+        test: /\.css$/,
+        loader:'style!css!'
       },
       {
         test: /\.json$/,

@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import { textarea, Field, FieldArray, reduxForm } from 'redux-form'
-import request from 'superagent';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {renderField, rendreTextArea, renderComponents, rendreLabel} from '../../fields/fields'
+import './styles.css';
 
-class component_Information extends Component {
+class Machine_information extends Component {
 	constructor(props) {
 	super(props);
 	this.state = {
@@ -19,19 +19,8 @@ class component_Information extends Component {
 	displayComponents(machineId) {
 		var self = this;
 		var URL = `http://localhost:8000/machines/${machineId}/components`
-		request
-			.get(URL)
-			.then((res) => {
-				var data = JSON.parse(res.text);
-				console.log('-->', data)
-				self.setState({
-					data: data,
-					component_information: data.Components,
-					incident_information: data.Incidents,
-					past_uses_history: data.PastUses,
-				})
-			});
-		}
+
+	}
 
 	componentWillMount() {
 		var { machineId } = this.props.params;
@@ -106,5 +95,5 @@ class component_Information extends Component {
 
 export default reduxForm({
 	form: 'component_Info',// a unique identifier for this form
-})(component_Information)
+})(Machine_information)
 

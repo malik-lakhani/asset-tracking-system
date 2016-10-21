@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { textarea, Field, FieldArray, reduxForm } from 'redux-form'
-import request from 'superagent';
 import {renderField, rendreTextArea, renderComponents} from '../../fields/fields'
+import './styles.css';
 
 
 const validate = values => {

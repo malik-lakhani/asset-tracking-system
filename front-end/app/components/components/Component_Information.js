@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import { textarea, Field, FieldArray, reduxForm } from 'redux-form'
-import request from 'superagent';
 import { Link } from 'react-router';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {renderField, rendreTextArea, renderComponents, rendreLabel} from '../../fields/fields'
+import './styles.css';
 
-class component_Information extends Component {
+class Component_information extends Component {
 	constructor(props) {
 	super(props);
 	this.state = {
@@ -17,21 +17,21 @@ class component_Information extends Component {
 	this.handleState = this.handleState.bind(this);
 	}
 
-displayComponents(componentId) {
-		var self = this;
-		var URL = `http://localhost:8000/components/${componentId}`
-		request
-			.get(URL)
-			.then((res) => {
-				var data = JSON.parse(res.text);
-				self.setState({
-					data: data,
-					tableData: data.Incidents,
-					userDetails: data.User,
-					machineDetails: data.Machine,
-				})
-			});
-		}
+// displayComponents(componentId) {
+// 		var self = this;
+// 		var URL = `http://localhost:8000/components/${componentId}`
+// 		request
+// 			.get(URL)
+// 			.then((res) => {
+// 				var data = JSON.parse(res.text);
+// 				self.setState({
+// 					data: data,
+// 					tableData: data.Incidents,
+// 					userDetails: data.User,
+// 					machineDetails: data.Machine,
+// 				})
+// 			});
+// 		}
 
 
 
@@ -43,18 +43,17 @@ displayComponents(componentId) {
 	handleState(e) {
 	}
 
-	removeComponent(componentId) {
-		let machineId = this.state.machineDetails.Id;
-		var self = this;
-		var URL = `http://localhost:8000/machines/{machineId}/components/${componentId}`
-		request
-			.delete(URL)
-			.then((res) => {
-		});
-	}
+	// removeComponent(componentId) {
+	// 	let machineId = this.state.machineDetails.Id;
+	// 	var self = this;
+	// 	var URL = `http://localhost:8000/machines/{machineId}/components/${componentId}`
+	// 	request
+	// 		.delete(URL)
+	// 		.then((res) => {
+	// 	});
+	// }
 
 	render() {
-		console.log(this.state);
 		var letterStyle = {
 			border: 'solid',
 			borderWidth: '2px',
@@ -121,5 +120,5 @@ displayComponents(componentId) {
 
 export default reduxForm({
 	form: 'component_Info',// a unique identifier for this form
-})(component_Information)
+})(Component_information)
 

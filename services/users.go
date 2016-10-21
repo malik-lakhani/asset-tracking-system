@@ -109,12 +109,13 @@ func DisplayUsers(allUsers string) []byte { // Display one User's Information ..
 		LeftJoin("machines", "users_machine.machine_id = machines.id")
 
 	//display all users or active users only ...
-	if(allUsers == "false") {
+	if(allUsers == "true") {
 		query.Where("users.deleted_at IS NULL").
-					LoadStruct(&usersInfo)
+			LoadStruct(&usersInfo)
 	} else {
 		query.LoadStruct(&usersInfo)
 	}
+
 	b, err := json.Marshal(usersInfo)
 	CheckErr(err)
 

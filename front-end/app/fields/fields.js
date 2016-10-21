@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './styles'
 
 //======TextBox =================
 export const renderField = ({ label, onChange, type, placeholder, value, id, name, meta: { touched, error } }) => (

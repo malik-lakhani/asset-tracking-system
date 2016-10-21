@@ -1,122 +1,106 @@
-
 import {
-	ADD_INVOICE,
+
 	SET_FIELDS,
-	DISPLAY_USERS,
-	DISPLAY_INVOICES,
-	FILTERED_USERS
+	FETCH_USERS_SUCCESS, FETCH_USERS_FAILULER,
+  FETCH_MACHINES_SUCCESS, FETCH_MACHINES_FAILULER,
+  FETCH_COMPONENTS_SUCCESS, FETCH_COMPONENTS_FAILULER,
+  FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILULER,
+  FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER
+
 } from '../../constants';
-import request from 'superagent';
+import axios from 'axios';
 
-export const setFieldValue = (field, value) => ({
-	type: SET_FIELDS,
-	field,
-	value,
-});
-
-// export const dipslayUsers = ((all, dispatch) => {
-//   const URL = "http://localhost:8000/users";
-//   let query = {
-//     all: false
-//   };
-
-//   if(all == "all"){
-//     query.all = true;
-//   }
-
-//   // Dispatch start of "fetching" action
-
-//   request
-//     .get(URL)
-//     .query(query)
-//     .then((res) => {
-//       var data = JSON.parse(res.text);
-//       console.log(data);
-//       // Dispatch "fetch" success
-//       return dispatch({
-//         type: DISPLAY_USERS,
-//         data,
-//       });
-//     })
-//     .catch((error) => {
-//       // TODO: Handle errors
-//       // return dispatch();
-//     });
+// export const setFieldValue = (field, value) => ({
+// 	type: SET_FIELDS,
+// 	field,
+// 	value,
 // });
 
-export const dipslayUsers = ((all, dispatch) => {
-	request
-		.get('http://localhost:8000/users')
-		.end(function (error, res) {
-			var data = JSON.parse(res.text);
-			return dispatch({ type: DISPLAY_USERS, data });
-		}, function (error) {
-			console.log('1111', error);
-		});
+export const fetchUsers = ((All, dispatch) => {
+	const URL = "http://localhost:8000/users";
+	let all = true;
+
+	if(All == "all"){
+	  all = false;
+	}
+	return function(dispatch) {
+    axios.get(URL, { params: { all: all }})
+      .then((response) => {
+      	console.log('response Get users:', response);
+        dispatch({ type: FETCH_USERS_SUCCESS, response })
+      })
+      .catch((err) => {
+        dispatch({ type: FETCH_USERS_FAILULER, err})
+      })
+		}
+});
+
+export const fetchMachines = ((All, dispatch) => {
+  const URL = "http://localhost:8000/machines";
+  let all = true;
+
+  if(All == "all"){
+    all = false;
+  }
+  return function(dispatch) {
+    axios.get(URL, { params: { all: all }})
+      .then((response) => {
+        console.log('response Get machines:', response);
+        dispatch({ type: FETCH_MACHINES_SUCCESS, response })
+      })
+      .catch((err) => {
+        dispatch({ type: FETCH_MACHINES_FAILULER, err})
+      })
+    }
 });
 
 
+export const fetchComponents = ((All, dispatch) => {
+  const URL = "http://localhost:8000/components";
+  let all = true;
 
-// export const display_machines = (value) => ({
-//   type: DISPLAY_MACHINES,
-//   value,
-// });
+  if(All == "all"){
+    all = false;
+  }
+  return function(dispatch) {
+    axios.get(URL, { params: { all: all }})
+      .then((response) => {
+        console.log('response Get components:', response);
+        dispatch({ type: FETCH_COMPONENTS_SUCCESS, response })
+      })
+      .catch((err) => {
+        dispatch({ type: FETCH_COMPONENTS_FAILULER, err})
+      })
+    }
+});
 
-// export const dipslayMachines = ((all, dispatch) => {
-//  var URL = "http://localhost:8000/machines";
-//   let query = {
-//     all: false
-//   };
+export const fetchInvoices = ((dispatch) => {
+  const URL = "http://localhost:8000/invoices";
+  return function(dispatch) {
+    axios.get(URL)
+      .then((response) => {
+        console.log('response Get invoices:', response);
+        dispatch({ type: FETCH_INVOICES_SUCCESS, response })
+      })
+      .catch((err) => {
+        dispatch({ type: FETCH_INVOICES_FAILULER, err})
+      })
+    }
+});
 
-//   if(all == "all"){
-//     query.all = true;
-//   }
-//  request
-//    .get(URL)
-//    .query(query)
-//    .then((res) => {
-//       var data = JSON.parse(res.text);
-//       return dispatch(display_machines(data));
-//     });
-// });
-
-
-// export const getUsers = ((dispatch) => {
-//  var URL = "http://localhost:8000/users";
-//  return request
-//    .get(URL)
-//    .then((res) => {
-//       var data = JSON.parse(res.text);
-//       return dispatch(displayUsers(data));
-//     });
-// });
-
-// export const getUsers = () => {
-// 	$.ajax({
-
-//         url: "http://localhost:8000/users",
-//         success: function (data) {
-//           console.log(data);
-//           return{
-//             type: DISPLAY_USERS,
-//             value,
-//           }
-//         }
-// 	});
-// }
-
-// export const getInvoices = () => {
-// 	$.ajax({
-//         type: "GET",
-//         url: "http://localhost:8000/invoices",
-//         success: function (data) {
-//         	displayInvoices(data);
-//         }
-// 	});
-// }
-
-
-
+export const fetchIncidents = ((dispatch) => {
+  const URL = "http://localhost:8000/incidents";
+  return function(dispatch) {
+    axios.get(URL)
+      .then((response) => {
+        console.log('response Get invoices:', response);
+        dispatch({ type: FETCH_INCIDENTS_SUCCESS, response })
+      })
+      .catch((err) => {
+        dispatch({ type: FETCH_INCIDENTS_FAILULER, err})
+      })
+    }
+});
 
 
 

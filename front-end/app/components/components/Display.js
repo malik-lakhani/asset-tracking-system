@@ -1,18 +1,17 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
-import request from 'superagent';
 import { Link } from 'react-router'
+import './styles.css';
 
 function componentInformation(cell, row){
    return <Link to={`/components/${row.Id}`}>{ cell }</Link>
 }
 
-class DataTable extends Component {
-
+class Display_components extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: this.props.props.main.data,
+			// data: this.props.props.main.data,
 		};
 		this.handleState = this.handleState.bind(this);
 		// this.getUsers = this.getUsers.bind(this);
@@ -20,43 +19,30 @@ class DataTable extends Component {
 	}
 
 	dipslayComponents(e){
-		var all = false;
-		if(e.target.value == "all"){
-			all = true
-		}
-		this.displayComponents(all); 
+		// var all = false;
+		// if(e.target.value == "all"){
+		// 	all = true
+		// }
+		// this.displayComponents(all); 
 	}
 
-	displayComponents(all) {
-		var self = this;
-		var URL = "http://localhost:8000/components";
-		request
-			.get(URL)
-			.query({all: all})
-			.then((res) => {
-				var data = JSON.parse(res.text);
-				self.setState({
-					data: data
-				})
-			});
-	}
-
-	componentWillMount() {
-		this.displayComponents(false); 
+	componentDidMount() {
+		this.props.actions.fetchComponents(true, this.props.dispatch);
 	}
 
 	handleState(e) {
 	}
 
 	render() {
+		console.log('**** from components Component', this.props);
 		return (
 			<div>
-				<select name="select2" onChange={this.dipslayComponents} className="select2">
+				<select name="select2" className="selectpicker" data-width="auto">
 					<option value="active">Active</option>
 					<option value="all">All</option>
 				</select>
 				<div>
-					<BootstrapTable data={this.state.data} pagination={true} search={true} striped={true} hover={true}>
+					<BootstrapTable data={this.props.state.components.Components} pagination={true} search={true} striped={true} hover={true}>
 						<TableHeaderColumn width="50" isKey={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
 						<TableHeaderColumn width="180" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
 						<TableHeaderColumn width="180" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
@@ -71,4 +57,4 @@ class DataTable extends Component {
 	}
 }
 
-export default DataTable
+export default Display_components
