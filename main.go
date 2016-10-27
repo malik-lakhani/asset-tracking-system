@@ -1,7 +1,7 @@
 package main
 
 import (
-		"fmt"
+		// "fmt"
 		"io/ioutil"
 		"net/http"
 		"strconv"
@@ -134,13 +134,8 @@ func incidentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func addIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body) // read all dara of form ....
+	body, err := ioutil.ReadAll(r.Body) // read all dara of form ...
 	services.CheckErr(err)
-	// component_id, err :=  strconv.Atoi(r.FormValue("component_id")) // converting from string to int ...
-	// services.CheckErr(err)
-	// title := r.FormValue("title")
-	// description := r.FormValue("description")
-	// recorder := r.FormValue("recorder")
 	services.AddIncident(string(body)) //PATH : /services/incidents.go
 }
 
@@ -192,12 +187,6 @@ func componentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(response))
 }
 
-func componentsNameHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	fmt.Println("******")
-	response := services.ListAllComponentsName() //PATH : /services/components.go
-	w.Write([]byte(response))
-}
-
 func saveHandler(w http.ResponseWriter, r *http.Request) {
     // allow cross domain AJAX requests
     w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -237,7 +226,6 @@ func main() {
 	//dealing with components ...
 	goji.Get("/components", componentsHandler)
 	goji.Get("/components/:component_id", componentInfoHandler)
-	goji.Get("/componentNames", componentsNameHandler)
 
 	goji.Serve()
 }

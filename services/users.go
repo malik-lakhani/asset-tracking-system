@@ -2,6 +2,7 @@ package services
 
 import (
 				"encoding/json"
+				// "fmt"
 				"io"
 				"log"
 				"strings"
@@ -109,7 +110,7 @@ func DisplayUsers(allUsers string) []byte { // Display one User's Information ..
 		LeftJoin("machines", "users_machine.machine_id = machines.id")
 
 	//display all users or active users only ...
-	if(allUsers == "true") {
+	if(allUsers == "false") {
 		query.Where("users.deleted_at IS NULL").
 			LoadStruct(&usersInfo)
 	} else {

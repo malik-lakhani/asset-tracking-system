@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router';
 import './styles.css';
 
 class Header extends Component {
@@ -20,11 +21,11 @@ class Header extends Component {
               </div>
               <div className="collapse navbar-collapse" id="navbar-collapse-3">
                 <ul className="nav navbar-nav navbar-right">
-                  <li><a href="http://localhost:8080/public/#/invoices/?_k=ycsmgk">Invoice</a></li>
-                  <li><a href="http://localhost:8080/public/#/components/?_k=0iufjw">Components</a></li>
-                  <li><a href="http://localhost:8080/public/#/machines/?_k=ycsmgk">Machines</a></li>
-                  <li><a href="http://localhost:8080/public/#/incidents/?_k=0iufjw">Incidents</a></li>
-                  <li><a href="http://localhost:8080/public/#/users/?_k=0iufjw">Users</a></li>
+                  <li><Link to={`/invoices`}> Invoices </Link></li>
+                  <li><Link to={`/components`}> Components </Link></li>
+                  <li><Link to={`/machines`}> Machines </Link></li>
+                  <li><Link to={`/incidents`}> Incidents </Link></li>
+                  <li><Link to={`/users`}> Users </Link></li>
                 </ul>
               </div>
             </div>

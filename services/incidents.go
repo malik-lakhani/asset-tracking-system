@@ -2,6 +2,7 @@ package services
 
 import(
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -75,12 +76,14 @@ func DisplayIncidents() []byte {
 	sess := SetupDB()
 	incidentInfo := []IncidentInfo{}
 
-	query := sess.Select("i.id, i.title, i.description, i.status, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
+	sess.Select("i.id, i.title, i.description, i.status, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
 		From("incidents i").
 		LeftJoin("components", "i.component_id = components.id").
 		LeftJoin("machine_components", "i.component_id = machine_components.component_id").
-		LeftJoin("machines", "machines.id = machine_components.component_id")
-	query.LoadStruct(&incidentInfo)
+		LeftJoin("machines", "machines.id = machine_components.component_id").
+		LoadStruct(&incidentInfo)
+
+		fmt.Println("-->", incidentInfo)
 
 	//extract only date from timestamp========
 	for i := 0; i < len(incidentInfo); i++ {
@@ -97,7 +100,7 @@ func DisplayIncidents() []byte {
 func DisplayIncident(incidentId int) []byte {
 	sess := SetupDB()
 	incidentInfo := IncidentInfo{}
-	err := sess.Select("id, component_id, title, description, status, resolved_at").
+	sess.Select("id, component_id, title, description, status, resolved_at").
 		From("incidents").
 		Where("id = ?", incidentId).
 		LoadStruct(&incidentInfo)

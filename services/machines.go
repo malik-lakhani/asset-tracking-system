@@ -2,7 +2,7 @@ package services
 
 import (
 	"encoding/json"
-	// "fmt"
+	"fmt"
 	"io"
 	"log"
 	"strconv"
@@ -55,14 +55,14 @@ func DisplayMachines(allMachiens string) []byte {
 	sess := SetupDB()
 	machinesInfo := []MachineInfo{}
 
-	query := sess.Select("u.id, u.name, machines.name as User").
+	query := sess.Select("u.id, u.name as User, machines.name").
 	From("users u").
     LeftJoin("users_machine", "u.id = users_machine.user_id").
     LeftJoin("machines", "machines.id = users_machine.machine_id")
 
 	//display all machines or active machines only ...
 	if(allMachiens == "false") {
-		query.Where("u.deleted_at IS NULL").
+		query.Where("machines.deleted_at IS NULL").
 					LoadStruct(&machinesInfo)
 	} else {
 		query.LoadStruct(&machinesInfo)
@@ -126,12 +126,13 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	sess := SetupDB()
 	//all machine's information ....========
 	machineInfo := AllInfoOfMachine{}
-	sess.Select("machines.id, machines.name, users_machine.created_at AS UsingSince, users.id AS UserId, users.name AS UserName").
+	query2 := sess.Select("machines.id, machines.name, users_machine.created_at AS UsingSince, users.id AS UserId, users.name AS UserName").
 		From("machines").
 		LeftJoin("users_machine","users_machine.machine_id = machines.id").
 		LeftJoin("users","users_machine.user_id = users.id").
-		Where("machines.id = ? AND users_machine.deleted_at IS NULL", machineId).
-		LoadStruct(&machineInfo)
+		Where("machines.id = ? AND users_machine.deleted_at IS NULL", machineId)
+		query2.LoadStruct(&machineInfo)
+
 	//==================================
 
 	//all information of machine's components ===========
@@ -164,7 +165,7 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	m.Incidents = incidents
 	m.Components = MachineComponents
 	//============================================
-
+		fmt.Println(".....", m)
 	b, err := json.Marshal(m)
 	CheckErr(err)
 	return b

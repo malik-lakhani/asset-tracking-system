@@ -62,17 +62,29 @@ By Default active machines will be display</p>
 By default it will display active components only.</p>
 </dd><dt>machine_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>Id of Machine to Display Components</p>
 </dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
-  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
-  "<span class="hljs-attribute">machine_id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
-  "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"mako"</span></span>,
-  "<span class="hljs-attribute">components</span>": <span class="hljs-value">[
-    {
-      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
-      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Mouse"</span></span>,
-      "<span class="hljs-attribute">deleted_at</span>": <span class="hljs-value"><span class="hljs-string">"2016-08-08T02:15:15Z"</span>
-    </span>}
-  ]
-</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="machines-add-component-to-machine" class="resource"><h3 class="resource-heading">Add Component to machine <a href="#machines-add-component-to-machine" class="permalink">&nbsp;&para;</a></h3><div id="machines-add-component-to-machine-post" class="action post"><h4 class="action-heading"><div class="name">Add Component to Machine</div><a href="#machines-add-component-to-machine-post" class="method post">POST</a><code class="uri">/machines/{machine_id}/components</code></h4><h4>Example URI</h4><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname"></span>/machines/<span class="hljs-attribute" title="machine_id">1</span>/components</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>machine_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>Id of Machine</p>
+    "<span class="hljs-attribute">id</span>" : <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
+    "<span class="hljs-attribute">machine_id</span>" : <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
+    "<span class="hljs-attribute">name</span>" : <span class="hljs-value"><span class="hljs-string">"mako"</span></span>,
+    "<span class="hljs-attribute">usingScence</span>" : <span class="hljs-value"><span class="hljs-string">"2015-12-11"</span></span>,
+    "<span class="hljs-attribute">components</span>":<span class="hljs-value">[{
+                    "<span class="hljs-attribute">id</span>" : <span class="hljs-value"><span class="hljs-number">1</span></span>,
+                    "<span class="hljs-attribute">name</span>" : <span class="hljs-value"><span class="hljs-string">"Mouse"</span></span>,
+                    "<span class="hljs-attribute">serial_no</span>" : <span class="hljs-value"><span class="hljs-string">"12SO11"</span></span>,
+                    "<span class="hljs-attribute">description</span>" : <span class="hljs-value"><span class="hljs-string">"description of component"</span></span>,
+                    "<span class="hljs-attribute">warranty_till</span>" : <span class="hljs-value"><span class="hljs-string">"2017-12-11"</span>
+    </span>}]</span>,
+    "<span class="hljs-attribute">components</span>":<span class="hljs-value">[{
+                    "<span class="hljs-attribute">title</span>" : <span class="hljs-value"><span class="hljs-string">"title of description"</span></span>,
+                    "<span class="hljs-attribute">description</span>" : <span class="hljs-value"><span class="hljs-string">"description of incident"</span></span>,
+                    "<span class="hljs-attribute">status</span>" : <span class="hljs-value"><span class="hljs-string">"Active"</span>
+    </span>}]</span>,
+    "<span class="hljs-attribute">pastUses</span>":<span class="hljs-value">[{
+                    "<span class="hljs-attribute">begin</span>" : <span class="hljs-value"><span class="hljs-string">"2015-12-11"</span></span>,
+                    "<span class="hljs-attribute">end</span>" : <span class="hljs-value"><span class="hljs-string">"2017-12-11"</span></span>,
+                    "<span class="hljs-attribute">user</span>" : <span class="hljs-value"><span class="hljs-string">"ashvin"</span>
+    </span>}]</span>,
+
+}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="machines-add-component-to-machine" class="resource"><h3 class="resource-heading">Add Component to machine <a href="#machines-add-component-to-machine" class="permalink">&nbsp;&para;</a></h3><div id="machines-add-component-to-machine-post" class="action post"><h4 class="action-heading"><div class="name">Add Component to Machine</div><a href="#machines-add-component-to-machine-post" class="method post">POST</a><code class="uri">/machines/{machine_id}/components</code></h4><h4>Example URI</h4><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname"></span>/machines/<span class="hljs-attribute" title="machine_id">1</span>/components</span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>machine_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>Id of Machine</p>
 </dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">information</span>": <span class="hljs-value">{
     "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
@@ -114,7 +126,7 @@ By default it will display active components only.</p>
 </dd><dt>component_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>Id to Remove Component From Machine.</p>
 </dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div><div id="machines-assign-machine-to-user" class="resource"><h3 class="resource-heading">Assign Machine to User <a href="#machines-assign-machine-to-user" class="permalink">&nbsp;&para;</a></h3><div id="machines-assign-machine-to-user-delete" class="action delete"><h4 class="action-heading"><div class="name">Remove User From Machine</div><a href="#machines-assign-machine-to-user-delete" class="method delete">DELETE</a><code class="uri">/machines/{machine_id}/users/{user_id}</code></h4><h4>Example URI</h4><div class="definition"><span class="method delete">DELETE</span>&nbsp;<span class="uri"><span class="hostname"></span>/machines/<span class="hljs-attribute" title="machine_id">2</span>/users/<span class="hljs-attribute" title="user_id">1</span></span></div><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>user_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>id of user to Remove Machine</p>
 </dd><dt>machine_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>2</span></span><p>id of Machine</p>
-</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 10 Oct 2016</p><script>/* eslint-env browser */
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>204</code></strong></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 27 Oct 2016</p><script>/* eslint-env browser */
 /* eslint quotes: [2, "single"] */
 'use strict';
 

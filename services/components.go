@@ -51,6 +51,7 @@ type DisplayComponentInfo struct {
 	Incidents []Incidents
 	User User
 	Machine Machine
+	Machine_component_id int
 	Invoice_id int
 	Invoice_number string
 	Component string
@@ -71,6 +72,7 @@ type DisplayComponentInfo struct {
  type Machine struct {
  	Id int
  	Name string
+ 	Machine_component_id int
  }
 
 type User struct {
@@ -120,7 +122,7 @@ func DisplayComponentInformation(ComponentId int) []byte {
 
 	//Get Machine Information to which component connected if connected ...
 	machine := Machine{}
-	err3 := sess.Select("machines.id, machines.Name").
+	err3 := sess.Select("machines.id, machines.Name, machine_components.id AS Machine_component_id").
 		From("machines").
 		Join("machine_components","machine_components.machine_id = machines.id").
 		Where("machine_components.Component_id = ?", ComponentId).
@@ -152,19 +154,6 @@ func DisplayComponentInformation(ComponentId int) []byte {
 type Components struct {
 	Id int
 	Name string
-}
-
-func ListAllComponentsName() []byte {
-	sess := SetupDB()
-	components := []Components{}
-
-	sess.Select("id, name").
-		From("components").
-		LoadStruct(&components)
-
-	b, err := json.Marshal(components)
-	CheckErr(err)
-	return b
 }
 
 

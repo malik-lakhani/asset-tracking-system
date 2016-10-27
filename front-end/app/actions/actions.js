@@ -1,27 +1,39 @@
 import {
 
 	SET_FIELDS,
-	FETCH_USERS_SUCCESS, FETCH_USERS_FAILULER,
-  FETCH_MACHINES_SUCCESS, FETCH_MACHINES_FAILULER,
-  FETCH_COMPONENTS_SUCCESS, FETCH_COMPONENTS_FAILULER,
+	FETCH_USERS_SUCCESS, FETCH_USERS_FAILULER, EDIT_USER_SUCCESS, EDIT_USER_FAILULER,
+    DELETE_USER_SUCCESS, DELETE_USER_FAILULER,
+
+  FETCH_MACHINES_SUCCESS, FETCH_MACHINES_FAILULER, EDIT_MACHINE_SUCCESS, EDIT_MACHINE_FAILULER,
+    DELETE_MACHINE_SUCCESS, DELETE_MACHINE_FAILULER,FETCH_MACHINES_INFORMATION_SUCCESS,
+    FETCH_MACHINES_INFORMATION_FAILULER,
+
+  FETCH_COMPONENTS_SUCCESS, FETCH_COMPONENTS_FAILULER, FETCH_COMPONENT_INFORMATION_SUCCESS,
+    FETCH_COMPONENT_INFORMATION_FAILULER,
+
   FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILULER,
+
   FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER
 
 } from '../../constants';
 import axios from 'axios';
 
-// export const setFieldValue = (field, value) => ({
-// 	type: SET_FIELDS,
-// 	field,
-// 	value,
-// });
+
+export const setFieldValue = (field, value) => ({
+	type: SET_FIELDS,
+	field,
+	value,
+});
+
+
+//========================Actions Releated to Users=============================
 
 export const fetchUsers = ((All, dispatch) => {
 	const URL = "http://localhost:8000/users";
-	let all = true;
+	let all = false;
 
-	if(All == "all"){
-	  all = false;
+	if(All == true){
+	  all = true;
 	}
 	return function(dispatch) {
     axios.get(URL, { params: { all: all }})
@@ -35,15 +47,54 @@ export const fetchUsers = ((All, dispatch) => {
 		}
 });
 
-export const fetchMachines = ((All, dispatch) => {
-  const URL = "http://localhost:8000/machines";
-  let all = true;
+export const deleteUser = ((id) => {
+  let url = 'http://localhost:8000/users/'+id ;
+  return function() {
+    axios({
+      method: 'delete',
+      url: url
+    })
+      .then((response) => {
+        console.log(DELETE_USER_SUCCESS);
+      })
+      .catch((err) => {
+        console.log(DELETE_USER_FAILULER, ':', err);
+      })
+    }
+});
 
-  if(All == "all"){
-    all = false;
+export const editUser = ((row) => {
+  console.log('****', row);
+  let url = 'http://localhost:8000/users/' + row.Id ;
+  var information = {
+    'name' : row.Name,
+    'company_email' : row.Company_email
+  }
+  console.log('-->', information);
+  axios.PATCH(url, JSON.parse(information))
+    .then(function (res) {
+      console.log('response of patch : ', res);
+    })
+    .catch(function (err) {
+      console.log('error of patch : ', err);
+    });
+});
+
+//==============================================================================
+
+
+
+
+//========================Actions Releated to Machines =========================
+export const fetchMachines = ((Action, dispatch) => {
+  const URL = "http://localhost:8000/machines";
+  let allMachine = true;
+
+  if(Action == false){
+    allMachine = false;
   }
   return function(dispatch) {
-    axios.get(URL, { params: { all: all }})
+    axios.get(URL, { params: { all: allMachine }})
       .then((response) => {
         console.log('response Get machines:', response);
         dispatch({ type: FETCH_MACHINES_SUCCESS, response })
@@ -54,16 +105,69 @@ export const fetchMachines = ((All, dispatch) => {
     }
 });
 
+export const deleteMachine = ((id) => {
+  let url = 'http://localhost:8000/machines/'+id ;
+  return function() {
+    axios({
+      method: 'delete',
+      url: url
+    })
+      .then((response) => {
+        console.log(DELETE_MACHINE_SUCCESS);
+      })
+      .catch((err) => {
+        console.log(DELETE_MACHINE_FAILULER, ':', err);
+      })
+    }
+});
 
-export const fetchComponents = ((All, dispatch) => {
+export const editMachine = ((row) => {
+  // console.log('****', row);
+  let url = 'http://localhost:8000/machines/' + row.Id ;
+  // var information = {
+  //   'name' : row.Name,
+  //   'company_email' : row.Company_email
+  // }
+  // console.log('-->', information);
+  // axios.PATCH(url, JSON.parse(information))
+  //   .then(function (res) {
+  //     console.log('response of patch : ', res);
+  //   })
+  //   .catch(function (err) {
+  //     console.log('error of patch : ', err);
+  //   });
+});
+
+export const fetchMachineInformation = ((machineId) => {
+  const URL = "http://localhost:8000/machines/"+ machineId +"/components";
+  return function(dispatch) {
+    axios.get(URL)
+      .then((response) => {
+        console.log('response Get machine Information:', response);
+        dispatch({ type: FETCH_MACHINES_INFORMATION_SUCCESS, response })
+      })
+      .catch((err) => {
+        dispatch({ type: FETCH_MACHINES_INFORMATION_FAILULER, err})
+      })
+    }
+});
+
+//==============================================================================
+
+
+
+
+//========================Actions Releated to Components========================
+
+export const fetchComponents = ((Action, dispatch) => {
   const URL = "http://localhost:8000/components";
-  let all = true;
+  let allComponents = false;
 
-  if(All == "all"){
-    all = false;
+  if(Action == true) {
+    allComponents = true;
   }
   return function(dispatch) {
-    axios.get(URL, { params: { all: all }})
+    axios.get(URL, { params: { all: allComponents }})
       .then((response) => {
         console.log('response Get components:', response);
         dispatch({ type: FETCH_COMPONENTS_SUCCESS, response })
@@ -73,6 +177,34 @@ export const fetchComponents = ((All, dispatch) => {
       })
     }
 });
+
+export const fetchComponentDetails = ((componentId, dispatch) => {
+  let URL = `http://localhost:8000/components/${componentId}`
+
+  let allComponents = false;
+  return function(dispatch) {
+    axios.get(URL)
+      .then((response) => {
+        console.log('response Get components details:', response);
+        dispatch({ type: FETCH_COMPONENT_INFORMATION_SUCCESS, response })
+      })
+      .catch((err) => {
+        dispatch({ type: FETCH_COMPONENT_INFORMATION_FAILULER, err})
+      })
+    }
+});
+
+export const decommitComponentFromMachine = ((componentId, dispatch) => {
+  let URL = `http://localhost:8000/components/${componentId}`
+
+});
+
+//==============================================================================
+
+
+
+
+//========================Actions Releated to Invoices==========================
 
 export const fetchInvoices = ((dispatch) => {
   const URL = "http://localhost:8000/invoices";
@@ -88,6 +220,13 @@ export const fetchInvoices = ((dispatch) => {
     }
 });
 
+//==============================================================================
+
+
+
+
+//========================Actions Releated to Incidents=========================
+
 export const fetchIncidents = ((dispatch) => {
   const URL = "http://localhost:8000/incidents";
   return function(dispatch) {
@@ -102,5 +241,32 @@ export const fetchIncidents = ((dispatch) => {
     }
 });
 
+export const addIncident = ((component, recorder, title, description, dispatch) => {
+  const URL = "http://localhost:8000/incidents";
+  let data = {
+    component_id: component,
+    recorder: recorder,
+    title: title,
+    description: description
+  }
+  console.log("data is:", data);
+  return function( dispatch) {
+    axios.post(URL, data)
+      .then(function (response) {
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // axios.get(URL)
+    //   .then((response) => {
+    //     console.log('response Get invoices:', response);
+    //     dispatch({ type: FETCH_INCIDENTS_SUCCESS, response })
+    //   })
+    //   .catch((err) => {
+    //     dispatch({ type: FETCH_INCIDENTS_FAILULER, err})
+    //   })
+    }
+});
 
+//==============================================================================
 
