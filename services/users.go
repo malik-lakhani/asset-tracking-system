@@ -13,27 +13,32 @@ import (
 type UserInformation struct	{
 	Id int
 	Name string
-	Machine_id int
-	Machine_name string
+	Machine_id *int
+	Machine_name *string
 	Company_email string
 	Deleted_at time.Time
 }
 
 type UsersMachine struct {
 	User_id int64
-	Machine_id int
+	Machine_id string
 }
 
-func AddNewUser(name string, email string, machineId int) {
+type userInfo struct {
+	Name, Company_email, Machine_id string
+}
+
+
+func AddNewUser(name string, email string, machineId string) {
 	sess := SetupDB()
-	addUser := UserInformation{}
-	addUser.Name = name
-	addUser.Company_email = email
-	addUser.Machine_id = machineId
+	var m userInfo
+	m.Name = name
+	m.Company_email = email
+	m.Machine_id = machineId
 
 	_, err := sess.InsertInto("users").
 		Columns("name", "company_email").
-		Record(addUser).
+		Record(m).
 		Exec()
 	CheckErr(err)
 
@@ -44,7 +49,7 @@ func AddNewUser(name string, email string, machineId int) {
 
 	addUserMachine := UsersMachine{}
 	addUserMachine.User_id = lastInsertedId
-	addUserMachine.Machine_id = machineId
+	addUserMachine.Machine_id = m.Machine_id
 	// Insert user's machine's information ...
 	_, err1 := sess.InsertInto("users_machine").
 		Columns("user_id", "machine_id").
@@ -53,14 +58,10 @@ func AddNewUser(name string, email string, machineId int) {
 	CheckErr(err1)
 }
 
-type TemporaryUserInfo struct {
-	Name, Company_email, Machine_id, Machine string
-}
-
 func EditUserInfo(userId int, info string) {
 	sess := SetupDB()
 	dec := json.NewDecoder(strings.NewReader(info))
-	var m TemporaryUserInfo // decode updated information in temp structure ...
+	var m userInfo // decode updated information in temp structure ...
 	for {
 		if err := dec.Decode(&m); err == io.EOF {
 			break

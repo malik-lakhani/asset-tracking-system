@@ -1,6 +1,8 @@
  export const SET_FIELDS = 'SET_FIELDS';
 
 //constants for performing actions releted to 'USERS' ...
+export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS';
+export const ADD_USER_FAILULER = 'ADD_USER_FAILULER';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 export const FETCH_USERS_FAILULER = 'FETCH_USERS_FAILULER';
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';

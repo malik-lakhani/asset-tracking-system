@@ -2,7 +2,7 @@ import {
 
 	SET_FIELDS,
 	FETCH_USERS_SUCCESS, FETCH_USERS_FAILULER, EDIT_USER_SUCCESS, EDIT_USER_FAILULER,
-    DELETE_USER_SUCCESS, DELETE_USER_FAILULER,
+    DELETE_USER_SUCCESS, DELETE_USER_FAILULER, ADD_USER_SUCCESS, ADD_USER_FAILULER,
 
   FETCH_MACHINES_SUCCESS, FETCH_MACHINES_FAILULER, EDIT_MACHINE_SUCCESS, EDIT_MACHINE_FAILULER,
     DELETE_MACHINE_SUCCESS, DELETE_MACHINE_FAILULER,FETCH_MACHINES_INFORMATION_SUCCESS,
@@ -17,6 +17,7 @@ import {
 
 } from '../../constants';
 import axios from 'axios';
+import querystring from 'querystring';
 
 
 export const setFieldValue = (field, value) => ({
@@ -24,7 +25,6 @@ export const setFieldValue = (field, value) => ({
 	field,
 	value,
 });
-
 
 //========================Actions Releated to Users=============================
 
@@ -63,20 +63,66 @@ export const deleteUser = ((id) => {
     }
 });
 
-export const editUser = ((row) => {
-  console.log('****', row);
+export const editUser = ((row, machineId) => {
+  console.log('****', machineId);
   let url = 'http://localhost:8000/users/' + row.Id ;
   var information = {
     'name' : row.Name,
-    'company_email' : row.Company_email
+    'company_email' : row.Company_email,
+    'machine_id' : machineId
   }
-  console.log('-->', information);
-  axios.PATCH(url, JSON.parse(information))
-    .then(function (res) {
-      console.log('response of patch : ', res);
-    })
-    .catch(function (err) {
-      console.log('error of patch : ', err);
+
+   // axios({
+   //    method: 'patch',
+   //    url: url,
+   //    data: information
+   //  })
+   //    .then((response) => {
+   //      console.log('success');
+   //    })
+   //    .catch((err) => {
+   //      console.log(DELETE_USER_FAILULER, ':', err);
+   //    })
+
+
+  axios.patch(url,
+    querystring.stringify({
+      'name' : row.Name,
+      'company_email' : row.Company_email,
+      'machine_id' : machineId
+    }), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        // 'Access-Control-Allow-Methods': 'OPTIONS',
+        'Access-Control-Allow-Origin': '*'
+      }
+    }).then(function(response) {
+         console.log('success');
+    });
+
+  // axios.PATCH(url, information)
+  //   .then(function (res) {
+  //     console.log('response of patch : ', res);
+  //   })
+  //   .catch(function (err) {
+  //     console.log('error of patch : ', err);
+  //   });
+});
+
+export const addUser = ((row, machineId) => {
+  const url = "http://localhost:8000/users";
+
+   axios.post(url,
+    querystring.stringify({
+      'name' : row.Name,
+      'company_email' : row.Company_email,
+      'machine_id' : machineId
+    }), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }).then(function(response) {
+         console.log(ADD_USER_SUCCESS);
     });
 });
 
@@ -136,6 +182,22 @@ export const editMachine = ((row) => {
   //   .catch(function (err) {
   //     console.log('error of patch : ', err);
   //   });
+});
+
+export const addMachine = ((row) => {
+  console.log("machine name : ", row)
+  let url = 'http://localhost:8000/machines';
+
+  axios.post(url,
+    querystring.stringify({
+            name: row.Name
+    }), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }).then(function(response) {
+        console.log('response', response);
+    });
 });
 
 export const fetchMachineInformation = ((machineId) => {

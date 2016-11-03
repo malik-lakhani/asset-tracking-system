@@ -1,7 +1,7 @@
 package main
 
 import (
-		// "fmt"
+		"fmt"
 		"io/ioutil"
 		"net/http"
 		"strconv"
@@ -25,14 +25,16 @@ func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 func addUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	company_email := r.FormValue("company_email")
-	machine_id, err := strconv.Atoi(r.FormValue("machine_id")) // converting from string to int ...
-	services.CheckErr(err) //PATH : /services/functions.go
+	machine_id := r.FormValue("machine_id")
+	fmt.Println(name, company_email, machine_id)
 	services.AddNewUser(name, company_email, machine_id) //PATH : /services/users.go
 }
 
 func editUserInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	user_id, err := strconv.Atoi(c.URLParams["user_id"]) // converting from string to int ...
 	updated_data := r.FormValue("information")
+	fmt.Println(user_id, "--->", updated_data)
 	services.CheckErr(err)
 	services.EditUserInfo(user_id, updated_data) //PATH : /services/users.go
 }
