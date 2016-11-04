@@ -2,7 +2,7 @@ package services
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"io"
 	"log"
 	"strconv"
@@ -11,12 +11,12 @@ import (
 )
 
 type MachineInfo struct{
-	Id int
+	Id *int
 	Name string
-	User string
+	User *string
 	Deleted_at *time.Time
-	UserId int
-	UserName string
+	UserId *int
+	UserName *string
 }
 
 func AddNewMachine(name string) {
@@ -55,10 +55,10 @@ func DisplayMachines(allMachiens string) []byte {
 	sess := SetupDB()
 	machinesInfo := []MachineInfo{}
 
-	query := sess.Select("u.id, u.name as User, machines.name").
-	From("users u").
-    LeftJoin("users_machine", "u.id = users_machine.user_id").
-    LeftJoin("machines", "machines.id = users_machine.machine_id")
+	query := sess.Select("machines.id, users.name as User, machines.name").
+		From("machines").
+    LeftJoin("users_machine", "machines.id = users_machine.machine_id").
+    LeftJoin("users", "users.id = users_machine.user_id")
 
 	//display all machines or active machines only ...
 	if(allMachiens == "false") {
@@ -116,9 +116,10 @@ type AllInfoOfMachine struct {
 	Incidents[] AllIncidents
 	PastUses[] PastUses
 
-	Id int
-	Name string
-	UserName string
+	Id *int
+	Name *string
+	Machine *string
+	Created_at time.Time
 	UsingSince string
 }
 
@@ -126,13 +127,16 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	sess := SetupDB()
 	//all machine's information ....========
 	machineInfo := AllInfoOfMachine{}
-	query2 := sess.Select("machines.id, machines.name, users_machine.created_at AS UsingSince, users.id AS UserId, users.name AS UserName").
+	query2 := sess.Select("machines.id, machines.name AS Machine, users_machine.created_at, users.name, users.id AS UserId").
 		From("machines").
 		LeftJoin("users_machine","users_machine.machine_id = machines.id").
 		LeftJoin("users","users_machine.user_id = users.id").
 		Where("machines.id = ? AND users_machine.deleted_at IS NULL", machineId)
+
 		query2.LoadStruct(&machineInfo)
 
+		t := machineInfo.Created_at
+		machineInfo.UsingSince = t.Format("2006-01-02")
 	//==================================
 
 	//all information of machine's components ===========
@@ -160,13 +164,12 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		LoadStruct(&pastUses)
 
 	//merge all info of machine and it's components in single object=======
-	m := AllInfoOfMachine{}
-	m.PastUses = pastUses
-	m.Incidents = incidents
-	m.Components = MachineComponents
+	machineInfo.PastUses = pastUses
+	machineInfo.Incidents = incidents
+	machineInfo.Components = MachineComponents
 	//============================================
-		fmt.Println(".....", m)
-	b, err := json.Marshal(m)
+
+	b, err := json.Marshal(machineInfo)
 	CheckErr(err)
 	return b
 }

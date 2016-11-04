@@ -110,20 +110,20 @@ export const editUser = ((row, machineId) => {
 });
 
 export const addUser = ((row, machineId) => {
+  console.log("====", row, machineId)
   const url = "http://localhost:8000/users";
-
-   axios.post(url,
-    querystring.stringify({
-      'name' : row.Name,
-      'company_email' : row.Company_email,
-      'machine_id' : machineId
-    }), {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    }).then(function(response) {
-         console.log(ADD_USER_SUCCESS);
-    });
+  return function() {
+    axios.post(url,
+      querystring.stringify({
+        'name' : row.Name,
+        'company_email' : row.Company_email,
+        'machine_id' : machineId
+      }), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+    }
 });
 
 //==============================================================================

@@ -1,0 +1,19 @@
+.letterStyle {
+	border: 'solid';
+	borderWidth: '2px';
+	padding: '20px 25px 250px 100px';
+}
+
+.marginLeftRecord {
+	margin-left: -7%;
+}
+
+.paddingForm {
+  padding-top: 20px;
+}
+
+.textboxSize {
+  width: 170px;
+  height: 35px;
+  border-radius: 6px;
+}
