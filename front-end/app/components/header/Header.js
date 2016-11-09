@@ -26,6 +26,7 @@ class Header extends Component {
                   <li><Link to={`/machines`}> Machines </Link></li>
                   <li><Link to={`/incidents`}> Incidents </Link></li>
                   <li><Link to={`/users`}> Users </Link></li>
+                  <li><Link to={`/category`}> Category </Link></li>
                 </ul>
               </div>
             </div>

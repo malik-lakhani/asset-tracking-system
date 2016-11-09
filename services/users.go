@@ -2,7 +2,6 @@ package services
 
 import (
 				"encoding/json"
-				// "fmt"
 				"io"
 				"log"
 				"strings"
@@ -27,7 +26,6 @@ type UsersMachine struct {
 type userInfo struct {
 	Name, Company_email, Machine_id string
 }
-
 
 func AddNewUser(name string, email string, machineId string) {
 	sess := SetupDB()
@@ -78,13 +76,20 @@ func EditUserInfo(userId int, info string) {
 	CheckErr(err)
 }
 
-func DeleteUser(userId int) {
+func DeleteUser(userIds string) {
+	ids := strings.Split(userIds, ",")
 	sess := SetupDB()
-	_, err := sess.Update("users").
+
+	//deleting mulitple users ======
+	for i := 0; i<len(ids); i++  {
+		_, err := sess.Update("users").
 		Set("deleted_at", "NOW()").
-		Where("id = ?", userId).
+		Where("id = ?", ids[i]).
 		Exec()
-	CheckErr(err)
+		CheckErr(err)
+	}
+	//==============================
+
 }
 
 func DisplayUser(userId int) []byte {

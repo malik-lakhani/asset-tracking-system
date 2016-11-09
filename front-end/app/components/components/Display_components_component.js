@@ -30,6 +30,10 @@ class Display_components extends Component {
 
 	render() {
 		console.log("====>", this.props)
+		let components = [];
+		if(this.props.state.components.Components){
+			components = this.props.state.components.Components;
+		}
 		return (
 			<div>
 				<select name="select2" onChange={this.filterComponents} className="selectpicker" data-width="auto">
@@ -37,12 +41,12 @@ class Display_components extends Component {
 					<option value="all">All</option>
 				</select>
 				<div>
-					<BootstrapTable data={this.props.state.components.Components}
+					<BootstrapTable data={components}
 													pagination={true}
 													striped={true}
 													search={true}
 													hover={true}>
-						<TableHeaderColumn width="50" isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
+						<TableHeaderColumn isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
 						<TableHeaderColumn width="180" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
 						<TableHeaderColumn width="150" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
 						<TableHeaderColumn width="100" dataSort={true} dataField="Active">Active</TableHeaderColumn>

@@ -42,13 +42,20 @@ func EditMachineInfo(id int, name string) {
 	CheckErr(err)
 }
 
-func DeleteMachine(id int) {
+func DeleteMachine(machineIds string) {
+	ids := strings.Split(machineIds, ",")
 	sess := SetupDB()
-	_, err := sess.Update("machines").
+
+	//deleting mulitple users ======
+	for i := 0; i<len(ids); i++  {
+		_, err := sess.Update("machines").
 		Set("deleted_at", "NOW()").
-		Where("id = ?", id).
+		Where("id = ?", ids[i]).
 		Exec()
-	CheckErr(err)
+		CheckErr(err)
+	}
+	//==============================
+
 }
 
 func DisplayMachines(allMachiens string) []byte {

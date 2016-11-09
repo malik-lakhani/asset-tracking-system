@@ -24,23 +24,24 @@ class Machine_information extends Component {
 	componentDidMount() {
 		let { machineId } = this.props.params;
 		this.props.actions.fetchMachineInformation(machineId);
-		// this.displayComponents(machineId); 
 	}
 
 	render() {
 		//null data will be pass to datatable if database contains no data ....
     let MachineName = '';
     let UsingSince = '';
+    let CurrentUser = '';
     let PastUses = [];
     let Components = [];
-    let incidents = [];
+    let Incidents = [];
 
     if(this.props.props.machines.Machines.Name) {
-      MachineName = this.props.props.machines.Machines.Name;
+      MachineName = this.props.props.machines.Machines.Machine;
+      CurrentUser = this.props.props.machines.Machines.Name;
       UsingSince = this.props.props.machines.Machines.UsingSince;
       PastUses = this.props.props.machines.Machines.PastUses;
       Components = this.props.props.machines.Machines.Components;
-      incidents = this.props.props.machines.Machines.Incidents;
+      Incidents = this.props.props.machines.Machines.Incidents;
     }
 
 		let letterStyle = {
@@ -52,11 +53,11 @@ class Machine_information extends Component {
 		return (
 
 			<div >
-				<h1>Machine name</h1>
+				<h1>{ MachineName }</h1>
 				<div style={letterStyle}>
 					<div>
 						<div className="col-lg-offset-1">
-							<Field component={rendreLabel} label="Current User" /> <Link to={`/users`}>{ MachineName }< /Link>
+							<Field component={rendreLabel} label="Current User" /> <Link to={`/users`}> { CurrentUser } </Link>
 						</div>
 						<div className="col-lg-offset-1">
 							<Field component={rendreLabel} label="Using Since" /> { UsingSince }
@@ -69,12 +70,12 @@ class Machine_information extends Component {
 					</div>
 					<div>
 						<BootstrapTable data={ Components } pagination={true} search={true} striped={true} hover={true}>
-						<TableHeaderColumn width="20"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
-						<TableHeaderColumn width="50" dataSort={true} dataField="SerialNo">Serial</TableHeaderColumn>
-						<TableHeaderColumn width="100" dataSort={true} dataField="Name">Name</TableHeaderColumn>
-						<TableHeaderColumn width="180"  dataSort={true} dataField="Description" >Description</TableHeaderColumn>
-						<TableHeaderColumn width="60"  dataSort={true} dataField="Warranty_till" >Warranty Till</TableHeaderColumn>
-						<TableHeaderColumn width="60"  dataSort={true} dataField="Created_at" >Add On</TableHeaderColumn>
+							<TableHeaderColumn width="20"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
+							<TableHeaderColumn width="50" dataSort={true} dataField="SerialNo">Serial</TableHeaderColumn>
+							<TableHeaderColumn width="100" dataSort={true} dataField="Name">Name</TableHeaderColumn>
+							<TableHeaderColumn width="180"  dataSort={true} dataField="Description" >Description</TableHeaderColumn>
+							<TableHeaderColumn width="60"  dataSort={true} dataField="Warranty_till" >Warranty Till</TableHeaderColumn>
+							<TableHeaderColumn width="60"  dataSort={true} dataField="Created_at" >Add On</TableHeaderColumn>
 						</BootstrapTable>
 					</div>
 
@@ -82,7 +83,7 @@ class Machine_information extends Component {
 						<h4><b> Incident(s) </b></h4>
 					</div>
 					<div>
-						<BootstrapTable data={ incidents } pagination={true} search={true} striped={true} hover={true}>
+						<BootstrapTable data={ Incidents } pagination={true} search={true} striped={true} hover={true}>
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
 						<TableHeaderColumn width="180" dataSort={true} dataField="Title">Title</TableHeaderColumn>
 						<TableHeaderColumn width="200" dataSort={true} dataField="Description">Description</TableHeaderColumn>

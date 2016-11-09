@@ -48,7 +48,6 @@ class Display_incidents extends Component {
 				<div>
 					<BootstrapTable data={this.props.state.incidents.Incidents} pagination={true} search={true} striped={true} hover={true}>
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true} hidden={true}>#</TableHeaderColumn>
-						<TableHeaderColumn width="120" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
 						<TableHeaderColumn width="120" dataSort={true} dataField="Component">Component</TableHeaderColumn>
 						<TableHeaderColumn width="200" dataSort={true} dataField="Title" dataFormat={incidentInformation} >Title</TableHeaderColumn>
 						<TableHeaderColumn width="300" dataSort={true} dataField="Description">Description</TableHeaderColumn>

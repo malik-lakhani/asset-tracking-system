@@ -17,7 +17,7 @@ const initialState =
     machine: ''
   }
 
-export default function users (state = initialState, action) {
+export default function incidents (state = initialState, action) {
   switch (action.type) {
     case FETCH_INCIDENTS_SUCCESS:
       return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:true, err:''});

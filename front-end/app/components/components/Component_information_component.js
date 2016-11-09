@@ -121,11 +121,14 @@ class Component_information extends Component {
 							<Field component={rendreLabel} label="Machine" /> <Link to={`/machines/${MachineId}/components`} > { MachineName } </Link>
 						</div>
 					</div>
-					<div>
-						<div className=" col-lg-4 col-lg-offset-2">
-							<Field component={rendreLabel} label="Description" /> { this.props.props.components.Components.Description }
+					<div className="clearfix form-group">
+
+						<div className="col-lg-2 col-lg-offset-2">
+							<label >Description</label>
+							<textarea disabled className="textAreaSize" name="Description" value={  this.props.props.components.Components.Description  } />
 						</div>
-						<div>
+
+						<div className="col-lg-2 col-lg-offset-2">
 							<Field component={rendreLabel} label="User" /> { User }
 						</div>
 					</div>

@@ -5,16 +5,16 @@ import axios from 'axios';
 import './styles.css';
 
 var selectRowProp = {
-  mode: "radio",
-  clickToSelect: true,
-  bgColor: "rgb(238, 193, 213)"
+	mode: "checkbox",
+	clickToSelect: true,
+	bgColor: "rgb(238, 193, 213)"
 };
 
 function Validator(value){
-  if(!value){
-    return 'required!'
-  }
-  return true;
+	if(!value){
+		return 'required!'
+	}
+	return true;
 }
 
 let MachineNames = [];
@@ -34,8 +34,8 @@ class Display_users extends Component {
 	editUser(row, cellName, cellValue) {
 		let indexOfMachineId = MachineNames.indexOf(cellValue);
 		let MachineId = MachineIds[indexOfMachineId]
-    this.props.actions.editUser(row, MachineId);
-  }
+		this.props.actions.editUser(row, MachineId);
+	}
 
 	addUser(row) {
 		console.log("add new user : ", row);
@@ -44,8 +44,8 @@ class Display_users extends Component {
 		this.props.actions.addUser(row, MachineId);
 	}
 
-  deleteUser(id) {
-  	this.props.actions.deleteUser(id);
+	deleteUser(id) {
+		this.props.actions.deleteUser(id);
 	}
 
 	filterUsers(e) {
@@ -56,10 +56,10 @@ class Display_users extends Component {
 		this.props.actions.fetchUsers(all, this.props.dispatch);
 	}
 
- 	componentDidMount() {
-    this.props.actions.fetchUsers(false, this.props.dispatch);
-    this.props.actions.fetchMachines(false, this.props.dispatch);
-  }
+	componentDidMount() {
+		this.props.actions.fetchUsers(false, this.props.dispatch);
+		this.props.actions.fetchMachines(false, this.props.dispatch);
+	}
 
 	render() {
 		let MachineId;

@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import './styles.css';
 
 var selectRowProp = {
-  mode: "radio",
+  mode: "checkbox",
   clickToSelect: true,
   bgColor: "rgb(238, 193, 213)"
 };
@@ -56,17 +56,15 @@ class Display_machines extends Component {
 
 	componentDidMount() {
 		this.props.actions.fetchMachines(false, this.props.dispatch);
+		this.props.actions.fetchUsers(false, this.props.dispatch);
 	}
 
 	render() {
 		let userId;
-
-		for(let i = 0; i < this.props.state.machines.Machines.length; i++) {
-			console.log('-->', this.props.state.machines.Machines)
-			userIds[i] = this.props.state.machines.Machines[i].UserId;
-			userNames[i] = this.props.state.machines.Machines[i].User;
+		for(let i = 0; i < this.props.state.users.AllUsers.length; i++) {
+			userIds[i] = this.props.state.users.AllUsers[i].Id;
+			userNames[i] = this.props.state.users.AllUsers[i].Name;
 		}
-
 
 		return (
 			<div>

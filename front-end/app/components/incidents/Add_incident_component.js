@@ -5,10 +5,6 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import './styles.css';
 
-function logChange(val) {
-			console.log("Selected: " + val);
-	}
-
 class Add_incident extends Component {
 	constructor(props) {
 		super(props);
@@ -39,7 +35,6 @@ class Add_incident extends Component {
 	}
 
 	handleComponentsChange(event) {
-		var value = event.value;
 		this.setState({component: event.value});
 	}
 
@@ -73,21 +68,21 @@ class Add_incident extends Component {
 				<div style={letterStyle}>
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
-							<label >Recorder</label>
+							<label >Recorder*</label>
 							<input className="textboxSize" type="text" value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="recorder" />
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
-							<label >Machine</label>
+							<label >Machine*</label>
 							<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
 						</div>
 					</div>
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
-							<label >Title</label>
+							<label >Title*</label>
 							<input className="textboxSize" type="text" value={ this.props.props.incidents.title } name="Title" id="title" onChange={ this.handleFields } placeholder="title"/>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
-							<label >Component</label>
+							<label >Component*</label>
 							<Select name="form-field-name" value={ this.state.component } options={ Components } onChange={ this.handleComponentsChange } />
 						</div>
 					</div>

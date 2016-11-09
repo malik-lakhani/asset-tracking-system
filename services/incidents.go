@@ -14,7 +14,7 @@ type IncidentInfo struct {
 	Component string
 	Warranty_timestamp time.Time
 	Warranty_till string
-	Machine string
+	Machine *string
 	Description string
 	Status string
 	Resolved_at *time.Time
@@ -76,12 +76,14 @@ func DisplayIncidents() []byte {
 	sess := SetupDB()
 	incidentInfo := []IncidentInfo{}
 
-	sess.Select("i.id, i.title, i.description, i.status, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
+	query := sess.Select("i.id, i.title, i.description, i.status, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
 		From("incidents i").
 		LeftJoin("components", "i.component_id = components.id").
 		LeftJoin("machine_components", "i.component_id = machine_components.component_id").
-		LeftJoin("machines", "machines.id = machine_components.component_id").
-		LoadStruct(&incidentInfo)
+		LeftJoin("machines", "machines.id = machine_components.component_id")
+		sql,_ := query.ToSql()
+		fmt.Println("query", sql)
+		query.LoadStruct(&incidentInfo)
 
 		fmt.Println("-->", incidentInfo)
 

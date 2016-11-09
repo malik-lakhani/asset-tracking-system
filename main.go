@@ -14,6 +14,8 @@ import (
  )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	all := r.URL.Query().Get("all")//either display all users or only active users ...
 	if all != "true"{//true for display all users ...
 		all = "false" // false for display only active users ...
@@ -23,29 +25,36 @@ func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func addUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	name := r.FormValue("name")
 	company_email := r.FormValue("company_email")
 	machine_id := r.FormValue("machine_id")
-	fmt.Println(name, company_email, machine_id)
 	services.AddNewUser(name, company_email, machine_id) //PATH : /services/users.go
 }
 
 func editUserInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	user_id, err := strconv.Atoi(c.URLParams["user_id"]) // converting from string to int ...
 	updated_data := r.FormValue("information")
-	fmt.Println(user_id, "--->", updated_data)
 	services.CheckErr(err)
 	services.EditUserInfo(user_id, updated_data) //PATH : /services/users.go
 }
 
 func deleteUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	user_id, err := strconv.Atoi(c.URLParams["user_id"]) // converting from string to int ...
-	services.CheckErr(err)
-	services.DeleteUser(user_id) //PATH : /services/users.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	ids := c.URLParams["user_id"]
+	fmt.Println("ids : ", ids)
+	services.DeleteUser(ids) //PATH : /services/users.go
 }
 
 func displayOneUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	user_id, err := strconv.Atoi(c.URLParams["user_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	b := services.DisplayUser(user_id) //PATH : /services/users.go
@@ -53,6 +62,8 @@ func displayOneUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func machinesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	all := r.URL.Query().Get("all") //either display all machines or only active machines ...
 	if all != "true"{
 		all = "false"
@@ -62,11 +73,15 @@ func machinesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func addMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	name := r.FormValue("name")
 	services.AddNewMachine(name) //PATH : /services/machines.go
 }
 
 func editMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	name := r.FormValue("name")
@@ -74,18 +89,23 @@ func editMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
-	services.CheckErr(err)
-	services.DeleteMachine(id) //PATH : /services/machines.go
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	ids := c.URLParams["machine_id"]
+	services.DeleteMachine(ids) //PATH : /services/machines.go
 }
 
 func displayMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	services.DisplayMachine(id) //PATH : /services/machines.go
 }
 
 func machineComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	all := r.URL.Query().Get("all") //either display all components or only active components ...
@@ -97,6 +117,8 @@ func machineComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func addComponentsToMachine(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	machine_id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	components_details := r.FormValue("information")
@@ -104,6 +126,8 @@ func addComponentsToMachine(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func removeComponentsFromMachine(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	machine_id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	component_id, err2 := strconv.Atoi(c.URLParams["component_id"]) // converting from string to int ...
@@ -112,6 +136,8 @@ func removeComponentsFromMachine(c web.C, w http.ResponseWriter, r *http.Request
 }
 
 func changeUserFromMachine(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	machine_id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	user_id, err2 := strconv.Atoi(c.URLParams["user_id"]) // converting from string to int ...
@@ -120,28 +146,39 @@ func changeUserFromMachine(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func InvoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	b := services.DisplayInvoices() //PATH : /services/invoices.go
 	w.Write([]byte(b))
 }
 
 func addInvoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	body, err3 := ioutil.ReadAll(r.Body) // read all dara of form ...
 	services.CheckErr(err3)
 	services.AddInvoice(string(body)) //PATH : /services/invoices.go
 }
 
 func incidentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	response := services.DisplayIncidents() //PATH : /services/incidents.go
 	w.Write([]byte(response))
 }
 
 func addIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	body, err := ioutil.ReadAll(r.Body) // read all dara of form ...
+	fmt.Println("---->", body)
 	services.CheckErr(err)
 	services.AddIncident(string(body)) //PATH : /services/incidents.go
 }
 
 func editIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	incident_id, err := strconv.Atoi(c.URLParams["incidents_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	componentId, err2 :=  strconv.Atoi(r.FormValue("component_id")) // converting from string to int ...
@@ -152,12 +189,16 @@ func editIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	incident_id, err := strconv.Atoi(c.URLParams["incidents_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	services.DeleteIncident(incident_id) //PATH : /services/incidents.go
 }
 
 func displayIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	incidents_id, err := strconv.Atoi(c.URLParams["incidents_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	response := services.DisplayIncident(incidents_id) //PATH : /services/incidents.go
@@ -165,6 +206,8 @@ func displayIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func incidentsUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	component_id, err := strconv.Atoi(r.FormValue("component_id")) // converting from string to int ...
 	services.CheckErr(err)
 	incident_id, err1 := strconv.Atoi(r.FormValue("incidents_id")) // converting from string to int ...
@@ -174,6 +217,8 @@ func incidentsUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	all := r.URL.Query().Get("all") //either display all components or only active components ...
 	if all != "true"{
 		all = "false"
@@ -183,16 +228,60 @@ func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func componentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	fmt.Println("called")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	component_id, err := strconv.Atoi(c.URLParams["component_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	response := services.DisplayComponentInformation(component_id) //PATH : /services/components.go
 	w.Write([]byte(response))
 }
 
-func saveHandler(w http.ResponseWriter, r *http.Request) {
-    // allow cross domain AJAX requests
-    w.Header().Set("Access-Control-Allow-Origin", "*")
+func categoriesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	all := r.URL.Query().Get("all")//either display all users or only active users ...
+	if all != "true"{//true for display all users ...
+		all = "false" // false for display only active users ...
+	} // default it will display active users only ...
+	b := services.DisplayCategories(all)
+	w.Write([]byte(b))
 }
+
+func addCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	category := r.FormValue("category")
+	description := r.FormValue("description")
+	fmt.Println(category, description)
+	services.AddNewCategory(category, description) //PATH : /services/category.go
+}
+
+func editCategoryInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	category_id, err := strconv.Atoi(c.URLParams["category_id"]) // converting from string to int ...
+	updated_data := r.FormValue("information")
+	services.CheckErr(err)
+	services.EditCategoryInfo(category_id, updated_data) //PATH : /services/users.go
+}
+
+func deleteCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	ids := c.URLParams["category_id"]
+	services.DeleteCategory(ids) //PATH : /services/users.go
+}
+
+// func displayOneCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+// 	category_id, err := strconv.Atoi(c.URLParams["category_id"]) // converting from string to int ...
+// 	services.CheckErr(err)
+// 	b := services.DisplayCategory(user_id) //PATH : /services/users.go
+// 	w.Write([]byte(b))
+// }
 
 func main() {
 	//dealing with users ...
@@ -227,7 +316,12 @@ func main() {
 
 	//dealing with components ...
 	goji.Get("/components", componentsHandler)
+	goji.Get("/components/categories", categoriesHandler)
 	goji.Get("/components/:component_id", componentInfoHandler)
+	goji.Post("/components/categories", addCategoryHandler)
+	goji.Patch("/components/categories/:category_id", editCategoryInfoHandler)
+	goji.Delete("/components/categories/:category_id", deleteCategoryHandler)
+	// goji.Get("/categories/:category_id", displayOneCategoryHandler)
 
 	goji.Serve()
 }
