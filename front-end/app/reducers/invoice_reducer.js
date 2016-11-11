@@ -1,33 +1,26 @@
 import {
   FETCH_INVOICES_SUCCESS,
   FETCH_INVOICES_FAILULER,
-  SET_FIELDS_INVOICES
+  SET_FIELDS_INVOICES,
+  SET_FIELDS_INVOICES_COMPONENT,
+  FETCH_ONE_INVOICE_SUCCESS,
+  FETCH_ONE_INVOICE_FAILULER
 } from '../../constants';
 
 const initialState =
   {
+    invoice: '',
+    invoicer: '',
+    contact: '',
+    description: '',
+    address: '',
+
     Invoices: [],
     isFetching : true,
     fetched : false,
     err : '',
 
     data: [],
-    index: [],
-
-    serialNos: {},
-    serialNo: {},
-
-    componentName: {},
-    componentNames: {},
-
-    description: {},
-    descriptions: {},
-
-    category: {},
-    categories: {},
-
-    warranty: {},
-    warrantyDates: {}
   }
 
 export default function invoices (state = initialState, action) {
@@ -38,64 +31,32 @@ export default function invoices (state = initialState, action) {
     case FETCH_INVOICES_FAILULER:
       return Object.assign({}, state, { Invoices: action.response.data, isFetching:false, fetched:false, err:err});
 
+    case FETCH_ONE_INVOICE_SUCCESS:
+      console.log("action - > ", action)
+
+      console.log(this.state, "<-")
+      // return Object.assign({}, state, { Invoices: "bbb  ", isFetching:false, fetched:false, err:"err"});
+
+    case FETCH_ONE_INVOICE_FAILULER:
+      // return Object.assign({}, state, { Invoices: "aaa", isFetching:false, fetched:false, err:"err"});
+
+
     case SET_FIELDS_INVOICES:
-      let componentIndex = action.field.split('_')[1];
-      state.index.push(componentIndex)
-      let index = state.index.length;
-      let previousIndex = state.index[index - 2]
-
-      if(previousIndex == undefined) {
-        previousIndex = 0;
-      }
-
-      if(action.field.includes("serial")) {
-        if(componentIndex == previousIndex) {
-          let serialNo = "serialNo" + componentIndex
-          state.serialNo[serialNo] = action.value;
-        } else {
-          let serialNo = "serialNo" + componentIndex
-          state.serialNos["serialNo"] = state.serialNo
-        }
-      } else if (action.field.includes("component")) {
-        if(componentIndex == previousIndex) {
-          let component = "component" + componentIndex
-          state.componentName[component] = action.value;
-        } else {
-          let component = "component" + componentIndex
-          state.componentNames["component"] = state.componentName
-        }
-      } else if (action.field.includes("description")) {
-        if(componentIndex == previousIndex) {
-          let description = "description" + componentIndex
-          state.description[description] = action.value;
-        } else {
-          let description = "description" + componentIndex
-          state.descriptions["description"] = state.description
-        }
-      } else if (action.field.includes("category")) {
-        if(componentIndex == previousIndex) {
-          let category = "category" + componentIndex
-          state.category[category] = action.value;
-        } else {
-          let category = "category" + componentIndex
-          state.categories["category"] = state.category
-        }
-      } else if (action.field.includes("warranty")) {
-        if(componentIndex == previousIndex) {
-          let warranty = "warranty" + componentIndex
-          state.warranty[warranty] = action.value;
-        } else {
-          let warranty = "warranty" + componentIndex
-          state.warrantyDates["warranty"] = state.warranty
-        }
-      }
-
-      // if(componentIndex == tempIndex)
-      // var component = state;
+      console.log("from invoice reducer : ", action)
       let newState = {};
-      state.data[componentIndex]
       newState[action.field] = action.value;
-      state.data.push(newState)
+      return Object.assign({}, state, newState);
+
+     case SET_FIELDS_INVOICES_COMPONENT:
+      let componentIndex = action.field.split('_')[1];
+      var warranty = state.data;
+      if (warranty[componentIndex]) {
+        warranty[componentIndex][action.field] = action.value;
+      } else {
+        var warrantyObj = {};
+        warrantyObj[action.field] = action.value;
+        warranty.push(warrantyObj);
+      }
 
       return Object.assign({}, state.data, state);
 

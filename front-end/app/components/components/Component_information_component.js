@@ -28,8 +28,7 @@ class Component_information extends Component {
 	}
 
 	handleSubmit(event) {
-		console.log('props-->', this.props);
-		console.log('changed machine-->', this.state.machine);
+		this.props.actions.changeMachine(this.props.params.componentId, this.state.machine)
 	}
 
 	render() {
@@ -70,7 +69,7 @@ class Component_information extends Component {
 		return (
 			<div >
 
-			{/*================= Model for change machine ....========================*/}
+			{/*================= Model for change machine ....=====================*/}
 				<div id="changeMachine" className="modal fade" role="dialog">
 					<div className="modal-dialog">
 						<div className="modal-content">
@@ -92,7 +91,6 @@ class Component_information extends Component {
 					</div>
 				</div>
 			{/* ======================================================================*/}
-
 
 				<div className="clearfix">
 					<div className="col-lg-1">
@@ -122,12 +120,10 @@ class Component_information extends Component {
 						</div>
 					</div>
 					<div className="clearfix form-group">
-
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Description</label>
 							<textarea disabled className="textAreaSize" name="Description" value={  this.props.props.components.Components.Description  } />
 						</div>
-
 						<div className="col-lg-2 col-lg-offset-2">
 							<Field component={rendreLabel} label="User" /> { User }
 						</div>
@@ -142,11 +138,11 @@ class Component_information extends Component {
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
 						<TableHeaderColumn width="180" dataSort={true} dataField="Title">Title</TableHeaderColumn>
 						<TableHeaderColumn width="200" dataSort={true} dataField="Description">Description</TableHeaderColumn>
+						<TableHeaderColumn width="100" dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Status" >Status</TableHeaderColumn>
 						</BootstrapTable>
 					</div>
 				</div>
-
 			</div>
 		)
 	}

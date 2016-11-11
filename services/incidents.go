@@ -40,15 +40,17 @@ func AddIncident(data string) {
 	CheckErr(err3)
 }
 
-func EditIncident(incidentId int, componentsId int, title string, description string) {
+func EditIncident(incidentId int, componentId string, recorder string, title string, description string) {
 	sess := SetupDB()
-	_, err := sess.Update("incidents").
-		Set("component_id", componentsId).
-		Set("title", title).
+	query := sess.Update("incidents")
+		if(componentId != "") {
+			query.Set("component_id", componentId)
+		}
+		query.Set("title", title).
 		Set("description", description).
+		Set("recorder", recorder).
 		Where("id = ?", incidentId).
 		Exec()
-	CheckErr(err)
 }
 
 func DeleteIncident(incidentId int) {
@@ -76,7 +78,7 @@ func DisplayIncidents() []byte {
 	sess := SetupDB()
 	incidentInfo := []IncidentInfo{}
 
-	query := sess.Select("i.id, i.title, i.description, i.status, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
+	query := sess.Select("i.id, i.title, i.description, i.status, i.recorder, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
 		From("incidents i").
 		LeftJoin("components", "i.component_id = components.id").
 		LeftJoin("machine_components", "i.component_id = machine_components.component_id").

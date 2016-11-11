@@ -7,12 +7,21 @@ function incidentInformation(cell, row){
 	return <Link to={`/components/${row.Id}`}>{ cell }</Link>
 }
 
+let Components = [];
+let ComponentIds = [];
 class Display_incidents extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 		};
 		this.filterIncidents = this.filterIncidents.bind(this);
+		this.editIncident = this.editIncident.bind(this);
+	}
+
+	editIncident(row, cellName, cellValue){
+		let indexOfComponentId = Components.indexOf(cellValue);
+		let ComponentId = ComponentIds[indexOfComponentId]
+		this.props.actions.editIncident(row, ComponentId);
 	}
 
 	filterIncidents(e) {
@@ -25,9 +34,17 @@ class Display_incidents extends Component {
 
 	componentDidMount() {
 		this.props.actions.fetchIncidents(false); 
+		this.props.actions.fetchComponents(false);
 	}
 
 	render() {
+		let ComponentId;
+		for(let i = 0; i < this.props.state.components.Components.length; i++) {
+			ComponentIds[i] = this.props.state.components.Components[i].Id;
+			Components[i] = this.props.state.components.Components[i].Name;
+		}
+
+
 		var marginLeftRecord = {
 			marginleft: '-7%',
 		};
@@ -46,13 +63,23 @@ class Display_incidents extends Component {
 					</div>
 				</div>
 				<div>
-					<BootstrapTable data={this.props.state.incidents.Incidents} pagination={true} search={true} striped={true} hover={true}>
-						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true} hidden={true}>#</TableHeaderColumn>
-						<TableHeaderColumn width="120" dataSort={true} dataField="Component">Component</TableHeaderColumn>
+					<BootstrapTable data={this.props.state.incidents.Incidents}
+													pagination={true}
+													search={true}
+													striped={true}
+													cellEdit={{
+						                mode: "click",
+						                blurToSave: true,
+						                afterSaveCell: this.editIncident
+					                }}
+													hover={true}>
+						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" editable={false} isKey={true} hidden={true}>#</TableHeaderColumn>
+						<TableHeaderColumn width="120" dataSort={true} dataField="Component" editable={{type:'select', options:{ values:Components }}}>Component</TableHeaderColumn>
 						<TableHeaderColumn width="200" dataSort={true} dataField="Title" dataFormat={incidentInformation} >Title</TableHeaderColumn>
 						<TableHeaderColumn width="300" dataSort={true} dataField="Description">Description</TableHeaderColumn>
-						<TableHeaderColumn width="80"  dataSort={true} dataField="Warranty_till">Warranty</TableHeaderColumn>
-						<TableHeaderColumn width="60"  dataSort={true} dataField="Status">Status</TableHeaderColumn>
+						<TableHeaderColumn width="160"  dataSort={true} dataField="Warranty_till" editable={false}>Warranty(YYYY-MM-DD)</TableHeaderColumn>
+						<TableHeaderColumn width="80"  dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>
+						<TableHeaderColumn width="60"  dataSort={true} dataField="Status" editable={false}>Status</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
 			</div>

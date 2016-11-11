@@ -57,8 +57,8 @@ class Display_users extends Component {
 	}
 
 	componentDidMount() {
-		this.props.actions.fetchUsers(false, this.props.dispatch);
-		this.props.actions.fetchMachines(false, this.props.dispatch);
+		this.props.actions.fetchUsers(false);
+		this.props.actions.fetchMachines(false);
 	}
 
 	render() {

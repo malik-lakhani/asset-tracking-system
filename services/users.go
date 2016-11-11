@@ -2,8 +2,6 @@ package services
 
 import (
 				"encoding/json"
-				"io"
-				"log"
 				"strings"
 				"time"
 )
@@ -56,24 +54,22 @@ func AddNewUser(name string, email string, machineId string) {
 	CheckErr(err1)
 }
 
-func EditUserInfo(userId int, info string) {
+func EditUserInfo(userId int, name string, company_email string, machine_id string) {
 	sess := SetupDB()
-	dec := json.NewDecoder(strings.NewReader(info))
-	var m userInfo // decode updated information in temp structure ...
-	for {
-		if err := dec.Decode(&m); err == io.EOF {
-			break
-		} else if err != nil {
-			log.Fatal(err)
-		}
-	}
+
 	_, err := sess.Update("users").
-		Set("name", m.Name).
-		Set("company_email", m.Company_email).
+		Set("name", name).
+		Set("company_email", company_email).
 		Set("modified_at", "NOW()").
 		Where("id = ?", userId).
 		Exec()
 	CheckErr(err)
+
+	_, err2 := sess.Update("users_machine").
+		Set("machine_id", machine_id).
+		Where("user_id = ?", userId).
+		Exec()
+	CheckErr(err2)
 }
 
 func DeleteUser(userIds string) {

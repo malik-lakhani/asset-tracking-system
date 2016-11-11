@@ -29,7 +29,6 @@ class Display_components extends Component {
 	}
 
 	render() {
-		console.log("====>", this.props)
 		let components = [];
 		if(this.props.state.components.Components){
 			components = this.props.state.components.Components;
@@ -47,10 +46,11 @@ class Display_components extends Component {
 													search={true}
 													hover={true}>
 						<TableHeaderColumn isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
-						<TableHeaderColumn width="180" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
-						<TableHeaderColumn width="150" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
-						<TableHeaderColumn width="100" dataSort={true} dataField="Active">Active</TableHeaderColumn>
-						<TableHeaderColumn width="120" dataField="Warranty_till">Warranty Till</TableHeaderColumn>
+						<TableHeaderColumn width="120" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
+						<TableHeaderColumn width="120" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
+						<TableHeaderColumn width="70" dataSort={true} dataField="Active">Active</TableHeaderColumn>
+						<TableHeaderColumn width="150" dataSort={true} dataField="Category">Category</TableHeaderColumn>
+						<TableHeaderColumn width="140" dataField="Warranty_till">Warranty Till(Y-M-D)</TableHeaderColumn>
 						<TableHeaderColumn hidden={true} dataField="invoice_id">Invoice</TableHeaderColumn>
 						<TableHeaderColumn width="240" dataSort={true} dataField="Description">Description</TableHeaderColumn>
 						<TableHeaderColumn width="150" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>

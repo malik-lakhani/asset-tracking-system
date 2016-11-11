@@ -3,9 +3,6 @@ package services
 import (
 	"encoding/json"
 	// "fmt"
-	"io"
-	"log"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -167,7 +164,7 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	sess.Select("users_machine.created_at AS Begin, users_machine.deleted_at AS End, users.name AS User").
 		From("users_machine").
 		Join("users", "users_machine.user_id = users.id").
-		Where("users_machine.machine_id = ? AND users_machine.deleted_at IS NULL", machineId).
+		Where("users_machine.machine_id = ?", machineId).
 		LoadStruct(&pastUses)
 
 	//merge all info of machine and it's components in single object=======
@@ -182,37 +179,26 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 }
 
 type MachineComponents struct{
-	Id, Machine_id, Name, Component_id, Component_name string
-	Components_id, Components_name []string
+	MachineId int
+	ComponentId int
 }
 
-func AddComponentsToMachine(machineId int, componentsInfo string) {
+func AddComponentsToMachine(machineId int, componentId int) {
 	sess := SetupDB()
-	dec := json.NewDecoder(strings.NewReader(componentsInfo))
-	var m MachineComponents // decode all information in structure ...
-	for {
-		if err := dec.Decode(&m); err == io.EOF {
-			break
-		} else if err != nil {
-			log.Fatal(err)
-		}
-	}
-	m.Machine_id = strconv.Itoa(machineId)
+	var m MachineComponents
+	m.ComponentId = componentId
+	m.MachineId = machineId
+	_, err := sess.InsertInto("machine_components").
+		Columns("machine_id", "component_id").
+		Record(m).
+		Exec()
+	CheckErr(err)
 
-	for i := 0; i < len(m.Components_id); i++ { //will insert all component one by one for machine ...
-		m.Component_id = string(m.Components_id[i]) //will assign one by one component id from array of id to insert separately  ...
-		_, err := sess.InsertInto("machine_components").
-			Columns("machine_id", "component_id").
-			Record(m).
-			Exec()
-		CheckErr(err)
-
-		_, err2 := sess.Update("components").
-			Set("active", "true").
-			Where("id = ?", m.Component_id).
-			Exec()
+	_, err2 := sess.Update("components").
+		Set("active", "true").
+		Where("id = ?", m.ComponentId).
+		Exec()
 		CheckErr(err2)
-	}
 }
 
 func RemoveComponentsFromMachine(machineId int, componentId int) {

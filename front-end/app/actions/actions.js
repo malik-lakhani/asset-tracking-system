@@ -1,9 +1,10 @@
 import axios from 'axios';
 import querystring from 'querystring';
 import { push } from 'react-router-redux'
+
 import {
 
-	SET_FIELDS, SET_FIELDS_INVOICES,
+	SET_FIELDS,
 
 	FETCH_USERS_SUCCESS, FETCH_USERS_FAILULER, EDIT_USER_SUCCESS, EDIT_USER_FAILULER,
 		DELETE_USER_SUCCESS, DELETE_USER_FAILULER, ADD_USER_SUCCESS, ADD_USER_FAILULER,
@@ -18,7 +19,8 @@ import {
 	FETCH_COMPONENTS_SUCCESS, FETCH_COMPONENTS_FAILULER, FETCH_COMPONENT_INFORMATION_SUCCESS,
 		FETCH_COMPONENT_INFORMATION_FAILULER,
 
-	FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILULER,
+	FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILULER, SET_FIELDS_INVOICES, SET_FIELDS_INVOICES_COMPONENT,
+	FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER,
 
 	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER
 
@@ -76,45 +78,16 @@ export const deleteUser = ((id) => {
 
 export const editUser = ((row, machineId) => {
 	let url = 'http://localhost:8000/users/' + row.Id ;
-	var information = {
-		'name' : row.Name,
-		'company_email' : row.Company_email,
-		'machine_id' : machineId
-	}
-
-	// axios({
-	//    method: 'patch',
-	//    url: url,
-	//    data: information
-	//  })
-	//    .then((response) => {
-	//      console.log('success');
-	//    })
-	//    .catch((err) => {
-	//      console.log(DELETE_USER_FAILULER, ':', err);
-	//    })
-
 	axios.patch(url,
 		querystring.stringify({
 			'name' : row.Name,
 			'company_email' : row.Company_email,
 			'machine_id' : machineId
-		}), {
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded",
-				'Access-Control-Allow-Origin': '*'
-			}
-		}).then(function(response) {
-				 console.log('success');
-		});
-
-	// axios.PATCH(url, information)
-	//   .then(function (res) {
-	//     console.log('response of patch : ', res);
-	//   })
-	//   .catch(function (err) {
-	//     console.log('error of patch : ', err);
-	//   });
+		})).then(function(response) {
+				 console.log('Response : ', response);
+		}).catch(function (err) {
+	    console.log('Error From patch User : ', err);
+	  });
 });
 
 export const addUser = ((row, machineId) => {
@@ -125,11 +98,7 @@ export const addUser = ((row, machineId) => {
 				'name' : row.Name,
 				'company_email' : row.Company_email,
 				'machine_id' : machineId
-			}), {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				}
-			})
+			}))
 		}
 });
 
@@ -184,47 +153,17 @@ export const deleteCategory = ((id) => {
 		}
 });
 
-export const editCategory = ((row, machineId) => {
+export const editCategory = ((row) => {
 	let url = 'http://localhost:8000/components/categories/' + row.Id ;
-	var information = {
-		'name' : row.Name,
-		'company_email' : row.Company_email,
-		'machine_id' : machineId
-	}
-
-	// axios({
-	//    method: 'patch',
-	//    url: url,
-	//    data: information
-	//  })
-	//    .then((response) => {
-	//      console.log('success');
-	//    })
-	//    .catch((err) => {
-	//      console.log(DELETE_CATEGORY_FAILULER, ':', err);
-	//    })
-
 	axios.patch(url,
 		querystring.stringify({
-			'name' : row.Name,
-			'company_email' : row.Company_email,
-			'machine_id' : machineId
-		}), {
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded",
-				'Access-Control-Allow-Origin': '*'
-			}
-		}).then(function(response) {
+			'category' : row.Category,
+			'description' : row.Description,
+		})).then(function(response) {
 				 console.log('success');
 		});
 
-	// axios.PATCH(url, information)
-	//   .then(function (res) {
-	//     console.log('response of patch : ', res);
-	//   })
-	//   .catch(function (err) {
-	//     console.log('error of patch : ', err);
-	//   });
+
 });
 
 export const addCategory = ((row, machineId) => {
@@ -291,36 +230,17 @@ export const deleteMachine = ((id) => {
 			})
 		}
 });
-	// let url = 'http://localhost:8000/machines/'+id ;
-	// return function() {
-	// 	axios({
-	// 		method: 'delete',
-	// 		url: url
-	// 	})
-	// 		.then((response) => {
-	// 			console.log(DELETE_MACHINE_SUCCESS);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(DELETE_MACHINE_FAILULER, ':', err);
-	// 		})
-	// 	}
-// });
 
 export const editMachine = ((row) => {
-	// console.log('****', row);
 	let url = 'http://localhost:8000/machines/' + row.Id ;
-	// var information = {
-	//   'name' : row.Name,
-	//   'company_email' : row.Company_email
-	// }
-	// console.log('-->', information);
-	// axios.PATCH(url, JSON.parse(information))
-	//   .then(function (res) {
-	//     console.log('response of patch : ', res);
-	//   })
-	//   .catch(function (err) {
-	//     console.log('error of patch : ', err);
-	//   });
+	axios.patch(url,
+		querystring.stringify({
+			'name' : row.Name,
+		})).then(function(response) {
+			 	console.log('Response : ', response);
+		}).catch(function (err) {
+	    	console.log('Error From patch User : ', err);
+	  });
 });
 
 export const addMachine = ((row) => {
@@ -370,7 +290,6 @@ export const fetchComponents = ((Action, dispatch) => {
 	return function(dispatch) {
 		axios.get(URL, { params: { all: allComponents }})
 			.then((response) => {
-				console.log('response Get components:', response);
 				dispatch({ type: FETCH_COMPONENTS_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -395,9 +314,24 @@ export const fetchComponentDetails = ((componentId, dispatch) => {
 		}
 });
 
+export const changeMachine = ((componentId, machineId) => {
+	let URL = `http://localhost:8000/machines/${machineId}/components`
+	return function() {
+		axios.post(URL,
+			querystring.stringify({
+				'component_id' : componentId
+			})).then((response) => {
+				let URL = `http://localhost:8080/public/#/components/${componentId}`
+				location.assign(URL);
+			})
+			.catch((err) => {
+				console.log('Error:', err)
+			})
+		}
+});
+
 export const decommitComponentFromMachine = ((componentId, dispatch) => {
 	let URL = `http://localhost:8000/components/${componentId}`
-
 });
 
 //==============================================================================
@@ -421,10 +355,86 @@ export const fetchInvoices = ((dispatch) => {
 		}
 });
 
+export const fetchInvoiceDetails = ((invoiceId) => {
+	const URL = "http://localhost:8000/invoices/"+ invoiceId;
+	return function(dispatch) {
+		axios.get(URL)
+			.then((response) => {
+				dispatch({ type: FETCH_ONE_INVOICE_SUCCESS, response })
+			})
+			.catch((err) => {
+				dispatch({ type: FETCH_ONE_INVOICE_FAILULER, err})
+			})
+		}
+});
+
 export const setFieldForInvoice = (field, value) => ({
 	type: SET_FIELDS_INVOICES,
 	field,
 	value
+});
+
+export const setFieldForComponent = (field, value) => ({
+	type: SET_FIELDS_INVOICES_COMPONENT,
+	field,
+	value
+});
+
+export const addInvoice = ((data) => {
+	let serialNos = [];
+	let names = [];
+	let warrantyDate = [];
+  let descriptions = [];
+  let category = [];
+
+	for (let i=0; i< data.data.length; i++ ){
+			serialNos[i] = data.data[i]["serial_" + i]
+			names[i] = data.data[i]["component_" + i]
+			// warrantyDate[i] = data.data[i]["warrantyDate_" + i]
+			warrantyDate[i] = "2016-11-08"
+			descriptions[i] = data.data[i]["description_" + i]
+			category[i] = data.data[i]["category_" + i]
+		}
+		console.log(warrantyDate, "???????")
+
+	let invoicer_details = {
+		name: data.invoicer,
+		address: data.address,
+		contact: data.contact
+	}
+
+	let component_details = {
+		serial_no: serialNos,
+		name: names,
+		// warranty_till: warrantyDate,
+		warranty_till: warrantyDate,
+		description: descriptions,
+		category: category
+	}
+
+	let invoice = {
+		number: data.invoice,
+		description: data.description,
+		// date: data.invoice_date,
+		date: "2016-11-08 15:35:11.402259",
+
+		invoicer_details: invoicer_details,
+		component_details: component_details
+	}
+
+	const URL = "http://localhost:8000/invoices";
+
+	return function(dispatch) {
+		console.log("====>", invoice)
+		axios.post(URL, invoice)
+			.then(function (response) {
+				console.log("response", response)
+				// location.assign('http://localhost:8080/public/#/incidents/');
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
 });
 
 //==============================================================================
@@ -434,12 +444,16 @@ export const setFieldForInvoice = (field, value) => ({
 
 //========================Actions Releated to Incidents=========================
 
-export const fetchIncidents = ((dispatch) => {
+export const fetchIncidents = ((Action) => {
 	const URL = "http://localhost:8000/incidents";
+	let allIncidents = false;
+
+	if(Action == true) {
+		allIncidents = true;
+	}
 	return function(dispatch) {
-		axios.get(URL)
+		axios.get(URL, { params: { all: allIncidents }})
 			.then((response) => {
-				console.log('response Get invoices:', response);
 				dispatch({ type: FETCH_INCIDENTS_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -465,6 +479,21 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 				console.log(error);
 			});
 		}
+});
+
+export const editIncident = ((row, componentId) => {
+	let url = 'http://localhost:8000/incidents/' + row.Id ;
+	axios.patch(url,
+		querystring.stringify({
+			'title' : row.Title,
+			'description' : row.Description,
+			'recorder' : row.Recorder,
+			'component_id': componentId
+		})).then(function(response) {
+				 console.log('Response : ', response);
+		}).catch(function (err) {
+	    	console.log('Error From patch User : ', err);
+	  });
 });
 
 //==============================================================================

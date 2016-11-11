@@ -2,7 +2,6 @@ package services
 
 import(
 		"encoding/json"
-		// "fmt"
 		"time"
 )
 
@@ -12,6 +11,7 @@ type DisplayAllComponents struct {
 	Name string
 	Machine *string
 	Invoice_id int
+	Category *string
 	Warranty_timestamp *time.Time
 	Warranty_till string
 	Description string
@@ -23,10 +23,12 @@ func DisplayComponents(all string) []byte {
 	sess := SetupDB()
 	components := []DisplayAllComponents{}
 
-	query := sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine").
+	query := sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine, categories.category").
 	From("components c").
-    LeftJoin("machine_components", "c.id = machine_components.component_id").
-    LeftJoin("machines", "machines.id = machine_components.machine_id")
+		LeftJoin("machine_components", "c.id = machine_components.component_id").
+		LeftJoin("machines", "machines.id = machine_components.machine_id").
+		LeftJoin("components", "c.id = machine_components.component_id").
+		LeftJoin("categories", "c.category_id = categories.id")
 
 	// display all components or active components only ...
 	if(all == "false") {
@@ -62,18 +64,20 @@ type DisplayComponentInfo struct {
 	Warranty_till string
 
 }
- type Incidents struct {
- 	Id int
- 	Title string
- 	Description string
- 	Status string
- }
 
- type Machine struct {
- 	Id int
- 	Name string
- 	Machine_component_id int
- }
+type Incidents struct {
+	Id int
+	Title string
+	Description string
+	Recorder string
+	Status string
+}
+
+type Machine struct {
+	Id int
+	Name string
+	Machine_component_id int
+}
 
 type User struct {
 	Id int
@@ -93,10 +97,9 @@ func DisplayComponentInformation(ComponentId int) []byte {
 
 	err := sess.Select(sqlStmt).
 		From("invoices").
-	    RightJoin("components", "invoices.id = components.invoice_id").
-	    Where("components.id= ?", ComponentId).
-	    LoadStruct(&components)
-
+			RightJoin("components", "invoices.id = components.invoice_id").
+			Where("components.id= ?", ComponentId).
+			LoadStruct(&components)
 	CheckErr(err)
 
 	//extract only date from timestamp========
@@ -111,7 +114,7 @@ func DisplayComponentInformation(ComponentId int) []byte {
 
 	//Get AllIncidents information happen with perticuler component ...
 	incidents := []Incidents{}
-	err2 := sess.Select("id, title, description, status").
+	err2 := sess.Select("id, title, description, status, recorder").
 		From("incidents").
 		Where("Component_id = ?", ComponentId).
 		LoadStruct(&incidents)
@@ -125,11 +128,11 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	err3 := sess.Select("machines.id, machines.Name, machine_components.id AS Machine_component_id").
 		From("machines").
 		Join("machine_components","machine_components.machine_id = machines.id").
-		Where("machine_components.Component_id = ?", ComponentId).
+		Where("machine_components.Component_id = ? AND machine_components.deleted_at IS NULL", ComponentId).
+		OrderDir("machine_components.id", false).
+		Limit(1).
 		LoadStruct(&machine)
-	if( err3 != nil) {
-
-	}
+		CheckErr(err3)
 
 	//Get User's Information owned machine to which component connected if owned...
 	if(machine.Name != "") {
