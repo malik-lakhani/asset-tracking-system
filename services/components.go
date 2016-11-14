@@ -97,9 +97,9 @@ func DisplayComponentInformation(ComponentId int) []byte {
 
 	err := sess.Select(sqlStmt).
 		From("invoices").
-			RightJoin("components", "invoices.id = components.invoice_id").
-			Where("components.id= ?", ComponentId).
-			LoadStruct(&components)
+		RightJoin("components", "invoices.id = components.invoice_id").
+		Where("components.id= ?", ComponentId).
+		LoadStruct(&components)
 	CheckErr(err)
 
 	//extract only date from timestamp========

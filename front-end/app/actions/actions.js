@@ -361,10 +361,11 @@ export const fetchInvoices = ((dispatch) => {
 });
 
 export const fetchInvoiceDetails = ((invoiceId) => {
-	const URL = `http://localhost:8000/invoices/${invoiceId}`;
+	const URL = `http://localhost:8000/invoices/${invoiceId}`;;
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
+				console.log('response One invoices:', response);
 				dispatch({ type: FETCH_ONE_INVOICE_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -392,10 +393,11 @@ export const addInvoice = ((data) => {
   let descriptions = [];
   let category = [];
 
-	for (let i=0; i< data.data.length; i++ ){
+	for (let i=0; i< data.data.length; i++ ) {
 			serialNos[i] = data.data[i]["serial_" + i]
 			names[i] = data.data[i]["component_" + i]
-			warrantyDate[i] = data.data[i]["date_" + i].toDate();
+			warrantyDate[i] = "11-12-1994"
+			// warrantyDate[i] = data.data[i]["date_" + i].toDate();
 			descriptions[i] = data.data[i]["description_" + i]
 			category[i] = data.data[i]["category_" + i]
 		}
@@ -417,7 +419,8 @@ export const addInvoice = ((data) => {
 	let invoice = {
 		number: data.invoice,
 		description: data.description,
-		date: data.Invoice_date,
+		// date: data.Invoice_date,
+		date: "11-12-1994",
 		invoicer_details: invoicer_details,
 		component_details: component_details
 	}
@@ -435,6 +438,22 @@ export const addInvoice = ((data) => {
 	}
 });
 
+export const editInvoice = (Id, data) => {
+	let url = `http://localhost:8000/invoices/${Id}` ;
+	axios.patch(url,
+		querystring.stringify({
+			'invoice' : data.invoice,
+			'invoicer' : data.invoicer,
+			'address' : data.address,
+			'contact': data.contact,
+			'description' : data.description,
+			'date' : data.date
+		})).then(function(response) {
+				 console.log('Response : ', response);
+		}).catch(function (err) {
+	    	console.log('Error From patch invoice : ', err);
+	  });
+}
 //==============================================================================
 
 

@@ -35,7 +35,6 @@ func editUserInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	company_email := r.FormValue("company_email")
 	machine_id := r.FormValue("machine_id")
-	fmt.Println("---->", user_id, name, company_email, machine_id)
 	services.CheckErr(err)
 	services.EditUserInfo(user_id, name, company_email, machine_id) //PATH : /services/users.go
 }
@@ -128,6 +127,18 @@ func addInvoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	body, err3 := ioutil.ReadAll(r.Body) // read all dara of form ...
 	services.CheckErr(err3)
 	services.AddInvoice(string(body)) //PATH : /services/invoices.go
+}
+
+func editInvoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	invoice_id, err := strconv.Atoi(c.URLParams["invoice_id"]) // converting from string to int ...
+	services.CheckErr(err)
+	invoice := r.FormValue("invoice")
+	invoicer := r.FormValue("invoicer")
+	address := r.FormValue("address")
+	contact := r.FormValue("contact")
+	description := r.FormValue("description")
+	date := r.FormValue("date")
+	services.EditInvoice(invoice_id, invoice, invoicer, address, contact, description, date) //PATH : /services/invoices.go
 }
 
 func oneInvoiceDetailsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -271,6 +282,7 @@ func main() {
 	goji.Post("/invoices", addInvoiceHandler)
 	goji.Get("/invoices", InvoiceHandler)
 	goji.Get("/invoices/:invoice_id", oneInvoiceDetailsHandler)
+	goji.Patch("/invoices/:invoice_id", editInvoiceHandler)
 
 	//dealing with incidents ...
 	goji.Get("/incidents", incidentsHandler)

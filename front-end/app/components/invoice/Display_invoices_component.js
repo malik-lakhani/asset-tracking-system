@@ -20,10 +20,14 @@ class Display_invoices extends Component {
 	}
 
 	render() {
+		let invoices = []
+		if(this.props.state.invoices.Invoices) {
+			invoices = this.props.state.invoices.Invoices;
+		}
 		return (
 			<div>
 				<div><a href="http://localhost:8080/public/#/invoices/add/?_k=ycsmgk"><button type="button" className="btn btn-info">Add Invoice</button></a></div>
-				<BootstrapTable data={this.props.state.invoices.Invoices} pagination={true} search={true} striped={true} hover={true}>
+				<BootstrapTable data={ invoices } pagination={true} search={true} striped={true} hover={true}>
 					<TableHeaderColumn width="60" isKey={true} dataSort={true} dataField="Id" hidden={true}>#</TableHeaderColumn>
 					<TableHeaderColumn dataSort={true} dataField="Invoice_number" dataFormat={linkToEditInvoice} >Invoice Number</TableHeaderColumn>
 					<TableHeaderColumn dataSort={true} dataField="Invoice_date">Invoice Date(YYYY-MM-DD)</TableHeaderColumn>

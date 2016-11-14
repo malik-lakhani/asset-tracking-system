@@ -14,6 +14,8 @@ const initialState =
     contact: '',
     description: '',
     address: '',
+    Invoice_date: '',
+    components: [],
 
     Invoices: [],
     isFetching : true,
@@ -32,20 +34,21 @@ export default function invoices (state = initialState, action) {
       return Object.assign({}, state, { Invoices: action.response.data, isFetching:false, fetched:false, err:err});
 
     case FETCH_ONE_INVOICE_SUCCESS:
-      console.log("action - > ", action)
-
-      console.log(this.state, "<-")
-      // return Object.assign({}, state, { Invoices: "bbb  ", isFetching:false, fetched:false, err:"err"});
+      state.invoice = action.response.data.Invoice_number;
+      state.invoicer = action.response.data.Invoicer_name;
+      state.contact = action.response.data.Contact;
+      state.description = action.response.data.Description;
+      state.address = action.response.data.Address;
+      state.date = action.response.data.Invoice_date;
+      state.components = action.response.data.Components;
+      return Object.assign({}, state, { Invoices: state, isFetching:false, fetched:false, err:"err"});
 
     case FETCH_ONE_INVOICE_FAILULER:
-      // return Object.assign({}, state, { Invoices: "aaa", isFetching:false, fetched:false, err:"err"});
-
+      return Object.assign({}, state, { Invoices: '', isFetching:false, fetched:false, err:'err'});
 
     case SET_FIELDS_INVOICES:
-      console.log("from invoice reducer : ", action)
-      let newState = {};
-      newState[action.field] = action.value;
-      return Object.assign({}, state, newState);
+      state[action.field] = action.value;
+      return Object.assign({}, state, { state });
 
      case SET_FIELDS_INVOICES_COMPONENT:
       let componentIndex = action.field.split('_')[1];

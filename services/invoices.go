@@ -86,10 +86,13 @@ func AddInvoice(details string) {
 
 type DisplayInvoice struct{
 	Id int
-	Invoice_number string
-	Invoicer_name string
+	Invoice_number *string
+	Invoicer_name *string
 	Invoice_timestamp time.Time
 	Invoice_date string
+	Contact *string
+	Description *string
+	Address *string
 
 	Components []DisplayAllComponents
 }
@@ -116,7 +119,7 @@ func DisplayOneInvoice(invoiceId int) []byte {
 	sess := SetupDB()
 	//===============Perticuller Invoice Details =================================
 	invoiceDetails := DisplayInvoice{}
-	sess.Select("id, invoice_number, invoicer_name, invoice_date as Invoice_timestamp").
+	sess.Select("id, invoice_number, invoicer_name, invoice_date as Invoice_timestamp, invoicer_contact AS contact, description, invoicer_add AS address").
 		From("invoices").
 		Where("id = ?", invoiceId ).
 		LoadStruct(&invoiceDetails)
@@ -151,3 +154,22 @@ func DisplayOneInvoice(invoiceId int) []byte {
 
 	return b
 }
+
+func EditInvoice(id int, invoice string, invoicer string, address string, contact string, description string, date string) {
+	sess := SetupDB()
+
+	_, err := sess.Update("invoices").
+		Set("invoice_number", invoice).
+		Set("invoicer_name", invoicer).
+		Set("invoicer_add", address).
+		Set("invoicer_contact", contact).
+		Set("description", description).
+		Set("invoice_date", date).
+		Set("modified_at", "NOW()").
+		Where("id = ?", id).
+		Exec()
+	CheckErr(err)
+}
+
+
+
