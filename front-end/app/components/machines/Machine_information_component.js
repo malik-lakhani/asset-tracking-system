@@ -75,7 +75,7 @@ class Machine_information extends Component {
 							<TableHeaderColumn width="100" dataSort={true} dataField="Name">Name</TableHeaderColumn>
 							<TableHeaderColumn width="180"  dataSort={true} dataField="Description" >Description</TableHeaderColumn>
 							<TableHeaderColumn width="60"  dataSort={true} dataField="Warranty_till" >Warranty Till</TableHeaderColumn>
-							<TableHeaderColumn width="60"  dataSort={true} dataField="Created_at" >Add On</TableHeaderColumn>
+							<TableHeaderColumn width="60"  dataSort={true} dataField="AddOn" >Add On</TableHeaderColumn>
 						</BootstrapTable>
 					</div>
 
@@ -87,6 +87,7 @@ class Machine_information extends Component {
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
 						<TableHeaderColumn width="180" dataSort={true} dataField="Title">Title</TableHeaderColumn>
 						<TableHeaderColumn width="200" dataSort={true} dataField="Description">Description</TableHeaderColumn>
+						<TableHeaderColumn width="80" dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Status" >Status</TableHeaderColumn>
 						</BootstrapTable>
 					</div>
@@ -95,8 +96,8 @@ class Machine_information extends Component {
 					</div>
 					<div>
 						<BootstrapTable data={ PastUses } pagination={true} search={true} striped={true} hover={true}>
-						<TableHeaderColumn  dataSort={true} dataField="Begin" isKey={true}>Begin</TableHeaderColumn>
-						<TableHeaderColumn  dataSort={true} dataField="End">End</TableHeaderColumn>
+						<TableHeaderColumn  dataSort={true} dataField="BeginDate" isKey={true}>Begin</TableHeaderColumn>
+						<TableHeaderColumn  dataSort={true} dataField="EndDate">End</TableHeaderColumn>
 						<TableHeaderColumn  dataSort={true} dataField="User">User</TableHeaderColumn>
 						</BootstrapTable>
 					</div>

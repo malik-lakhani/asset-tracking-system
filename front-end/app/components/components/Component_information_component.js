@@ -15,6 +15,13 @@ class Component_information extends Component {
 		};
 		this.handleMachinesChange = this.handleMachinesChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleDecommission = this.handleDecommission.bind(this);
+	}
+
+	handleDecommission() {
+		let componentId = this.props.params.componentId;
+		let machineId = this.props.props.components.Components.Machine.Id;
+		this.props.actions.decommitComponentFromMachine(componentId, machineId)
 	}
 
 	componentDidMount() {
@@ -98,7 +105,7 @@ class Component_information extends Component {
 					</div>
 					<div className="pull-right">
 						<button type="button" className="btn btn-info marginLeftRecord" data-toggle="modal" data-target="#changeMachine">Change Machine</button>
-						<button type="button" className="btn btn-danger" > Decommission </button>
+						<button type="button" className="btn btn-danger" onClick= {this.handleDecommission} > Decommission </button>
 					</div>
 				</div>
 

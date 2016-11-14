@@ -35,7 +35,7 @@ export const setFieldValue = (field, value) => ({
 //========================Actions Releated to Users=============================
 
 export const fetchUsers = ((All, dispatch) => {
-	const URL = "http://localhost:8000/users";
+	const URL = `http://localhost:8000/users`;
 	let all = false;
 
 	if(All == true){
@@ -54,7 +54,7 @@ export const fetchUsers = ((All, dispatch) => {
 });
 
 export const deleteUser = ((id) => {
-	let url = 'http://localhost:8000/users/'+ id[0] ;
+	let url = `http://localhost:8000/users/${id[0]}` ;
 
 	//======To delete multiple user in one attempt =====
 	for(let i=1; i<id.length; i++){
@@ -77,7 +77,7 @@ export const deleteUser = ((id) => {
 });
 
 export const editUser = ((row, machineId) => {
-	let url = 'http://localhost:8000/users/' + row.Id ;
+	let url = `http://localhost:8000/users/${row.Id}` ;
 	axios.patch(url,
 		querystring.stringify({
 			'name' : row.Name,
@@ -91,7 +91,7 @@ export const editUser = ((row, machineId) => {
 });
 
 export const addUser = ((row, machineId) => {
-	const url = "http://localhost:8000/users";
+	const url = `http://localhost:8000/users`;
 	return function() {
 		axios.post(url,
 			querystring.stringify({
@@ -111,7 +111,7 @@ export const addUser = ((row, machineId) => {
 //========================Actions Releated to Categories =======================
 
 export const fetchCatogories = ((All, dispatch) => {
-	const URL = "http://localhost:8000/components/categories";
+	const URL = `http://localhost:8000/components/categories`;
 	let all = false;
 
 	if(All == true){
@@ -131,7 +131,7 @@ export const fetchCatogories = ((All, dispatch) => {
 });
 
 export const deleteCategory = ((id) => {
-	let url = 'http://localhost:8000/components/categories/'+ id[0] ;
+	let url = `http://localhost:8000/components/categories/${id[0]}` ;
 
 	//======To delete multiple user in one attempt =====
 	for(let i=1; i<id.length; i++){
@@ -154,7 +154,7 @@ export const deleteCategory = ((id) => {
 });
 
 export const editCategory = ((row) => {
-	let url = 'http://localhost:8000/components/categories/' + row.Id ;
+	let url = `http://localhost:8000/components/categories/${row.Id}` ;
 	axios.patch(url,
 		querystring.stringify({
 			'category' : row.Category,
@@ -167,17 +167,13 @@ export const editCategory = ((row) => {
 });
 
 export const addCategory = ((row, machineId) => {
-	const url = "http://localhost:8000/components/categories";
+	const url = `http://localhost:8000/components/categories`;
 	return function() {
 		axios.post(url,
 			querystring.stringify({
 				'category' : row.Category,
 				'description' : row.Description,
-			}), {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				}
-			})
+			}))
 		}
 });
 
@@ -190,7 +186,7 @@ export const addCategory = ((row, machineId) => {
 
 //========================Actions Releated to Machines =========================
 export const fetchMachines = ((Action, dispatch) => {
-	const URL = "http://localhost:8000/machines";
+	const URL = `http://localhost:8000/machines`;
 	let allMachine = true;
 
 	if(Action == false){
@@ -209,7 +205,7 @@ export const fetchMachines = ((Action, dispatch) => {
 });
 
 export const deleteMachine = ((id) => {
-	let url = 'http://localhost:8000/machines/'+ id[0] ;
+	let url = `http://localhost:8000/machines/${id[0]}` ;
 
 	//======To delete multiple user in one attempt =====
 	for(let i=1; i<id.length; i++){
@@ -232,7 +228,7 @@ export const deleteMachine = ((id) => {
 });
 
 export const editMachine = ((row) => {
-	let url = 'http://localhost:8000/machines/' + row.Id ;
+	let url = `http://localhost:8000/machines/${row.Id}` ;
 	axios.patch(url,
 		querystring.stringify({
 			'name' : row.Name,
@@ -244,23 +240,19 @@ export const editMachine = ((row) => {
 });
 
 export const addMachine = ((row) => {
-	let url = 'http://localhost:8000/machines';
+	let url = `http://localhost:8000/machines`;
 	return function() {
 		axios.post(url,
 			querystring.stringify({
 				name: row.Name
-			}), {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				}
-			}).then(function(response) {
+			})).then(function(response) {
 				console.log('added successfully', response);
 		});
 	}
 });
 
 export const fetchMachineInformation = ((machineId) => {
-	const URL = "http://localhost:8000/machines/"+ machineId +"/components";
+	const URL = `http://localhost:8000/machines/${machineId}/components`;
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
@@ -281,7 +273,7 @@ export const fetchMachineInformation = ((machineId) => {
 //========================Actions Releated to Components========================
 
 export const fetchComponents = ((Action, dispatch) => {
-	const URL = "http://localhost:8000/components";
+	const URL = `http://localhost:8000/components`;
 	let allComponents = false;
 
 	if(Action == true) {
@@ -330,8 +322,21 @@ export const changeMachine = ((componentId, machineId) => {
 		}
 });
 
-export const decommitComponentFromMachine = ((componentId, dispatch) => {
-	let URL = `http://localhost:8000/components/${componentId}`
+export const decommitComponentFromMachine = ((componentId, machineId) => {
+	let URL = `http://localhost:8000/machines/${machineId}/components/${componentId}`
+	return function() {
+		axios({
+			method: 'delete',
+			url: URL
+		})
+			.then((response) => {
+				console.log("Response decommitte component:", response);
+			})
+			.catch((err) => {
+				console.log("Eroor from decommitte component :", err);
+			})
+		}
+
 });
 
 //==============================================================================
@@ -342,7 +347,7 @@ export const decommitComponentFromMachine = ((componentId, dispatch) => {
 //========================Actions Releated to Invoices==========================
 
 export const fetchInvoices = ((dispatch) => {
-	const URL = "http://localhost:8000/invoices";
+	const URL = `http://localhost:8000/invoices`;
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
@@ -356,7 +361,7 @@ export const fetchInvoices = ((dispatch) => {
 });
 
 export const fetchInvoiceDetails = ((invoiceId) => {
-	const URL = "http://localhost:8000/invoices/"+ invoiceId;
+	const URL = `http://localhost:8000/invoices/${invoiceId}`;
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
@@ -390,12 +395,10 @@ export const addInvoice = ((data) => {
 	for (let i=0; i< data.data.length; i++ ){
 			serialNos[i] = data.data[i]["serial_" + i]
 			names[i] = data.data[i]["component_" + i]
-			// warrantyDate[i] = data.data[i]["warrantyDate_" + i]
-			warrantyDate[i] = "2016-11-08"
+			warrantyDate[i] = data.data[i]["date_" + i].toDate();
 			descriptions[i] = data.data[i]["description_" + i]
 			category[i] = data.data[i]["category_" + i]
 		}
-		console.log(warrantyDate, "???????")
 
 	let invoicer_details = {
 		name: data.invoicer,
@@ -406,7 +409,6 @@ export const addInvoice = ((data) => {
 	let component_details = {
 		serial_no: serialNos,
 		name: names,
-		// warranty_till: warrantyDate,
 		warranty_till: warrantyDate,
 		description: descriptions,
 		category: category
@@ -415,21 +417,17 @@ export const addInvoice = ((data) => {
 	let invoice = {
 		number: data.invoice,
 		description: data.description,
-		// date: data.invoice_date,
-		date: "2016-11-08 15:35:11.402259",
-
+		date: data.Invoice_date,
 		invoicer_details: invoicer_details,
 		component_details: component_details
 	}
-
-	const URL = "http://localhost:8000/invoices";
+	console.log(invoice)
+	const URL = `http://localhost:8000/invoices`;
 
 	return function(dispatch) {
-		console.log("====>", invoice)
 		axios.post(URL, invoice)
 			.then(function (response) {
-				console.log("response", response)
-				// location.assign('http://localhost:8080/public/#/incidents/');
+				location.assign(`http://localhost:8080/public/#/invoices`);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -445,7 +443,7 @@ export const addInvoice = ((data) => {
 //========================Actions Releated to Incidents=========================
 
 export const fetchIncidents = ((Action) => {
-	const URL = "http://localhost:8000/incidents";
+	const URL = `http://localhost:8000/incidents`;
 	let allIncidents = false;
 
 	if(Action == true) {
@@ -463,7 +461,7 @@ export const fetchIncidents = ((Action) => {
 });
 
 export const addIncident = ((component, recorder, title, description, dispatch) => {
-	const URL = "http://localhost:8000/incidents";
+	const URL = `http://localhost:8000/incidents`;
 	let data = {
 		component_id: component,
 		recorder: recorder,
@@ -473,7 +471,7 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 	return function( dispatch) {
 		axios.post(URL, data)
 			.then(function (response) {
-				location.assign('http://localhost:8080/public/#/incidents/');
+				location.assign(`http://localhost:8080/public/#/incidents/`);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -482,7 +480,7 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 });
 
 export const editIncident = ((row, componentId) => {
-	let url = 'http://localhost:8000/incidents/' + row.Id ;
+	let url = `http://localhost:8000/incidents/${row.Id}` ;
 	axios.patch(url,
 		querystring.stringify({
 			'title' : row.Title,
