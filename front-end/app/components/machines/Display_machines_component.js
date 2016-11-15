@@ -76,8 +76,8 @@ class Display_machines extends Component {
 					<BootstrapTable data={this.props.state.machines.Machines}
 													pagination={true}
 													options={{
-														afterDeleteRow :this.deleteMachine,
-														onAddRow :this.addMachine
+														afterDeleteRow: this.deleteMachine,
+														onAddRow: this.addMachine
 													}}
 													deleteRow={true}
 													selectRow={selectRowProp}

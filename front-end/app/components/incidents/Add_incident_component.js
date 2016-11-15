@@ -5,6 +5,21 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import './styles.css';
 
+function validate(values) {
+	console.log("-->", values)
+	// const errors = {};
+	// if (!values.title || values.title.trim() === ‘’) {
+	// errors.title = ‘Enter a Title’;
+	// }
+	// if (!values.categories || values.categories.trim() === ‘’) {
+	// errors.categories = ‘Enter categories’;
+	// }
+	// if(!values.content || values.content.trim() === ‘’) {
+	// errors.content = ‘Enter some content’;
+	// }
+	// return errors;
+}
+
 class Add_incident extends Component {
 	constructor(props) {
 		super(props);
@@ -61,7 +76,7 @@ class Add_incident extends Component {
 			Components[i] = ComponentInfo;
 		}
 
-		const { handleSubmit, pristine, reset, submitting } = this.props
+		const { fields: { recorder, categories, content }, handleSubmit, pristine, reset, submitting } = this.props
 		return (
 			<div>
 				<h2 className="center"> Record New Incident </h2>
@@ -69,8 +84,11 @@ class Add_incident extends Component {
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Recorder*</label>
-							<input className="textboxSize" type="text" value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="recorder" />
-						</div>
+							<input className="textboxSize" type="text" {...recorder} value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="recorder" />
+							<div className="help-block">
+								{recorder.touched ? recorder.error : ''}
+							</div>
+					</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Machine*</label>
 							<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
@@ -94,7 +112,7 @@ class Add_incident extends Component {
 					</div>
 				</div>
 				<div className="clearfix center paddingForm">
-					<form onSubmit={ this.handleSubmit } >
+					<form onSubmit={ this.handleSubmit(this.props.createPost.bind(this))} >
 						<button className="btn btn-info btn-lg" type="submit">Submit</button>
 					</form>
 				</div>
@@ -105,5 +123,7 @@ class Add_incident extends Component {
 
 export default reduxForm({
 	form: 'Add_incident',// a unique identifier for this form
+	fields: ['recorder'], //←Fields to track
+	validate //← Callback function for validation
 })(Add_incident)
 

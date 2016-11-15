@@ -29,18 +29,9 @@ class Display_components extends Component {
 	}
 
 	render() {
-		let components = [];
-		if(this.props.state.components.Components){
-			components = this.props.state.components.Components;
-		}
-		return (
-			<div>
-				<select name="select2" onChange={this.filterComponents} className="selectpicker" data-width="auto">
-					<option value="active">Active</option>
-					<option value="all">All</option>
-				</select>
-				<div>
-					<BootstrapTable data={components}
+		var table;
+		if (this.props.state.components.Components && this.props.state.components.Components.length) {
+		table = (	<BootstrapTable data={this.props.state.components.Components}
 													pagination={true}
 													striped={true}
 													search={true}
@@ -54,7 +45,19 @@ class Display_components extends Component {
 						<TableHeaderColumn hidden={true} dataField="invoice_id">Invoice</TableHeaderColumn>
 						<TableHeaderColumn width="240" dataSort={true} dataField="Description">Description</TableHeaderColumn>
 						<TableHeaderColumn width="150" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
-					</BootstrapTable>
+					</BootstrapTable>);
+		} else {
+			table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)
+		}
+
+		return (
+			<div>
+				<select name="select2" onChange={this.filterComponents} className="selectpicker" data-width="auto">
+					<option value="active">Active</option>
+					<option value="all">All</option>
+				</select>
+				<div>
+					{ table }
 				</div>
 			</div>
 		)
