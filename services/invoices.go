@@ -2,6 +2,7 @@ package services
 
 import(
 	"encoding/json"
+	// "fmt"
 	"time"
 )
 
@@ -21,7 +22,6 @@ type AllInvoiceDetails struct {
 		SerialNo []string `json:"serial_no"`
 		Category []int `json:"category"`
 	} `json:"component_details"`
-
 }
 
 type InvoiceDetails struct {
@@ -81,6 +81,24 @@ func AddInvoice(details string) {
 			Record(c).
 			Exec()
 		CheckErr(err3)
+
+		componentId, err2 := sess.Select("MAX(id)").
+			From("components").
+			ReturnInt64()
+			CheckErr(err2)
+
+//======insert in to machine_component table as blank entry ====================
+		type compo struct {
+			Component_id int64
+		}
+		c := compo{}
+		c.Component_id = componentId
+		sess.InsertInto("machine_components").
+			Columns("component_id").
+			Record(c).
+			Exec()
+//==============================================================================
+
 	}
 }
 

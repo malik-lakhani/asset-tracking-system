@@ -93,31 +93,31 @@ func DisplayMachine(id int) []byte { // Display Single machine's information ...
 }
 
 type AllComponents struct {
- 	Id int
- 	Name string
- 	SerialNo string
- 	Description string
- 	Warranty time.Time
+ 	Id *int
+ 	Name *string
+ 	SerialNo *string
+ 	Description *string
+ 	Warranty *time.Time
  	Warranty_till string
- 	Created_at time.Time
+ 	Created_at *time.Time
  	AddOn string
 }
 
 type AllIncidents struct {
- 	Id int
- 	LastUpdate string
- 	Title string
- 	Description string
- 	Status string
- 	Recorder string
+ 	Id *int
+ 	LastUpdate *string
+ 	Title *string
+ 	Description *string
+ 	Status *string
+ 	Recorder *string
 }
 
 type PastUses struct {
-	Begin time.Time
+	Begin *time.Time
 	BeginDate string
-	End time.Time
+	End *time.Time
 	EndDate string
-	User string
+	User *string
 
 }
 
@@ -200,25 +200,19 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	return b
 }
 
-type MachineComponents struct{
-	MachineId int
-	ComponentId int
-}
-
 func AddComponentsToMachine(machineId int, componentId int) {
 	sess := SetupDB()
-	var m MachineComponents
-	m.ComponentId = componentId
-	m.MachineId = machineId
-	_, err := sess.InsertInto("machine_components").
-		Columns("machine_id", "component_id").
-		Record(m).
+
+	_, err := sess.Update("machine_components").
+		Set("machine_id", machineId).
+		Set("deleted_at", nil).
+		Where("component_id = ?", componentId).
 		Exec()
 	CheckErr(err)
 
 	_, err2 := sess.Update("components").
 		Set("active", "true").
-		Where("id = ?", m.ComponentId).
+		Where("id = ?", componentId).
 		Exec()
 		CheckErr(err2)
 }

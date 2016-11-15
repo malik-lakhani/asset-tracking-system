@@ -12,7 +12,7 @@ import (
 		"github.com/rs/cors"
 
 		"./services"
- )
+)
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	all := r.URL.Query().Get("all")//either display all users or only active users ...
@@ -118,7 +118,7 @@ func changeUserFromMachine(c web.C, w http.ResponseWriter, r *http.Request) {
 	services.ChangeUserFromMachine(machine_id, user_id) //PATH : /services/machines.go
 }
 
-func InvoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+func invoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	b := services.DisplayInvoices() //PATH : /services/invoices.go
 	w.Write([]byte(b))
 }
@@ -240,25 +240,24 @@ func deleteCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 // func displayOneCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-//
-
 // 	category_id, err := strconv.Atoi(c.URLParams["category_id"]) // converting from string to int ...
 // 	services.CheckErr(err)
 // 	b := services.DisplayCategory(user_id) //PATH : /services/users.go
 // 	w.Write([]byte(b))
 // }
 
-
 func main() {
 
+//======= Middleware for AJAX Requsests ========================================
 	c := cors.New(cors.Options{
-    AllowedOrigins: []string{"*"},
-    AllowCredentials: true,
-    AllowedMethods: []string{"GET", "POST", "PATCH", "DELETE"},
-    AllowedHeaders: []string{"*"},
+		AllowedOrigins: []string{"*"},
+		AllowCredentials: true,
+		AllowedMethods: []string{"GET", "POST", "PATCH", "DELETE"},
+		AllowedHeaders: []string{"*"},
 	})
 
- 	goji.Use(c.Handler)
+	goji.Use(c.Handler)
+//==============================================================================
 
 	//dealing with users ...
 	goji.Get("/users", usersHandler)
@@ -280,7 +279,7 @@ func main() {
 
 	//dealing with invoices ...
 	goji.Post("/invoices", addInvoiceHandler)
-	goji.Get("/invoices", InvoiceHandler)
+	goji.Get("/invoices", invoiceHandler)
 	goji.Get("/invoices/:invoice_id", oneInvoiceDetailsHandler)
 	goji.Patch("/invoices/:invoice_id", editInvoiceHandler)
 
@@ -295,11 +294,11 @@ func main() {
 	//dealing with components ...
 	goji.Get("/components", componentsHandler)
 	goji.Get("/components/categories", categoriesHandler)
+	// goji.Get("/components/filter/:component_id", filterComponentsHandler)
 	goji.Get("/components/:component_id", componentInfoHandler)
 	goji.Post("/components/categories", addCategoryHandler)
 	goji.Patch("/components/categories/:category_id", editCategoryInfoHandler)
 	goji.Delete("/components/categories/:category_id", deleteCategoryHandler)
-	// goji.Get("/categories/:category_id", displayOneCategoryHandler)
 
 	goji.Serve()
 }

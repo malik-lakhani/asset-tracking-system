@@ -92,7 +92,7 @@ class Display_machines extends Component {
 													hover={true}>
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
 						<TableHeaderColumn width="260" dataSort={true} dataField="Name" dataFormat={machineInformation}>Name</TableHeaderColumn>
-						<TableHeaderColumn width="350" dataSort={true} dataField="User" editable={{type:'select', options:{ values:userNames }}} autoValue={true}>Current User</TableHeaderColumn>
+						<TableHeaderColumn width="350" dataSort={true} dataField="User" editable={false} autoValue={true}>Current User</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
 			</div>

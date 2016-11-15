@@ -39,7 +39,7 @@ export default function invoices (state = initialState, action) {
       state.contact = action.response.data.Contact;
       state.description = action.response.data.Description;
       state.address = action.response.data.Address;
-      state.date = action.response.data.Invoice_date;
+      state.Invoice_date = action.response.data.Invoice_date;
       state.components = action.response.data.Components;
       return Object.assign({}, state, { Invoices: state, isFetching:false, fetched:false, err:"err"});
 
@@ -60,7 +60,6 @@ export default function invoices (state = initialState, action) {
         warrantyObj[action.field] = action.value;
         warranty.push(warrantyObj);
       }
-
       return Object.assign({}, state.data, state);
 
     default:

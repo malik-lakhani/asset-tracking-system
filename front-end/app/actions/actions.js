@@ -331,6 +331,7 @@ export const decommitComponentFromMachine = ((componentId, machineId) => {
 		})
 			.then((response) => {
 				console.log("Response decommitte component:", response);
+				location.reload();
 			})
 			.catch((err) => {
 				console.log("Eroor from decommitte component :", err);
@@ -396,8 +397,7 @@ export const addInvoice = ((data) => {
 	for (let i=0; i< data.data.length; i++ ) {
 			serialNos[i] = data.data[i]["serial_" + i]
 			names[i] = data.data[i]["component_" + i]
-			warrantyDate[i] = "11-12-1994"
-			// warrantyDate[i] = data.data[i]["date_" + i].toDate();
+			warrantyDate[i] = data.data[i]["date_" + i].toDate();
 			descriptions[i] = data.data[i]["description_" + i]
 			category[i] = data.data[i]["category_" + i]
 		}
@@ -419,8 +419,7 @@ export const addInvoice = ((data) => {
 	let invoice = {
 		number: data.invoice,
 		description: data.description,
-		// date: data.Invoice_date,
-		date: "11-12-1994",
+		date: data.Invoice_date,
 		invoicer_details: invoicer_details,
 		component_details: component_details
 	}
@@ -439,7 +438,13 @@ export const addInvoice = ((data) => {
 });
 
 export const editInvoice = (Id, data) => {
+	let date = data.Invoice_date
+	if(typeof(data.Invoice_date) == "object" ) {
+		date = data.Invoice_date.format()
+	}
+
 	let url = `http://localhost:8000/invoices/${Id}` ;
+	return function( dispatch) {
 	axios.patch(url,
 		querystring.stringify({
 			'invoice' : data.invoice,
@@ -447,12 +452,15 @@ export const editInvoice = (Id, data) => {
 			'address' : data.address,
 			'contact': data.contact,
 			'description' : data.description,
-			'date' : data.date
-		})).then(function(response) {
-				 console.log('Response : ', response);
-		}).catch(function (err) {
-	    	console.log('Error From patch invoice : ', err);
+			'date' : date
+		}))
+		.then(function(response) {
+			location.assign(`http://localhost:8080/public/#/invoices/`);
+		})
+		.catch(function (err) {
+				console.log("Error")
 	  });
+	}
 }
 //==============================================================================
 

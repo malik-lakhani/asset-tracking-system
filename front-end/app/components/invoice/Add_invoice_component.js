@@ -44,7 +44,6 @@ class Add_invoice extends Component {
 		this.setState({startDate: date});
 		let id = `date_${ componentId }`
 		this.props.actions.setFieldForComponent(id, date);
-
 	}
 
 	handleInvoiceDateChange(date) {
@@ -74,13 +73,20 @@ class Add_invoice extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		this.props.actions.addInvoice(this.props.props.invoices)
+		let data = this.props.props.invoices
+		if(data.invoicer == '') {
+			console.log("if")
+			alert('Error invoicer');
+		} else {
+			console.log("else")
+			this.props.actions.addInvoice(data)
+		}
 	}
 
 	render() {
 		let invoiceDate = moment();
 		if(this.props.props.invoices.Invoice_date) {
-			invoiceDate = this.props.props.invoices.Invoice_date;
+			invoiceDate = moment(this.props.props.invoices.Invoice_date);
 		}
 
 		let letterStyle = {
@@ -145,7 +151,7 @@ class Add_invoice extends Component {
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Invoice Date*</label>
-								<DatePicker className="textboxSize" name="Invoice_date" id="invoice_date" selected={ invoiceDate } onChange={this.handleInvoiceDateChange} />
+								<DatePicker className="textboxSize" name="Invoice_date" id="invoice_date" onChange={this.handleInvoiceDateChange} selected={ invoiceDate } dateFormat="DD/MM/YYYY" />
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>

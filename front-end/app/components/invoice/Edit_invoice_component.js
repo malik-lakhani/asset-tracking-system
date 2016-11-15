@@ -16,7 +16,7 @@ class Edit_invoice extends Component {
 		};
 		this.handleFields = this.handleFields.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleInvoiceDateChange = this.handleInvoiceDateChange(this);
+		this.handleInvoiceDateChange = this.handleInvoiceDateChange.bind(this);
 	}
 
 	handleInvoiceDateChange(date) {
@@ -40,10 +40,8 @@ class Edit_invoice extends Component {
 	}
 
 	render() {
-		let invoiceDate = moment();
-		if(this.props.props.invoices.Invoice_date) {
-			invoiceDate = this.props.props.invoices.Invoice_date;
-		}
+		console.log("===>", this.props)
+		var invoiceDate = moment(this.props.props.invoices.date);
 		let invoice;
 		let invoicer;
 		let contact;
@@ -57,7 +55,8 @@ class Edit_invoice extends Component {
 			contact = this.props.props.invoices.contact
 			address = this.props.props.invoices.address
 			description = this.props.props.invoices.description
-			components =this.props.props.invoices.components
+			components = this.props.props.invoices.components
+			invoiceDate = moment(this.props.props.invoices.Invoice_date)
 		}
 
 		let letterStyle = {
@@ -89,7 +88,7 @@ class Edit_invoice extends Component {
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Invoice Date*</label>
-							<DatePicker className="textboxSize" dateFormat="YYYY/MM/DD" name="Invoice_date" id="invoice_date" onChange={this.handleInvoiceDateChange} selected= { this.state.date }/>
+							<DatePicker className="textboxSize" name="Invoice_date" id="invoice_date" onChange={this.handleInvoiceDateChange} selected= { invoiceDate }  dateFormat="DD/MM/YYYY" />
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>
