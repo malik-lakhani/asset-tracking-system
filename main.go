@@ -200,6 +200,13 @@ func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(response))
 }
 
+func filterComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	category, err := strconv.Atoi(r.URL.Query().Get("category_id")) // converting from string to int ...
+	services.CheckErr(err)
+	response := services.FilterComponents(category) //PATH : /services/components.go
+	w.Write([]byte(response))
+}
+
 func componentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	component_id, err := strconv.Atoi(c.URLParams["component_id"]) // converting from string to int ...
 	services.CheckErr(err)
@@ -294,7 +301,7 @@ func main() {
 	//dealing with components ...
 	goji.Get("/components", componentsHandler)
 	goji.Get("/components/categories", categoriesHandler)
-	// goji.Get("/components/filter/:component_id", filterComponentsHandler)
+	goji.Get("/components/filter", filterComponentsHandler)
 	goji.Get("/components/:component_id", componentInfoHandler)
 	goji.Post("/components/categories", addCategoryHandler)
 	goji.Patch("/components/categories/:category_id", editCategoryInfoHandler)

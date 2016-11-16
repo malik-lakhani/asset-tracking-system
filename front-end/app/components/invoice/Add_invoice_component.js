@@ -15,7 +15,6 @@ class Add_invoice extends Component {
 		this.state = {
 			inputs :[],
 			data :[],
-			category : '',
 			serialNos : []
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,7 +40,6 @@ class Add_invoice extends Component {
 	}
 
 	handleDateChange(componentId, date) {
-		this.setState({startDate: date});
 		let id = `date_${ componentId }`
 		this.props.actions.setFieldForComponent(id, date);
 	}
@@ -53,7 +51,6 @@ class Add_invoice extends Component {
 	}
 
 	handleCategoryChange(componentId, event) {
-		this.setState({category: event.label});
 		let id = `category_${ componentId }`
 		this.props.actions.setFieldForComponent(id, event.value);
 	}
@@ -73,21 +70,23 @@ class Add_invoice extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
+
 		let data = this.props.props.invoices
 		if(data.invoicer == '') {
-			console.log("if")
-			alert('Error invoicer');
+			return false;
+		} else if(data.invoice_number == '') {
+			return false;
+		} else if(data.address == '') {
+			return false;
+		} else if(data.description == '') {
+			return false;
 		} else {
-			console.log("else")
 			this.props.actions.addInvoice(data)
 		}
 	}
 
 	render() {
-		let invoiceDate = moment();
-		if(this.props.props.invoices.Invoice_date) {
-			invoiceDate = moment(this.props.props.invoices.Invoice_date);
-		}
+		//============styles========================================================
 
 		let letterStyle = {
 			border: 'solid',
@@ -114,12 +113,19 @@ class Add_invoice extends Component {
 			padding: '20px 25px 20px 100px'
 		}
 
-		let selectcss ={
+		let selectcss = {
 			width: '80%'
 		}
 
 		let setPaddingleft = {
 			paddingLeft: '15px'
+		}
+
+	//============================================================================
+
+		let invoiceDate = moment();
+		if(this.props.props.invoices.Invoice_date) {
+			invoiceDate = moment(this.props.props.invoices.Invoice_date);
 		}
 
 		let categories = [];
@@ -206,7 +212,7 @@ class Add_invoice extends Component {
 										</div>
 										<br/>
 										<div className="clearfix">
-											<Select className="col-lg-3 pull-left" style={selectcss} id={`warrantyDate_${ index }`} value={ category } placeholder="Category" options={ categories } onChange={ this.handleCategoryChange.bind(this, index) }/>
+											<Select className="col-lg-3 pull-left" style={ selectcss } id={`warrantyDate_${ index }`} value={ category } placeholder="Category" options={ categories } onChange={ this.handleCategoryChange.bind(this, index) }/>
 											<div>
 												<textarea className="textAreaSize1 col-lg-3" name="Address" id={`description_${index}`} onChange={ this.handleFieldsComponent } placeholder="Description"/>
 											</div>

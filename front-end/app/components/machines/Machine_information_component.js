@@ -27,28 +27,34 @@ class Machine_information extends Component {
 	}
 
 	render() {
-		//null data will be pass to datatable if database contains no data ....
-    let MachineName = '';
-    let UsingSince = '';
-    let CurrentUser = '';
-    let PastUses = [];
-    let Components = [];
-    let Incidents = [];
 
-    if(this.props.props.machines.Machines.Name) {
-      MachineName = this.props.props.machines.Machines.Machine;
-      CurrentUser = this.props.props.machines.Machines.Name;
-      UsingSince = this.props.props.machines.Machines.UsingSince;
-      PastUses = this.props.props.machines.Machines.PastUses;
-      Components = this.props.props.machines.Machines.Components;
-      Incidents = this.props.props.machines.Machines.Incidents;
-    }
+		//====================== style =============================================
 
 		let letterStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '15px'
 		};
+
+		//==========================================================================
+
+		//null data will be pass to datatable if database contains no data ....
+		let MachineName = '';
+		let UsingSince = '';
+		let CurrentUser = '';
+		let PastUses = [];
+		let Components = [];
+		let Incidents = [];
+
+		if(this.props.props.machines.Machines.Name) {
+			MachineName = this.props.props.machines.Machines.Machine;
+			CurrentUser = this.props.props.machines.Machines.Name;
+			UsingSince = this.props.props.machines.Machines.UsingSince;
+			PastUses = this.props.props.machines.Machines.PastUses;
+			Components = this.props.props.machines.Machines.Components;
+			Incidents = this.props.props.machines.Machines.Incidents;
+		}
+
 		const { handleSubmit, pristine, reset, submitting } = this.props
 		return (
 

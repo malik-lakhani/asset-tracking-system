@@ -11,8 +11,8 @@ const rootReducer = combineReducers({
 	incidents,
 	machines,
 	users,
-  components,
-  category,
+	components,
+	category,
 });
 
 export default rootReducer;

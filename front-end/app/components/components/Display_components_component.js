@@ -1,6 +1,8 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
 import { Link } from 'react-router'
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import './styles.css';
 
 function componentInformation(cell, row){
@@ -11,24 +13,54 @@ class Display_components extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// data: this.props.props.main.data,
+			category: ''
 		};
 		this.filterComponents = this.filterComponents.bind(this);
+		this.handleCategoryChange = this.handleCategoryChange.bind(this);
 	}
 
-	filterComponents(e) {
+	filterComponents(val) {
 		var all = false;
-		if(e.target.value == "all") {
+		if(val.value == "all") {
 			all = true
 		}
 		this.props.actions.fetchComponents(all, this.props.dispatch);
 	}
 
+	handleCategoryChange(val) {
+		this.setState({category:val.label});
+		this.props.actions.filterComponents(val.value);
+	}
+
 	componentDidMount() {
 		this.props.actions.fetchComponents(false, this.props.dispatch);
+		this.props.actions.fetchCatogories(false, this.props.dispatch);
 	}
 
 	render() {
+		let categories = [];
+		for(let i = 0; i < this.props.state.category.AllCategories.length; i++) {
+			let ComponentInfo = { value : this.props.state.category.AllCategories[i].Id, label: this.props.state.category.AllCategories[i].Category };
+			categories[i] = ComponentInfo;
+		}
+
+		var options = [
+			{ value: 'active', label: 'Active' },
+			{ value: 'all', label: 'All' }
+		];
+
+		let activeStyle = {
+			width: '150'
+		}
+
+		let categoryStyle = {
+			 width: '200'
+		}
+
+		let setPadding = {
+			padding: '0px 12px 0px 12px'
+		}
+
 		var table;
 		if (this.props.state.components.Components && this.props.state.components.Components.length) {
 		table = (	<BootstrapTable data={this.props.state.components.Components}
@@ -52,11 +84,15 @@ class Display_components extends Component {
 
 		return (
 			<div>
-				<select name="select2" onChange={this.filterComponents} className="selectpicker" data-width="auto">
-					<option value="active">Active</option>
-					<option value="all">All</option>
-				</select>
-				<div>
+				<div className= "clearfix" style = { setPadding } >
+					<div className="pull-left" >
+						<Select value= { "Active" } searchable={ false } clearable={ false } placeholder="Active" options={ options } style={ activeStyle } onChange={ this.filterComponents }/>
+					</div>
+					<div className="pull-right">
+						<Select value={ this.state.category } placeholder="Filter By Category" options={ categories } style={ categoryStyle } onChange={ this.handleCategoryChange }/>
+					</div>
+				</div>
+				<div className="clearfix">
 					{ table }
 				</div>
 			</div>

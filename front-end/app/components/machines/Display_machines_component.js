@@ -3,12 +3,6 @@ import React, {Component} from 'react';
 import { Link } from 'react-router'
 import './styles.css';
 
-var selectRowProp = {
-  mode: "checkbox",
-  clickToSelect: true,
-  bgColor: "rgb(238, 193, 213)"
-};
-
 function Validator(value){
   if(!value){
     return 'required!'
@@ -60,20 +54,19 @@ class Display_machines extends Component {
 	}
 
 	render() {
-		let userId;
-		for(let i = 0; i < this.props.state.users.AllUsers.length; i++) {
-			userIds[i] = this.props.state.users.AllUsers[i].Id;
-			userNames[i] = this.props.state.users.AllUsers[i].Name;
-		}
 
-		return (
-			<div>
-				<select name="select2" onChange={this.filterMachines} className="selectpicker" data-width="auto">
-					<option value="active">Active</option>
-					<option value="all">All</option>
-				</select>
-				<div>
-					<BootstrapTable data={this.props.state.machines.Machines}
+	//===================== style ================================================
+		var selectRowProp = {
+			mode: "checkbox",
+			clickToSelect: true,
+			bgColor: "rgb(238, 193, 213)"
+		};
+	// ===========================================================================
+
+
+		var table;
+		if (this.props.state.users.AllUsers && this.props.state.users.AllUsers.length) {
+		table = (	<BootstrapTable data={ this.props.state.users.AllUsers }
 													pagination={true}
 													options={{
 														afterDeleteRow: this.deleteMachine,
@@ -93,7 +86,19 @@ class Display_machines extends Component {
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
 						<TableHeaderColumn width="260" dataSort={true} dataField="Name" dataFormat={machineInformation}>Name</TableHeaderColumn>
 						<TableHeaderColumn width="350" dataSort={true} dataField="User" editable={false} autoValue={true}>Current User</TableHeaderColumn>
-					</BootstrapTable>
+					</BootstrapTable>);
+		} else {
+			table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)
+		}
+
+		return (
+			<div>
+				<select name="select2" onChange={this.filterMachines} className="selectpicker" data-width="auto">
+					<option value="active">Active</option>
+					<option value="all">All</option>
+				</select>
+				<div>
+					{ table }
 				</div>
 			</div>
 		)

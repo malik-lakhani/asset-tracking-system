@@ -2,6 +2,7 @@ package services
 
 import(
 		"encoding/json"
+		"fmt"
 		"time"
 )
 
@@ -27,9 +28,7 @@ func DisplayComponents(all string) []byte {
 	From("components c").
 		LeftJoin("machine_components", "c.id = machine_components.component_id").
 		LeftJoin("machines", "machines.id = machine_components.machine_id").
-		LeftJoin("components", "c.id = machine_components.component_id").
-		LeftJoin("categories", "c.category_id = categories.id")
-
+		Join("categories", "c.category_id = categories.id")
 	// display all components or active components only ...
 	if(all == "false") {
 		query.Where("c.deleted_at IS NULL").
@@ -37,6 +36,35 @@ func DisplayComponents(all string) []byte {
 	} else {
 		query.LoadStruct(&components)
 	}
+
+	//extract only date from timestamp========
+	for i := 0; i < len(components); i++ {
+		t := components[i].Warranty_timestamp
+		components[i].Warranty_till = t.Format("2006-01-02")
+	}
+	//================================
+	b, err := json.Marshal(components)
+	CheckErr(err)
+	return b
+}
+
+func FilterComponents(category_id int) []byte {
+	fmt.Println("------->caled <-------")
+	sess := SetupDB()
+	components := []DisplayAllComponents{}
+
+	query := sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.active, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine, categories.category").
+	From("components c").
+		LeftJoin("machine_components", "c.id = machine_components.component_id").
+		LeftJoin("machines", "machines.id = machine_components.machine_id").
+		Join("categories", "c.category_id = categories.id")
+
+		query.Where("c.deleted_at IS NULL AND c.category_id::text like '%%?%%'", category_id).
+		// SQL,_ := query.ToSql()
+		// fmt.Println("====>", SQL)
+			LoadStruct(&components)
+
+		fmt.Println("--->", components)
 
 	//extract only date from timestamp========
 	for i := 0; i < len(components); i++ {

@@ -4,15 +4,9 @@ import { Link } from 'react-router'
 import axios from 'axios';
 import './styles.css';
 
-var selectRowProp = {
-	mode: "checkbox",
-	clickToSelect: true,
-	bgColor: "rgb(238, 193, 213)"
-};
-
 function Validator(value){
 	if(!value){
-		return 'required!'
+		return false;
 	}
 	return true;
 }
@@ -54,7 +48,13 @@ class Display_category extends Component {
 	}
 
 	render() {
-		console.log("===>11", this.props.state.category.AllCategories)
+
+		let selectRowProp = {
+			mode: "checkbox",
+			clickToSelect: true,
+			bgColor: "rgb(238, 193, 213)"
+		};
+
 		return (
 			<div>
 				<select name="select2" onChange={this.filterCategory} className="selectpicker" data-width="auto">
@@ -78,10 +78,10 @@ class Display_category extends Component {
 													}}
 													search={true}
 													striped={true}
-													hover={true}>
+													hover={true} >
 						<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
-						<TableHeaderColumn width="500" dataSort={true} dataField="Category" editable={{ validator:Validator }} >Category</TableHeaderColumn>
-						<TableHeaderColumn width="500" dataSort={true} dataField="Description" editable={{ validator:Validator }}>Description</TableHeaderColumn>
+						<TableHeaderColumn dataField="Category" width="500" dataSort={true} editable={{ validator:Validator }} >Category</TableHeaderColumn>
+						<TableHeaderColumn dataField="Description" width="500" dataSort={true} editable={{ validator:Validator }} >Description</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
 			</div>

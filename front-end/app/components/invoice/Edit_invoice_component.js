@@ -40,7 +40,17 @@ class Edit_invoice extends Component {
 	}
 
 	render() {
-		console.log("===>", this.props)
+
+		//============style=========================================================
+
+		let letterStyle = {
+			border: 'solid',
+			borderWidth: '2px',
+			padding: '20px 25px 20px 100px'
+		};
+
+		//==========================================================================
+
 		var invoiceDate = moment(this.props.props.invoices.date);
 		let invoice;
 		let invoicer;
@@ -58,12 +68,6 @@ class Edit_invoice extends Component {
 			components = this.props.props.invoices.components
 			invoiceDate = moment(this.props.props.invoices.Invoice_date)
 		}
-
-		let letterStyle = {
-			border: 'solid',
-			borderWidth: '2px',
-			padding: '20px 25px 20px 100px'
-		};
 
 		const { handleSubmit, pristine, reset, submitting } = this.props
 		return (

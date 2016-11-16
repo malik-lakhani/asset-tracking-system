@@ -38,17 +38,17 @@ class Display_incidents extends Component {
 	}
 
 	render() {
+
+		var marginLeftRecord = {
+			marginleft: '-7%',
+		};
+
 		let ComponentId;
 		for(let i = 0; i < this.props.state.components.Components.length; i++) {
 			ComponentIds[i] = this.props.state.components.Components[i].Id;
 			Components[i] = this.props.state.components.Components[i].Name;
 		}
 
-
-		var marginLeftRecord = {
-			marginleft: '-7%',
-		};
-		console.log('from incidents components: ', this.props);
 		return (
 			<div>
 				<div className="clearfix">

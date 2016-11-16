@@ -5,14 +5,16 @@
 .heading{
 	font-family:Georgia;
 }
+
 .textboxSize {
-  width: 200px;
-  height: 35px;
-  border-radius: 6px;
+	width: 200px;
+	height: 35px;
+	border-radius: 6px;
 }
 
 .textAreaSize1 {
-  width: 300px;
-  height: 50px;
-  border-radius: 6px;
+	width: 300px;
+	height: 50px;
+	border-radius: 6px;
 }
+

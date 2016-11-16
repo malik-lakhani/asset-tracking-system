@@ -1,6 +1,7 @@
 import axios from 'axios';
 import querystring from 'querystring';
 import { push } from 'react-router-redux'
+import moment from 'moment';
 
 import {
 
@@ -17,7 +18,7 @@ import {
 		FETCH_MACHINES_INFORMATION_FAILULER,
 
 	FETCH_COMPONENTS_SUCCESS, FETCH_COMPONENTS_FAILULER, FETCH_COMPONENT_INFORMATION_SUCCESS,
-		FETCH_COMPONENT_INFORMATION_FAILULER,
+		FETCH_COMPONENT_INFORMATION_FAILULER, FILTER_COMPONENTS_SUCCESS, FILTER_COMPONENTS_FAILULER,
 
 	FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILULER, SET_FIELDS_INVOICES, SET_FIELDS_INVOICES_COMPONENT,
 	FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER,
@@ -290,6 +291,20 @@ export const fetchComponents = ((Action, dispatch) => {
 		}
 });
 
+export const filterComponents = ((category_id) => {
+	const URL = `http://localhost:8000/components/filter`;
+
+	return function(dispatch) {
+		axios.get(URL, { params: { category_id: category_id }})
+			.then((response) => {
+				dispatch({ type: FILTER_COMPONENTS_SUCCESS, response })
+			})
+			.catch((err) => {
+				dispatch({ type: FILTER_COMPONENTS_FAILULER, err})
+			})
+		}
+});
+
 export const fetchComponentDetails = ((componentId, dispatch) => {
 	let URL = `http://localhost:8000/components/${componentId}`
 
@@ -388,6 +403,10 @@ export const setFieldForComponent = (field, value) => ({
 });
 
 export const addInvoice = ((data) => {
+	//if invoide date not selected than it take the today's date as invoice date..
+	if(data.Invoice_date == '') {
+		data.Invoice_date = moment()
+	}
 	let serialNos = [];
 	let names = [];
 	let warrantyDate = [];
@@ -397,6 +416,10 @@ export const addInvoice = ((data) => {
 	for (let i=0; i< data.data.length; i++ ) {
 			serialNos[i] = data.data[i]["serial_" + i]
 			names[i] = data.data[i]["component_" + i]
+			//if warranty date not selected for component, it will taken date of today ...
+			if(data.data[i]["date_" + i] == undefined) {
+				data.data[i]["date_" + i] = moment();
+			}
 			warrantyDate[i] = data.data[i]["date_" + i].toDate();
 			descriptions[i] = data.data[i]["description_" + i]
 			category[i] = data.data[i]["category_" + i]

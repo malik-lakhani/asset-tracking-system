@@ -58,11 +58,16 @@ class Add_incident extends Component {
 	}
 
 	render() {
+
+	//======================== style =============================================
+
 		let letterStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
 		};
+
+	//============================================================================
 
 		let Machines = [];
 		for(let i = 0; i < this.props.props.machines.Machines.length; i++){

@@ -112,7 +112,7 @@ class Component_information extends Component {
 				<div style={letterStyle}>
 					<div>
 						<div className="col-lg-4 col-lg-offset-2">
-							<Field component={rendreLabel} label="Invoice" /> <Link to={`/invoices`}> { this.props.props.components.Components.Invoice_number } </Link>
+							<Field component={rendreLabel} label="Invoice" /> <Link to={`/invoices/edit/${this.props.props.components.Components.Invoice_id}`}> { this.props.props.components.Components.Invoice_number } </Link>
 						</div>
 						<div>
 							<Field component={rendreLabel} label="Warranty Valid Till" /> { this.props.props.components.Components.Warranty_till }
