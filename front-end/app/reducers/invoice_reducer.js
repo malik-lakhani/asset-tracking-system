@@ -4,7 +4,8 @@ import {
 	SET_FIELDS_INVOICES,
 	SET_FIELDS_INVOICES_COMPONENT,
 	FETCH_ONE_INVOICE_SUCCESS,
-	FETCH_ONE_INVOICE_FAILULER
+	FETCH_ONE_INVOICE_FAILULER,
+	RESET_STATE_INVOICES
 } from '../../constants';
 
 const initialState =
@@ -51,16 +52,42 @@ export default function invoices (state = initialState, action) {
 			return Object.assign({}, state, { state });
 
 	 	case SET_FIELDS_INVOICES_COMPONENT:
-			let componentIndex = action.field.split('_')[1];
-			var warranty = state.data;
-			if (warranty[componentIndex]) {
-				warranty[componentIndex][action.field] = action.value;
-			} else {
-				var warrantyObj = {};
-				warrantyObj[action.field] = action.value;
-				warranty.push(warrantyObj);
-			}
+	 		let componentIndex = action.field.split('_')[1];
+      var warranty = state.data;
+      if (warranty[componentIndex]) {
+        warranty[componentIndex][action.field] = action.value;
+      } else {
+        var warrantyObj = {};
+        warrantyObj[action.field] = action.value;
+        warranty.push(warrantyObj);
+      }
 			return Object.assign({}, state.data, state);
+
+			// let componentIndex = action.field.split('_')[1];
+			// var warranty = state.data;
+			// console.log(state.data,"oldstate");
+			// let newState = {};
+			// if (warranty[componentIndex]) {
+			// 	console.log("field", warranty[componentIndex][action.field]);
+			// 	warranty[componentIndex][action.field] = action.value;
+			// } else {
+			// 	var warrantyObj = {};
+			// 	warrantyObj[action.field] = action.value;
+			// 	warranty.push(warrantyObj);
+			// }
+			// state.data = warranty
+			// newState = Object.assign({}, state.data, warranty);
+			// console.log(newState,"tttt");
+
+			// return Object.assign({}, state, {data:newState});
+
+		case RESET_STATE_INVOICES:
+			state['invoice'] = ''
+			state['invoicer'] = ''
+			state['contact'] = ''
+			state['description'] = ''
+			state['address'] = ''
+			state['components'] = []
 
 		default:
 			return state

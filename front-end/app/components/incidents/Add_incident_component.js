@@ -2,23 +2,9 @@ import React, {Component} from 'react'
 import { textarea, Field, FieldArray, reduxForm } from 'redux-form'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import Select from 'react-select';
+import { HelpBlock } from 'react-bootstrap'
 import 'react-select/dist/react-select.css';
 import './styles.css';
-
-function validate(values) {
-	console.log("-->", values)
-	// const errors = {};
-	// if (!values.title || values.title.trim() === ‘’) {
-	// errors.title = ‘Enter a Title’;
-	// }
-	// if (!values.categories || values.categories.trim() === ‘’) {
-	// errors.categories = ‘Enter categories’;
-	// }
-	// if(!values.content || values.content.trim() === ‘’) {
-	// errors.content = ‘Enter some content’;
-	// }
-	// return errors;
-}
 
 class Add_incident extends Component {
 	constructor(props) {
@@ -26,6 +12,11 @@ class Add_incident extends Component {
 		this.state = {
 			machine : '',
 			component : '',
+
+			recorderErr: '',
+			machineErr: '',
+			titleErr: '',
+			componentErr: ''
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,7 +33,35 @@ class Add_incident extends Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		let componentId = this.state.component;
-		this.props.actions.addIncident(componentId , this.props.props.incidents.recorder, this.props.props.incidents.title, this.props.props.incidents.description, this.props.dispatch)
+		let recorder = this.props.props.incidents.recorder;
+		let title = this.props.props.incidents.title;
+		let description = this.props.props.incidents.description;
+
+		this.setState({recorderErr: ''});
+		this.setState({machineErr: ''});
+		this.setState({titleErr: ''});
+		this.setState({componentErr: ''});
+		let status = true;
+
+		if(recorder == '') {
+			this.setState({recorderErr: '*Required'});
+			status = false;
+		}
+		if(machine == '') {
+			this.setState({machineErr: '*Required'})
+			status = false;
+		}
+		if(componentId == '') {
+			this.setState({componentErr: '*Required'})
+			status = false;
+		}
+		if(title == '') {
+			this.setState({titleErr: '*Required'})
+			status = false;
+		}
+		if(status) {
+			this.props.actions.addIncident(componentId , recorder, title, description, this.props.dispatch)
+		}
 	}
 
 	handleMachinesChange(event) {
@@ -58,7 +77,7 @@ class Add_incident extends Component {
 	}
 
 	render() {
-
+		console.log("====>", this.props.props.incidents)
 	//======================== style =============================================
 
 		let letterStyle = {
@@ -66,6 +85,10 @@ class Add_incident extends Component {
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
 		};
+
+		let errFontStyle = {
+			color: 'red'
+		}
 
 	//============================================================================
 
@@ -81,7 +104,7 @@ class Add_incident extends Component {
 			Components[i] = ComponentInfo;
 		}
 
-		const { fields: { recorder, categories, content }, handleSubmit, pristine, reset, submitting } = this.props
+		const { handleSubmit, pristine, reset, submitting } = this.props
 		return (
 			<div>
 				<h2 className="center"> Record New Incident </h2>
@@ -89,24 +112,25 @@ class Add_incident extends Component {
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Recorder*</label>
-							<input className="textboxSize" type="text" {...recorder} value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="recorder" />
-							<div className="help-block">
-								{recorder.touched ? recorder.error : ''}
-							</div>
+							<input className="textboxSize" type="text" value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="recorder" />
+							<HelpBlock style={ errFontStyle }> {this.state.recorderErr} </HelpBlock>
 					</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Machine*</label>
 							<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
+							<HelpBlock style={ errFontStyle }> {this.state.machineErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Title*</label>
 							<input className="textboxSize" type="text" value={ this.props.props.incidents.title } name="Title" id="title" onChange={ this.handleFields } placeholder="title"/>
+							<HelpBlock style={ errFontStyle }> {this.state.titleErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Component*</label>
 							<Select name="form-field-name" value={ this.state.component } options={ Components } onChange={ this.handleComponentsChange } />
+							<HelpBlock style={ errFontStyle }> {this.state.componentErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -117,7 +141,7 @@ class Add_incident extends Component {
 					</div>
 				</div>
 				<div className="clearfix center paddingForm">
-					<form onSubmit={ this.handleSubmit(this.props.createPost.bind(this))} >
+					<form onSubmit={ this.handleSubmit } >
 						<button className="btn btn-info btn-lg" type="submit">Submit</button>
 					</form>
 				</div>
@@ -128,7 +152,5 @@ class Add_incident extends Component {
 
 export default reduxForm({
 	form: 'Add_incident',// a unique identifier for this form
-	fields: ['recorder'], //←Fields to track
-	validate //← Callback function for validation
 })(Add_incident)
 

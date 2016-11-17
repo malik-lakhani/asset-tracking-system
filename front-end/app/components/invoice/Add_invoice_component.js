@@ -4,6 +4,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { HelpBlock } from 'react-bootstrap'
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-select/dist/react-select.css';
 import './styles.css';
@@ -15,7 +16,14 @@ class Add_invoice extends Component {
 		this.state = {
 			inputs :[],
 			data :[],
-			serialNos : []
+			serialNos : [],
+
+			invoiceErr:'',
+			invoicerErr:'',
+			contactErr:'',
+			serialErr:'',
+			componentErr:'',
+			category:''
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.addInputField = this.addInputField.bind(this);
@@ -40,8 +48,10 @@ class Add_invoice extends Component {
 	}
 
 	handleDateChange(componentId, date) {
+		this.setState({startDate: date});
 		let id = `date_${ componentId }`
 		this.props.actions.setFieldForComponent(id, date);
+
 	}
 
 	handleInvoiceDateChange(date) {
@@ -51,6 +61,7 @@ class Add_invoice extends Component {
 	}
 
 	handleCategoryChange(componentId, event) {
+		this.setState({category: event.label});
 		let id = `category_${ componentId }`
 		this.props.actions.setFieldForComponent(id, event.value);
 	}
@@ -69,24 +80,46 @@ class Add_invoice extends Component {
 	}
 
 	handleSubmit(e) {
-		e.preventDefault();
+		e.preventDefault(e);
+		this.setState({invoiceErr: ''});
+		this.setState({invoicerErr: ''});
+		this.setState({contactErr: ''});
+		this.setState({serialErr: ''});
+		this.setState({componentErr: ''});
 
+		let status = true;
 		let data = this.props.props.invoices
+		if(data.invoice == '') {
+			this.setState({invoiceErr: '*Required'});
+			status = false;
+		}
 		if(data.invoicer == '') {
-			return false;
-		} else if(data.invoice_number == '') {
-			return false;
-		} else if(data.address == '') {
-			return false;
-		} else if(data.description == '') {
-			return false;
-		} else {
+			this.setState({invoicerErr: '*Required'})
+			status = false;
+		}
+		if(data.contact == '' || data.contact.length != 10) {
+			this.setState({contactErr: '*Enter Valid Contact'})
+			status = false;
+		}
+		if(data.data.length == 0){
+			this.setState({componentErr: '*Add Atleast One Component'})
+			status = false;
+		}
+		if (status) {
 			this.props.actions.addInvoice(data)
 		}
 	}
 
 	render() {
-		//============styles========================================================
+		let invoiceDate = moment();
+		if(this.props.props.invoices.Invoice_date) {
+			invoiceDate = this.props.props.invoices.Invoice_date;
+		}
+
+		let errFontStyle = {
+			color: 'red',
+			fontWeight: 'bold'
+		}
 
 		let letterStyle = {
 			border: 'solid',
@@ -113,19 +146,12 @@ class Add_invoice extends Component {
 			padding: '20px 25px 20px 100px'
 		}
 
-		let selectcss = {
+		let selectcss ={
 			width: '80%'
 		}
 
 		let setPaddingleft = {
 			paddingLeft: '15px'
-		}
-
-	//============================================================================
-
-		let invoiceDate = moment();
-		if(this.props.props.invoices.Invoice_date) {
-			invoiceDate = moment(this.props.props.invoices.Invoice_date);
 		}
 
 		let categories = [];
@@ -148,20 +174,23 @@ class Add_invoice extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoice*</label>
 							<input className="textboxSize" type="text" required={true} name="Invoice" id="invoice" onChange={ this.handleFieldsInvoice } placeholder="ex. 12MOUSE1811" />
+							<HelpBlock style={ errFontStyle }> {this.state.invoiceErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoicer*</label>
 							<input className="textboxSize" type="text" name="Invoicer" id="invoicer" onChange={ this.handleFieldsInvoice } placeholder="ex. Jay systems" />
+							<HelpBlock style={ errFontStyle }> {this.state.invoicerErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Invoice Date*</label>
-								<DatePicker className="textboxSize" name="Invoice_date" id="invoice_date" onChange={this.handleInvoiceDateChange} selected={ invoiceDate } dateFormat="DD/MM/YYYY" />
+								<DatePicker className="textboxSize" name="Invoice_date" id="invoice_date" selected={ invoiceDate } onChange={this.handleInvoiceDateChange} />
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>
 							<input className="textboxSize" type="text" name="Contact" id="contact" onChange={ this.handleFieldsInvoice }  placeholder="ex. +91 9909970574" />
+							<HelpBlock style={ errFontStyle }> {this.state.contactErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -182,6 +211,7 @@ class Add_invoice extends Component {
 					<label className="control-label text-center">Components </label>
 					<button className="btn btn-success pull-right" onClick={this.addInputField}> Add Components </button>
 					<br/>
+					<HelpBlock className="center" style={ errFontStyle }> { this.state.componentErr } </HelpBlock>
 					<br/>
 
 					{this.state.inputs.map(function (input, index) {
@@ -212,7 +242,7 @@ class Add_invoice extends Component {
 										</div>
 										<br/>
 										<div className="clearfix">
-											<Select className="col-lg-3 pull-left" style={ selectcss } id={`warrantyDate_${ index }`} value={ category } placeholder="Category" options={ categories } onChange={ this.handleCategoryChange.bind(this, index) }/>
+											<Select className="col-lg-3 pull-left" style={selectcss} id={`warrantyDate_${ index }`} value={ category } placeholder="Category" options={ categories } onChange={ this.handleCategoryChange.bind(this, index) }/>
 											<div>
 												<textarea className="textAreaSize1 col-lg-3" name="Address" id={`description_${index}`} onChange={ this.handleFieldsComponent } placeholder="Description"/>
 											</div>

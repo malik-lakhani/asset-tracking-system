@@ -17,7 +17,6 @@ class Machine_information extends Component {
 	}
 
 	displayComponents(machineId) {
-		let self = this;
 		let URL = `http://localhost:8000/machines/${machineId}/components`
 	}
 

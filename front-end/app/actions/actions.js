@@ -21,9 +21,9 @@ import {
 		FETCH_COMPONENT_INFORMATION_FAILULER, FILTER_COMPONENTS_SUCCESS, FILTER_COMPONENTS_FAILULER,
 
 	FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILULER, SET_FIELDS_INVOICES, SET_FIELDS_INVOICES_COMPONENT,
-	FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER,
+		FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER, RESET_STATE_INVOICES,
 
-	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER
+	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER, RESET_STATE_INCIDENTS
 
 } from '../../constants';
 
@@ -446,12 +446,12 @@ export const addInvoice = ((data) => {
 		invoicer_details: invoicer_details,
 		component_details: component_details
 	}
-	console.log(invoice)
-	const URL = `http://localhost:8000/invoices`;
 
+	const URL = `http://localhost:8000/invoices`;
 	return function(dispatch) {
 		axios.post(URL, invoice)
 			.then(function (response) {
+				resetStateInvoices(dispatch);
 				location.assign(`http://localhost:8080/public/#/invoices`);
 			})
 			.catch(function (error) {
@@ -484,6 +484,10 @@ export const editInvoice = (Id, data) => {
 				console.log("Error")
 	  });
 	}
+}
+
+function resetStateInvoices (dispatch) {
+	dispatch({ type: RESET_STATE_INVOICES})
 }
 //==============================================================================
 
@@ -521,6 +525,7 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 	return function( dispatch) {
 		axios.post(URL, data)
 			.then(function (response) {
+				resetStateIncidents(dispatch)
 				location.assign(`http://localhost:8080/public/#/incidents/`);
 			})
 			.catch(function (error) {
@@ -543,6 +548,10 @@ export const editIncident = ((row, componentId) => {
 	    	console.log('Error From patch User : ', err);
 	  });
 });
+
+function resetStateIncidents (dispatch) {
+	dispatch({ type: RESET_STATE_INCIDENTS})
+}
 
 //==============================================================================
 
