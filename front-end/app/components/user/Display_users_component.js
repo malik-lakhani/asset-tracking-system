@@ -38,7 +38,6 @@ class Display_users extends Component {
 	}
 
 	addUser(row) {
-		console.log("add new user : ", row);
 		let indexOfMachineId = MachineNames.indexOf(row.Machine_name);
 		let MachineId = MachineIds[indexOfMachineId]
 		this.props.actions.addUser(row, MachineId);

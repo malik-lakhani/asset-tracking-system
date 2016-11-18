@@ -13,7 +13,8 @@ class Display_components extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			category: ''
+			category: '',
+			activeAll: 'Active'
 		};
 		this.filterComponents = this.filterComponents.bind(this);
 		this.handleCategoryChange = this.handleCategoryChange.bind(this);
@@ -24,11 +25,12 @@ class Display_components extends Component {
 		if(val.value == "all") {
 			all = true
 		}
+		this.setState({activeAll:val.value});
 		this.props.actions.fetchComponents(all, this.props.dispatch);
 	}
 
 	handleCategoryChange(val) {
-		this.setState({category:val.label});
+		this.setState({category:val.value});
 		this.props.actions.filterComponents(val.value);
 	}
 
@@ -61,32 +63,31 @@ class Display_components extends Component {
 			padding: '0px 12px 0px 12px'
 		}
 
-		var table;
+		var table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>);
 		if (this.props.state.components.Components && this.props.state.components.Components.length) {
-		table = (	<BootstrapTable data={this.props.state.components.Components}
-													pagination={true}
-													striped={true}
-													search={true}
-													hover={true}>
-						<TableHeaderColumn isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
-						<TableHeaderColumn width="120" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
-						<TableHeaderColumn width="120" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
-						<TableHeaderColumn width="70" dataSort={true} dataField="Active">Active</TableHeaderColumn>
-						<TableHeaderColumn width="150" dataSort={true} dataField="Category">Category</TableHeaderColumn>
-						<TableHeaderColumn width="140" dataField="Warranty_till">Warranty Till(Y-M-D)</TableHeaderColumn>
-						<TableHeaderColumn hidden={true} dataField="invoice_id">Invoice</TableHeaderColumn>
-						<TableHeaderColumn width="240" dataSort={true} dataField="Description">Description</TableHeaderColumn>
-						<TableHeaderColumn width="150" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
-					</BootstrapTable>);
-		} else {
-			table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)
+			table = (	<BootstrapTable data={this.props.state.components.Components}
+														pagination={true}
+														striped={true}
+														search={true}
+														hover={true}>
+							<TableHeaderColumn isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
+							<TableHeaderColumn width="120" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
+							<TableHeaderColumn width="120" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
+							<TableHeaderColumn width="70" dataSort={true} dataField="Active">Active</TableHeaderColumn>
+							<TableHeaderColumn width="150" dataSort={true} dataField="Category">Category</TableHeaderColumn>
+							<TableHeaderColumn width="140" dataField="Warranty_till">Warranty Till(Y-M-D)</TableHeaderColumn>
+							<TableHeaderColumn hidden={true} dataField="invoice_id">Invoice</TableHeaderColumn>
+							<TableHeaderColumn width="240" dataSort={true} dataField="Description">Description</TableHeaderColumn>
+							<TableHeaderColumn width="150" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
+						</BootstrapTable>
+					);
 		}
 
 		return (
 			<div>
 				<div className= "clearfix" style = { setPadding } >
 					<div className="pull-left" >
-						<Select value= { "Active" } searchable={ false } clearable={ false } placeholder="Active" options={ options } style={ activeStyle } onChange={ this.filterComponents }/>
+						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterComponents }/>
 					</div>
 					<div className="pull-right">
 						<Select value={ this.state.category } placeholder="Filter By Category" options={ categories } style={ categoryStyle } onChange={ this.handleCategoryChange }/>

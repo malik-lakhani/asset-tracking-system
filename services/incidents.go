@@ -2,7 +2,7 @@ package services
 
 import(
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"time"
 )
 
@@ -38,6 +38,12 @@ func AddIncident(data string) {
 		Where("id = ?", i.Component_id).
 		Exec()
 	CheckErr(err3)
+
+	_, err4 := sess.Update("machine_components").
+		Set("deleted_at", "NOW()").
+		Where("component_id = ?", i.Component_id).
+		Exec()
+	CheckErr(err4)
 }
 
 func EditIncident(incidentId int, componentId string, recorder string, title string, description string) {
@@ -83,11 +89,8 @@ func DisplayIncidents() []byte {
 		LeftJoin("components", "i.component_id = components.id").
 		LeftJoin("machine_components", "i.component_id = machine_components.component_id").
 		LeftJoin("machines", "machines.id = machine_components.component_id")
-		sql,_ := query.ToSql()
-		fmt.Println("query", sql)
-		query.LoadStruct(&incidentInfo)
 
-		fmt.Println("-->", incidentInfo)
+		query.LoadStruct(&incidentInfo)
 
 	//extract only date from timestamp========
 	for i := 0; i < len(incidentInfo); i++ {

@@ -45,6 +45,11 @@ class Component_information extends Component {
 			padding: '15px'
 		};
 
+		let textAreaSize = {
+			width: '569px',
+			height: '75px'
+		}
+
 		//null data will be pass to datatable if database contains no data ....
 		let status = 'Active';
 		let MachineName = '';
@@ -88,9 +93,12 @@ class Component_information extends Component {
 								<label >Select Machine</label>
 								<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
 							</div>
+							<div className="modal-body">
+								<textarea name="Description" style={ textAreaSize } placeholder="Reason"/>
+							</div>
 							<div className="modal-footer">
 								<form onSubmit={ this.handleSubmit } >
-									<button type="submit" className="btn btn-info" >Save</button>
+									<button type="submit" id="changeMachine" className="btn btn-info" >Save</button>
 									<button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
 								</form>
 							</div>
@@ -129,7 +137,7 @@ class Component_information extends Component {
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Description</label>
-							<textarea disabled className="textAreaSize" name="Description" value={  this.props.props.components.Components.Description  } />
+							<textarea disabled className="textAreaSize" name="Description" value={ this.props.props.components.Components.Description } />
 						</div>
 						<div className="col-lg-2 col-lg-offset-2">
 							<Field component={rendreLabel} label="User" /> { User }

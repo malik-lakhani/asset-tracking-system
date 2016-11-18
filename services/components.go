@@ -31,7 +31,7 @@ func DisplayComponents(all string) []byte {
 		Join("categories", "c.category_id = categories.id")
 	// display all components or active components only ...
 	if(all == "false") {
-		query.Where("c.deleted_at IS NULL").
+		query.Where("c.active = true").
 			LoadStruct(&components)
 	} else {
 		query.LoadStruct(&components)

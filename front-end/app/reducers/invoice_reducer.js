@@ -63,24 +63,6 @@ export default function invoices (state = initialState, action) {
       }
 			return Object.assign({}, state.data, state);
 
-			// let componentIndex = action.field.split('_')[1];
-			// var warranty = state.data;
-			// console.log(state.data,"oldstate");
-			// let newState = {};
-			// if (warranty[componentIndex]) {
-			// 	console.log("field", warranty[componentIndex][action.field]);
-			// 	warranty[componentIndex][action.field] = action.value;
-			// } else {
-			// 	var warrantyObj = {};
-			// 	warrantyObj[action.field] = action.value;
-			// 	warranty.push(warrantyObj);
-			// }
-			// state.data = warranty
-			// newState = Object.assign({}, state.data, warranty);
-			// console.log(newState,"tttt");
-
-			// return Object.assign({}, state, {data:newState});
-
 		case RESET_STATE_INVOICES:
 			state['invoice'] = ''
 			state['invoicer'] = ''

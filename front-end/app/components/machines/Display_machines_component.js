@@ -65,7 +65,7 @@ class Display_machines extends Component {
 
 
 		var table;
-		if (this.props.state.users.AllUsers && this.props.state.users.AllUsers.length) {
+		// if (this.props.state.users.AllUsers && this.props.state.users.AllUsers.length) {
 		table = (	<BootstrapTable data={ this.props.state.users.AllUsers }
 													pagination={true}
 													options={{
@@ -84,12 +84,12 @@ class Display_machines extends Component {
 													striped={true}
 													hover={true}>
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
-						<TableHeaderColumn width="260" dataSort={true} dataField="Name" dataFormat={machineInformation}>Name</TableHeaderColumn>
-						<TableHeaderColumn width="350" dataSort={true} dataField="User" editable={false} autoValue={true}>Current User</TableHeaderColumn>
+						<TableHeaderColumn width="260" dataSort={true} dataField="Machine_name" dataFormat={machineInformation}>Name</TableHeaderColumn>
+						<TableHeaderColumn width="350" dataSort={true} dataField="Name" editable={false} autoValue={true}>Current User</TableHeaderColumn>
 					</BootstrapTable>);
-		} else {
-			table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)
-		}
+		// } else {
+		// 	table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)
+		// }
 
 		return (
 			<div>

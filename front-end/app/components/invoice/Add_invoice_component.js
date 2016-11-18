@@ -97,7 +97,7 @@ class Add_invoice extends Component {
 			this.setState({invoicerErr: '*Required'})
 			status = false;
 		}
-		if(data.contact == '' || data.contact.length != 10) {
+		if(data.contact == '' || data.contact.length != 10 || isNaN(data.contact)) {
 			this.setState({contactErr: '*Enter Valid Contact'})
 			status = false;
 		}
@@ -209,7 +209,7 @@ class Add_invoice extends Component {
 
 				<div style={setWidth}>
 					<label className="control-label text-center">Components </label>
-					<button className="btn btn-success pull-right" onClick={this.addInputField}> Add Components </button>
+					<button className="btn btn-success pull-right" onClick={this.addInputField}> Add Component </button>
 					<br/>
 					<HelpBlock className="center" style={ errFontStyle }> { this.state.componentErr } </HelpBlock>
 					<br/>

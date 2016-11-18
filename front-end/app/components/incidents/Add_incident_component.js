@@ -33,6 +33,7 @@ class Add_incident extends Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		let componentId = this.state.component;
+		let machine = this.state.machine;
 		let recorder = this.props.props.incidents.recorder;
 		let title = this.props.props.incidents.title;
 		let description = this.props.props.incidents.description;
@@ -77,7 +78,6 @@ class Add_incident extends Component {
 	}
 
 	render() {
-		console.log("====>", this.props.props.incidents)
 	//======================== style =============================================
 
 		let letterStyle = {

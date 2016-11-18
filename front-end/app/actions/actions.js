@@ -45,7 +45,6 @@ export const fetchUsers = ((All, dispatch) => {
 	return function(dispatch) {
 		axios.get(URL, { params: { all: all }})
 			.then((response) => {
-				console.log('response Get users:', response);
 				dispatch({ type: FETCH_USERS_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -85,10 +84,10 @@ export const editUser = ((row, machineId) => {
 			'company_email' : row.Company_email,
 			'machine_id' : machineId
 		})).then(function(response) {
-				 console.log('Response : ', response);
+				console.log('Response : ', response);
 		}).catch(function (err) {
-	    console.log('Error From patch User : ', err);
-	  });
+				console.log('Error From patch User : ', err);
+		});
 });
 
 export const addUser = ((row, machineId) => {
@@ -121,11 +120,9 @@ export const fetchCatogories = ((All, dispatch) => {
 	return function(dispatch) {
 		axios.get(URL, { params: { all: all }})
 			.then((response) => {
-				console.log('response Get categories:', response);
 				dispatch({ type: FETCH_CATEGORIES_SUCCESS, response })
 			})
 			.catch((err) => {
-				console.log('response Get categories:', err);
 				dispatch({ type: FETCH_CATEGORIES_FAILULER, err})
 			})
 		}
@@ -161,7 +158,7 @@ export const editCategory = ((row) => {
 			'category' : row.Category,
 			'description' : row.Description,
 		})).then(function(response) {
-				 console.log('success');
+				console.log('success');
 		});
 
 
@@ -196,7 +193,6 @@ export const fetchMachines = ((Action, dispatch) => {
 	return function(dispatch) {
 		axios.get(URL, { params: { all: allMachine }})
 			.then((response) => {
-				console.log('response Get machines:', response);
 				dispatch({ type: FETCH_MACHINES_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -234,10 +230,10 @@ export const editMachine = ((row) => {
 		querystring.stringify({
 			'name' : row.Name,
 		})).then(function(response) {
-			 	console.log('Response : ', response);
+				console.log('Response : ', response);
 		}).catch(function (err) {
-	    	console.log('Error From patch User : ', err);
-	  });
+				console.log('Error From patch User : ', err);
+		});
 });
 
 export const addMachine = ((row) => {
@@ -257,7 +253,6 @@ export const fetchMachineInformation = ((machineId) => {
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
-				console.log('response Get machine Information:', response);
 				dispatch({ type: FETCH_MACHINES_INFORMATION_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -307,12 +302,10 @@ export const filterComponents = ((category_id) => {
 
 export const fetchComponentDetails = ((componentId, dispatch) => {
 	let URL = `http://localhost:8000/components/${componentId}`
-
 	let allComponents = false;
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
-				console.log('response Get components details:', response);
 				dispatch({ type: FETCH_COMPONENT_INFORMATION_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -367,7 +360,6 @@ export const fetchInvoices = ((dispatch) => {
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
-				console.log('response Get invoices:', response);
 				dispatch({ type: FETCH_INVOICES_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -381,7 +373,6 @@ export const fetchInvoiceDetails = ((invoiceId) => {
 	return function(dispatch) {
 		axios.get(URL)
 			.then((response) => {
-				console.log('response One invoices:', response);
 				dispatch({ type: FETCH_ONE_INVOICE_SUCCESS, response })
 			})
 			.catch((err) => {
@@ -410,8 +401,8 @@ export const addInvoice = ((data) => {
 	let serialNos = [];
 	let names = [];
 	let warrantyDate = [];
-  let descriptions = [];
-  let category = [];
+	let descriptions = [];
+	let category = [];
 
 	for (let i=0; i< data.data.length; i++ ) {
 			serialNos[i] = data.data[i]["serial_" + i]
@@ -482,7 +473,7 @@ export const editInvoice = (Id, data) => {
 		})
 		.catch(function (err) {
 				console.log("Error")
-	  });
+		});
 	}
 }
 
@@ -543,10 +534,10 @@ export const editIncident = ((row, componentId) => {
 			'recorder' : row.Recorder,
 			'component_id': componentId
 		})).then(function(response) {
-				 console.log('Response : ', response);
+				console.log('Response : ', response);
 		}).catch(function (err) {
-	    	console.log('Error From patch User : ', err);
-	  });
+				console.log('Error From patch User : ', err);
+		});
 });
 
 function resetStateIncidents (dispatch) {
