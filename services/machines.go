@@ -2,7 +2,7 @@ package services
 
 import (
 	"encoding/json"
-	// "fmt"
+	"fmt"
 	"strings"
 	"time"
 )
@@ -142,13 +142,14 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		LeftJoin("users_machine","users_machine.machine_id = machines.id").
 		LeftJoin("users","users_machine.user_id = users.id").
 		Where("machines.id = ? AND users_machine.deleted_at IS NULL", machineId)
-
+		sql, _ := query2.ToSql()
+		fmt.Println(sql)
 		query2.LoadStruct(&machineInfo)
 
 		t := machineInfo.Created_at
 		machineInfo.UsingSince = t.Format("2006-01-02")
 	//==================================
-
+		fmt.Println("---->", machineInfo)
 	//all information of machine's components ===========
 	MachineComponents := []AllComponents{}
 	query := sess.Select("components.id, components.name, components.serial_no, components.description, components.warranty_till AS Warranty, machine_components.created_at").

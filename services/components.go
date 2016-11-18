@@ -2,7 +2,7 @@ package services
 
 import(
 		"encoding/json"
-		"fmt"
+		// "fmt"
 		"time"
 )
 
@@ -49,7 +49,6 @@ func DisplayComponents(all string) []byte {
 }
 
 func FilterComponents(category_id int) []byte {
-	fmt.Println("------->caled <-------")
 	sess := SetupDB()
 	components := []DisplayAllComponents{}
 
@@ -60,11 +59,7 @@ func FilterComponents(category_id int) []byte {
 		Join("categories", "c.category_id = categories.id")
 
 		query.Where("c.deleted_at IS NULL AND c.category_id::text like '%%?%%'", category_id).
-		// SQL,_ := query.ToSql()
-		// fmt.Println("====>", SQL)
 			LoadStruct(&components)
-
-		fmt.Println("--->", components)
 
 	//extract only date from timestamp========
 	for i := 0; i < len(components); i++ {

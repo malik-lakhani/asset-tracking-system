@@ -90,7 +90,7 @@ class Display_components extends Component {
 						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterComponents }/>
 					</div>
 					<div className="pull-right">
-						<Select value={ this.state.category } placeholder="Filter By Category" options={ categories } style={ categoryStyle } onChange={ this.handleCategoryChange }/>
+						<Select searchable={ false } clearable={ false } value={ this.state.category } placeholder="Filter By Category" options={ categories } style={ categoryStyle } onChange={ this.handleCategoryChange }/>
 					</div>
 				</div>
 				<div className="clearfix">
