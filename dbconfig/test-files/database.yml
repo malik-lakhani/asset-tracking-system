@@ -1,17 +1,17 @@
 development:
   host: localhost
   database: cantaloupe
-  username: postgress
-  password: ""
+  username: postgres
+  password: "123123"
 
 test:
   host: localhost
   database: cantaloupe_test
-  username: postgress
-  password: ""
+  username: postgres
+  password: "123123"
 
 production:
   host: localhost
   database: cantaloupe
-  username: postgress
-  password: ""
+  username: postgres
+  password: "123123"

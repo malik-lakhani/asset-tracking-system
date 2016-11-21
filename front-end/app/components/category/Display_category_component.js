@@ -6,7 +6,7 @@ import './styles.css';
 
 function Validator(value){
 	if(!value){
-		return false;
+		return "*";
 	}
 	return true;
 }
@@ -81,7 +81,7 @@ class Display_category extends Component {
 													hover={true} >
 						<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
 						<TableHeaderColumn dataField="Category" width="500" dataSort={true} editable={{ validator:Validator }} >Category</TableHeaderColumn>
-						<TableHeaderColumn dataField="Description" width="500" dataSort={true} editable={{ validator:Validator }} >Description</TableHeaderColumn>
+						<TableHeaderColumn dataField="Description" width="500" dataSort={true}  >Description</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
 			</div>

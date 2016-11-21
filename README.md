@@ -9,6 +9,11 @@ Internal Assets Tracking System for Maintain different Components.
 * [Glide](https://github.com/Masterminds/glide) - Package manager for Go
 * PostgreSQL 9.4.4+
 
+## Run postgres inside docker container from project directory
+```
+docker run -d -it -v /Users/ashwin/cantaloupe/src/github.com/improwised/cantaloupe/postgres_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123123 -e POSTGRES_USER=postgres -e POSTGRES_DB=cantaloupe -p 5432:5432 postgres:9.6-alpine
+```
+
 ## Installation
 * Setup go workspace by following this [Guide](https://golang.org/doc/code.html#Organization)
 * Set Go vendor flag. Add the following to your `.bashrc` or `.zshrc` along with `$GOPATH` above

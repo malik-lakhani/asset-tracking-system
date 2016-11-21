@@ -12,7 +12,7 @@ var selectRowProp = {
 
 function Validator(value){
 	if(!value){
-		return 'required!'
+		return '  *'
 	}
 	return true;
 }

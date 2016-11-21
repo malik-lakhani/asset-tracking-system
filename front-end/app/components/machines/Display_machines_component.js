@@ -5,7 +5,7 @@ import './styles.css';
 
 function Validator(value){
   if(!value){
-    return 'required!'
+    return "*"
   }
   return true;
 }
@@ -66,7 +66,7 @@ class Display_machines extends Component {
 
 		var table;
 		// if (this.props.state.users.AllUsers && this.props.state.users.AllUsers.length) {
-		table = (	<BootstrapTable data={ this.props.state.users.AllUsers }
+		table = (	<BootstrapTable data={ this.props.state.machines.Machines }
 													pagination={true}
 													options={{
 														afterDeleteRow: this.deleteMachine,
@@ -83,9 +83,9 @@ class Display_machines extends Component {
 													search={true}
 													striped={true}
 													hover={true}>
-						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
-						<TableHeaderColumn width="260" dataSort={true} dataField="Machine_name" dataFormat={machineInformation}>Name</TableHeaderColumn>
-						<TableHeaderColumn width="350" dataSort={true} dataField="Name" editable={false} autoValue={true}>Current User</TableHeaderColumn>
+						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true}  autoValue={true} hidden={true} >Id</TableHeaderColumn>
+						<TableHeaderColumn width="260" dataSort={true} dataField="Name" dataFormat={machineInformation} editable={{ validator:Validator }}>Name</TableHeaderColumn>
+						<TableHeaderColumn width="350" dataSort={true} dataField="User" editable={false} hiddenOnInsert={true} autoValue={false}>Current User</TableHeaderColumn>
 					</BootstrapTable>);
 		// } else {
 		// 	table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)

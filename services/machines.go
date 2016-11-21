@@ -122,15 +122,15 @@ type PastUses struct {
 }
 
 type AllInfoOfMachine struct {
+	Id int
+	Name string
+	Machine string
+	Created_at *time.Time
+	UsingSince string
+
 	Components[] AllComponents
 	Incidents[] AllIncidents
 	PastUses[] PastUses
-
-	Id *int
-	Name *string
-	Machine *string
-	Created_at time.Time
-	UsingSince string
 }
 
 func DisplayMachineComponents(machineId int, allComponents string) []byte {
@@ -149,7 +149,7 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		t := machineInfo.Created_at
 		machineInfo.UsingSince = t.Format("2006-01-02")
 	//==================================
-		fmt.Println("---->", machineInfo)
+		fmt.Println("=>",machineInfo)
 	//all information of machine's components ===========
 	MachineComponents := []AllComponents{}
 	query := sess.Select("components.id, components.name, components.serial_no, components.description, components.warranty_till AS Warranty, machine_components.created_at").

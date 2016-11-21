@@ -4,6 +4,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { HelpBlock } from 'react-bootstrap'
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-select/dist/react-select.css';
 import './styles.css';
@@ -12,7 +13,14 @@ class Edit_invoice extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			date: moment()
+			date: moment(),
+
+			invoiceErr:'',
+			invoicerErr:'',
+			contactErr:'',
+			serialErr:'',
+			componentErr:'',
+			category:''
 		};
 		this.handleFields = this.handleFields.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,8 +38,30 @@ class Edit_invoice extends Component {
 	}
 
 	handleSubmit(e) {
-		e.preventDefault();
-		this.props.actions.editInvoice(this.props.params.invoiceId, this.props.props.invoices)
+		e.preventDefault(e);
+		this.setState({invoiceErr: ''});
+		this.setState({invoicerErr: ''});
+		this.setState({contactErr: ''});
+		this.setState({serialErr: ''});
+		this.setState({componentErr: ''});
+
+		let status = true;
+		let data = this.props.props.invoices
+		if(data.invoice == '') {
+			this.setState({invoiceErr: '*Required'});
+			status = false;
+		}
+		if(data.invoicer == '') {
+			this.setState({invoicerErr: '*Required'})
+			status = false;
+		}
+		if(data.contact == '' || data.contact.length != 10 || isNaN(data.contact)) {
+			this.setState({contactErr: '*Enter Valid Contact'})
+			status = false;
+		}
+		if (status) {
+			this.props.actions.editInvoice(this.props.params.invoiceId, this.props.props.invoices)
+		}
 	}
 
 	componentDidMount() {
@@ -48,6 +78,11 @@ class Edit_invoice extends Component {
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
 		};
+
+		let errFontStyle = {
+			color: 'red',
+			fontWeight: 'bold'
+		}
 
 		//==========================================================================
 
@@ -83,10 +118,12 @@ class Edit_invoice extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoice*</label>
 							<input className="textboxSize" type="text" name="Invoice" id="invoice" value={ invoice }  onChange={this.handleFields} placeholder="ex. 12MOUSE1811" />
+							<HelpBlock style={ errFontStyle }> {this.state.invoiceErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoicer*</label>
 							<input className="textboxSize" type="text" name="Invoicer" id="invoicer" value={invoicer} onChange={this.handleFields} placeholder="ex. Jay systems" />
+							<HelpBlock style={ errFontStyle }> {this.state.invoicerErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -97,6 +134,7 @@ class Edit_invoice extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>
 							<input className="textboxSize" type="text" name="Contact" id="contact" value={ contact } onChange={this.handleFields} placeholder="ex. +91 9909970574" />
+							<HelpBlock style={ errFontStyle }> {this.state.contactErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
