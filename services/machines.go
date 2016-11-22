@@ -201,21 +201,33 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	return b
 }
 
+type MachineComponents struct {
+	MachineId int
+	ComponentId int
+}
+
 func AddComponentsToMachine(machineId int, componentId int) {
 	sess := SetupDB()
-
+	m := MachineComponents{}
+	m.MachineId = machineId
+	m.ComponentId = componentId
 	_, err := sess.Update("machine_components").
-		Set("machine_id", machineId).
-		Set("deleted_at", nil).
+		Set("deleted_at", "NOW()").
 		Where("component_id = ?", componentId).
 		Exec()
 	CheckErr(err)
 
-	_, err2 := sess.Update("components").
+	_, err2 := sess.InsertInto("machine_components").
+		Columns("machine_id", "component_id").
+		Record(m).
+		Exec()
+	CheckErr(err2)
+
+	_, err3 := sess.Update("components").
 		Set("active", "true").
 		Where("id = ?", componentId).
 		Exec()
-		CheckErr(err2)
+		CheckErr(err3)
 }
 
 func RemoveComponentsFromMachine(machineId int, componentId int) {

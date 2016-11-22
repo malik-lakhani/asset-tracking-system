@@ -57,7 +57,8 @@ class Component_information extends Component {
 		let User = '';
 		let Description = '';
 		let Component = '';
-		let incidents = [];
+		let Incidents = [];
+		let Log = []
 
 		if(this.props.props.components.Components.Machine) {
 			MachineName = this.props.props.components.Components.Machine.Name;
@@ -65,7 +66,9 @@ class Component_information extends Component {
 			User = this.props.props.components.Components.User.Name;
 			Description = this.props.props.components.Components.Description;
 			Component = this.props.props.components.Components.Component;
-			incidents = this.props.props.components.Components.Incidents;
+			Incidents = this.props.props.components.Components.Incidents;
+			Log = this.props.props.components.Components.ComponentLog;
+
 			if(this.props.props.components.Components.Active == "false") {
 				status = 'decommitted';
 			}
@@ -92,9 +95,6 @@ class Component_information extends Component {
 							<div className="modal-body">
 								<label >Select Machine</label>
 								<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
-							</div>
-							<div className="modal-body">
-								<textarea name="Description" style={ textAreaSize } placeholder="Reason"/>
 							</div>
 							<div className="modal-footer">
 								<form onSubmit={ this.handleSubmit } >
@@ -149,14 +149,26 @@ class Component_information extends Component {
 					<h3> Incident(s) </h3>
 					</div>
 					<div>
-						<BootstrapTable data={incidents} pagination={true} search={true} striped={true} hover={true}>
-						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
-						<TableHeaderColumn width="180" dataSort={true} dataField="Title">Title</TableHeaderColumn>
-						<TableHeaderColumn width="200" dataSort={true} dataField="Description">Description</TableHeaderColumn>
-						<TableHeaderColumn width="100" dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>
-						<TableHeaderColumn width="50"  dataSort={true} dataField="Status" >Status</TableHeaderColumn>
+						<BootstrapTable data={Incidents} pagination={true} search={true} striped={true} hover={true}>
+							<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
+							<TableHeaderColumn width="180" dataSort={true} dataField="Title">Title</TableHeaderColumn>
+							<TableHeaderColumn width="200" dataSort={true} dataField="Description">Description</TableHeaderColumn>
+							<TableHeaderColumn width="100" dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>
+							<TableHeaderColumn width="50"  dataSort={true} dataField="Status" >Status</TableHeaderColumn>
 						</BootstrapTable>
 					</div>
+
+					<div className="center">
+					<h3> Component History </h3>
+					</div>
+						<div>
+							<BootstrapTable data={ Log } pagination={true} search={true} striped={true} hover={true}>
+								<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true} hidden={true} >#</TableHeaderColumn>
+								<TableHeaderColumn width="180" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
+								<TableHeaderColumn width="200" dataSort={true} dataField="Added_at">Added At</TableHeaderColumn>
+								<TableHeaderColumn width="100" dataSort={true} dataField="Removed_at">Removed At</TableHeaderColumn>
+							</BootstrapTable>
+          </div>
 				</div>
 			</div>
 		)

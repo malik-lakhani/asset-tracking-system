@@ -9,6 +9,7 @@ import(
 type IncidentInfo struct {
 	Id int
 	Component_id int
+	Serial_no string
 	Title string
 	Recorder string
 	Component string
@@ -84,7 +85,7 @@ func DisplayIncidents() []byte {
 	sess := SetupDB()
 	incidentInfo := []IncidentInfo{}
 
-	query := sess.Select("i.id, i.title, i.description, i.status, i.recorder, components.name AS Component, components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
+	query := sess.Select("i.id, i.title, i.description, i.status, i.recorder, components.name AS Component, components.serial_no,components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
 		From("incidents i").
 		LeftJoin("components", "i.component_id = components.id").
 		LeftJoin("machine_components", "i.component_id = machine_components.component_id").

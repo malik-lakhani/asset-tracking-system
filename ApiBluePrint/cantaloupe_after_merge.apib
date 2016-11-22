@@ -246,8 +246,8 @@ Display Machine Components.
             + id : `1`
             + machine_id : `2`
             + name : `mako`
-            + components_id : 2 (array)
-            + components_name : `MotherBoard` (array)
+            + components_id : 2
+            + components_name : `MotherBoard`
 
 + Response 201
 
@@ -282,6 +282,7 @@ Display Machine Components.
 - **invoicer_address** : Address Of Invoicer(string, Optional)
 - **invoicer_contact** : Contact Of Invoicer(string, Optional)
 - **components** : Group Of Components(string[], Required)
+- **category** : Category of Component(string[], Required)
 - **warranty_till** : Warrenty of Components(string[], Required)
 - **component_description** : Description of Each Component(string[], Optional)
 - **invoice_description** : Description Of Invoice(string, Optional)
@@ -303,12 +304,14 @@ Add New Invoice
               + address:"Rajkot"
               + contact:"9909970574"
 
-          + component_details
-              - serial_no : 12SOECE11230, 12SOECE11231
-              - name : Mouse, keyboard
-              - category : Electornics
-              - warranty_till : 10/5/2017, 10/10/2017
-              - description : Nothing, Nothing
+          + components_detail(array)
+              - (object)
+                  - serial_no : 12SOECE11230(string)
+                  - name : Mouse(string)
+                  - category : Electornics(string)
+                  - warranty_till : 10/5/2017(string)
+                  - description : Nothing(string)
+
           + description : `Invoice Description Should Mention Here`
           + date : `10-08-2016`
 
@@ -504,6 +507,7 @@ Incidents dealing with components.
 - **id** : Id of Component(string, Required)
 - **name** : Name of Component(string, Required)
 - **invoice_id** : Id of Invoice(string, Required)
+- **category** : Category of Component(string, Required)
 - **warranty_till** : Warranty of Component(string, Required)
 - **description** : Description(string, Optional)
 - **active** : Component is active(string, Required) or not
@@ -531,6 +535,7 @@ Display All Components
             "serial_no":"12SOECE11230",
             "name": "Mouse",
             "machine_name": "mako",
+            "category":"Electronics",
             "invoice_id": 1,
             "warranty_till": "12-04-2017 ",
             "description": "description of mouse",
@@ -555,6 +560,7 @@ Display Component Incidents
             "invoice_number":"12SOECE11230",
             "component_id": "1",
             "component": "Mouse",
+            "category":"electronics",
             "user_id": 1,
             "user": "ashivn",
             "machine_id": "1",

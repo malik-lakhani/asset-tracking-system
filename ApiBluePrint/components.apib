@@ -3,6 +3,7 @@
 - **id** : Id of Component(string, Required)
 - **name** : Name of Component(string, Required)
 - **invoice_id** : Id of Invoice(string, Required)
+- **category** : Category of Component(string, Required)
 - **warranty_till** : Warranty of Component(string, Required)
 - **description** : Description(string, Optional)
 - **active** : Component is active(string, Required) or not
@@ -30,6 +31,7 @@ Display All Components
             "serial_no":"12SOECE11230",
             "name": "Mouse",
             "machine_name": "mako",
+            "category":"Electronics",
             "invoice_id": 1,
             "warranty_till": "12-04-2017 ",
             "description": "description of mouse",
@@ -54,6 +56,7 @@ Display Component Incidents
             "invoice_number":"12SOECE11230",
             "component_id": "1",
             "component": "Mouse",
+            "category":"electronics",
             "user_id": 1,
             "user": "ashivn",
             "machine_id": "1",

@@ -185,12 +185,8 @@ By default it will display active components only.</p>
     "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
     "<span class="hljs-attribute">machine_id</span>": <span class="hljs-value"><span class="hljs-string">"2"</span></span>,
     "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"mako"</span></span>,
-    "<span class="hljs-attribute">components_id</span>": <span class="hljs-value">[
-      <span class="hljs-string">"2"</span>
-    ]</span>,
-    "<span class="hljs-attribute">components_name</span>": <span class="hljs-value">[
-      <span class="hljs-string">"MotherBoard"</span>
-    ]
+    "<span class="hljs-attribute">components_id</span>": <span class="hljs-value"><span class="hljs-string">"2"</span></span>,
+    "<span class="hljs-attribute">components_name</span>": <span class="hljs-value"><span class="hljs-string">"MotherBoard"</span>
   </span>}
 </span>}</code></pre><div style="height: 1px;"></div><h5>Schema</h5><pre><code>{
   "<span class="hljs-attribute">$schema</span>": <span class="hljs-value"><span class="hljs-string">"http://json-schema.org/draft-04/schema#"</span></span>,
@@ -209,10 +205,10 @@ By default it will display active components only.</p>
           "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
         </span>}</span>,
         "<span class="hljs-attribute">components_id</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
         </span>}</span>,
         "<span class="hljs-attribute">components_name</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
         </span>}
       </span>}
     </span>}
@@ -241,6 +237,9 @@ By default it will display active components only.</p>
 <p><strong>components</strong> : Group Of Components(string[], Required)</p>
 </li>
 <li>
+<p><strong>category</strong> : Category of Component(string[], Required)</p>
+</li>
+<li>
 <p><strong>warranty_till</strong> : Warrenty of Components(string[], Required)</p>
 </li>
 <li>
@@ -262,25 +261,15 @@ By default it will display active components only.</p>
       "<span class="hljs-attribute">address</span>": <span class="hljs-value"><span class="hljs-string">"\"Rajkot\""</span></span>,
       "<span class="hljs-attribute">contact</span>": <span class="hljs-value"><span class="hljs-string">"\"9909970574\""</span>
     </span>}</span>,
-    "<span class="hljs-attribute">component_details</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">serial_no</span>": <span class="hljs-value">[
-        <span class="hljs-string">"12SOECE11230"</span>,
-        <span class="hljs-string">"12SOECE11231"</span>
-      ]</span>,
-      "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
-        <span class="hljs-string">"Mouse"</span>,
-        <span class="hljs-string">"keyboard"</span>
-      ]</span>,
-      "<span class="hljs-attribute">category</span>": <span class="hljs-value"><span class="hljs-string">"Electornics"</span></span>,
-      "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value">[
-        <span class="hljs-string">"10/5/2017"</span>,
-        <span class="hljs-string">"10/10/2017"</span>
-      ]</span>,
-      "<span class="hljs-attribute">description</span>": <span class="hljs-value">[
-        <span class="hljs-string">"Nothing"</span>,
-        <span class="hljs-string">"Nothing"</span>
-      ]
-    </span>}</span>,
+    "<span class="hljs-attribute">components_detail</span>": <span class="hljs-value">[
+      {
+        "<span class="hljs-attribute">serial_no</span>": <span class="hljs-value"><span class="hljs-string">"12SOECE11230"</span></span>,
+        "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Mouse"</span></span>,
+        "<span class="hljs-attribute">category</span>": <span class="hljs-value"><span class="hljs-string">"Electornics"</span></span>,
+        "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value"><span class="hljs-string">"10/5/2017"</span></span>,
+        "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Nothing"</span>
+      </span>}
+    ]</span>,
     "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Invoice Description Should Mention Here"</span></span>,
     "<span class="hljs-attribute">date</span>": <span class="hljs-value"><span class="hljs-string">"10-08-2016"</span>
   </span>}
@@ -308,25 +297,8 @@ By default it will display active components only.</p>
             </span>}
           </span>}
         </span>}</span>,
-        "<span class="hljs-attribute">component_details</span>": <span class="hljs-value">{
-          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
-          "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-            "<span class="hljs-attribute">serial_no</span>": <span class="hljs-value">{
-              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">name</span>": <span class="hljs-value">{
-              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">category</span>": <span class="hljs-value">{
-              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value">{
-              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">description</span>": <span class="hljs-value">{
-              "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
-            </span>}
-          </span>}
+        "<span class="hljs-attribute">components_detail</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
         </span>}</span>,
         "<span class="hljs-attribute">description</span>": <span class="hljs-value">{
           "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span>
@@ -520,6 +492,9 @@ By default it will display active components only.</p>
 <p><strong>invoice_id</strong> : Id of Invoice(string, Required)</p>
 </li>
 <li>
+<p><strong>category</strong> : Category of Component(string, Required)</p>
+</li>
+<li>
 <p><strong>warranty_till</strong> : Warranty of Component(string, Required)</p>
 </li>
 <li>
@@ -544,6 +519,7 @@ By default it will display active Components only.</p>
     "<span class="hljs-attribute">serial_no</span>": <span class="hljs-value"><span class="hljs-string">"12SOECE11230"</span></span>,
     "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Mouse"</span></span>,
     "<span class="hljs-attribute">machine_name</span>": <span class="hljs-value"><span class="hljs-string">"mako"</span></span>,
+    "<span class="hljs-attribute">category</span>": <span class="hljs-value"><span class="hljs-string">"Electronics"</span></span>,
     "<span class="hljs-attribute">invoice_id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
     "<span class="hljs-attribute">warranty_till</span>": <span class="hljs-value"><span class="hljs-string">"12-04-2017 "</span></span>,
     "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"description of mouse"</span></span>,
@@ -556,6 +532,7 @@ By default it will display active Components only.</p>
 "<span class="hljs-attribute">invoice_number</span>":<span class="hljs-value"><span class="hljs-string">"12SOECE11230"</span></span>,
 "<span class="hljs-attribute">component_id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
 "<span class="hljs-attribute">component</span>": <span class="hljs-value"><span class="hljs-string">"Mouse"</span></span>,
+"<span class="hljs-attribute">category</span>":<span class="hljs-value"><span class="hljs-string">"electronics"</span></span>,
 "<span class="hljs-attribute">user_id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
 "<span class="hljs-attribute">user</span>": <span class="hljs-value"><span class="hljs-string">"ashivn"</span></span>,
 "<span class="hljs-attribute">machine_id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
@@ -630,7 +607,7 @@ By default it will display active categories only.</p>
   "<span class="hljs-attribute">category_id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
   "<span class="hljs-attribute">category</span>": <span class="hljs-value"><span class="hljs-string">"electronics"</span></span>,
   "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"description of category"</span>
-</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 21 Nov 2016</p><script>/* eslint-env browser */
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 22 Nov 2016</p><script>/* eslint-env browser */
 /* eslint quotes: [2, "single"] */
 'use strict';
 

@@ -21,7 +21,7 @@ export default function users (state = initialState, action) {
 			return Object.assign({}, state, { AllUsers: action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_USERS_FAILULER:
-			return Object.assign({}, state, { AllUsers: action.response.data, isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { AllUsers: '', isFetching:false, fetched:false, err:err});
 
 		case DELETE_USER_SUCCESS:
 			return Object.assign({}, state, { isFetching:false, fetched:true, err:''});

@@ -28,7 +28,7 @@ func DisplayComponents(all string) []byte {
 	From("components c").
 		LeftJoin("machine_components", "c.id = machine_components.component_id").
 		LeftJoin("machines", "machines.id = machine_components.machine_id").
-		Join("categories", "c.category_id = categories.id")
+		LeftJoin("categories", "c.category_id = categories.id")
 	// display all components or active components only ...
 	if(all == "false") {
 		query.Where("c.deleted_at IS Null").
@@ -72,8 +72,19 @@ func FilterComponents(category_id int) []byte {
 	return b
 }
 
+type ComponentLog struct {
+	Id int
+	Machine string
+	Created_at time.Time
+	Added_at string
+	Deleted_at *time.Time
+	Removed_at string
+}
+
 type DisplayComponentInfo struct {
 	Incidents []Incidents
+	// ComponentLog []ComponentLog
+
 	User User
 	Machine Machine
 	Machine_component_id int
@@ -163,19 +174,37 @@ func DisplayComponentInformation(ComponentId int) []byte {
 			components.User = user
 	}
 
+	// //===== Will Give entire history of component ================================
+	// log := []ComponentLog{}
+	// err2 := sess.Select("machine_components.id, machines.name AS Machine, machine_components.created_at, machine_components.deleted_at").
+	// 	From("machine_components").
+	// 	LeftJoin("machines", "machine_components.machine_id = machines.id").
+	// 	Where("machine_components.component_id= ?", ComponentId).
+	// 	LoadStruct(&log)
+	// CheckErr(err2)
+
+	// //extract only date from timestamp========
+	// for i := 0; i < len(log); i++ {
+	// 	t := log[i].Created_at
+	// 	log[i].Added_at = t.Format("2006-01-02")
+
+	// 	t2 := log[i].Deleted_at
+	// 	log[i].Removed_at = t2.Format("2006-01-02")
+	// }
+	// //================================
+	// fmt.Println("--->", log)
+	// //============================================================================
+
 	//combine all information in one object and return it ...
 	components.Incidents = incidents
 	components.Machine = machine
+	// components.ComponentLog = log
 
 	b, err5 := json.Marshal(components)
 	CheckErr(err5)
 	return b
 }
 
-type Components struct {
-	Id int
-	Name string
-}
 
 
 

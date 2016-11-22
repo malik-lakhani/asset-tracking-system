@@ -32,7 +32,7 @@ export default function invoices (state = initialState, action) {
 			return Object.assign({}, state, { Invoices: action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_INVOICES_FAILULER:
-			return Object.assign({}, state, { Invoices: action.response.data, isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { Invoices: '', isFetching:false, fetched:false, err:err});
 
 		case FETCH_ONE_INVOICE_SUCCESS:
 			state.invoice = action.response.data.Invoice_number;

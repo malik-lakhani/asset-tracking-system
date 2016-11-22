@@ -24,7 +24,7 @@ export default function incidents (state = initialState, action) {
 			return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_INCIDENTS_FAILULER:
-			return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { Incidents : '', isFetching:false, fetched:false, err:err});
 
 		case SET_FIELDS:
 			state[action.field] = action.value;

@@ -21,7 +21,7 @@ export default function categories (state = initialState, action) {
 			return Object.assign({}, state, { AllCategories: action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_CATEGORIES_FAILULER:
-			return Object.assign({}, state, { AllCategories: action.response.data, isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { AllCategories: '', isFetching:false, fetched:false, err:action.err});
 
 		 case DELETE_CATEGORY_SUCCESS:
 			return Object.assign({}, state, { isFetching:false, fetched:true, err:''});

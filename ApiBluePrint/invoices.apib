@@ -6,6 +6,7 @@
 - **invoicer_address** : Address Of Invoicer(string, Optional)
 - **invoicer_contact** : Contact Of Invoicer(string, Optional)
 - **components** : Group Of Components(string[], Required)
+- **category** : Category of Component(string[], Required)
 - **warranty_till** : Warrenty of Components(string[], Required)
 - **component_description** : Description of Each Component(string[], Optional)
 - **invoice_description** : Description Of Invoice(string, Optional)
@@ -27,12 +28,14 @@ Add New Invoice
               + address:"Rajkot"
               + contact:"9909970574"
 
-          + component_details
-              - serial_no : 12SOECE11230, 12SOECE11231
-              - name : Mouse, keyboard
-              - category : Electornics
-              - warranty_till : 10/5/2017, 10/10/2017
-              - description : Nothing, Nothing
+          + components_detail(array)
+              - (object)
+                  - serial_no : 12SOECE11230(string)
+                  - name : Mouse(string)
+                  - category : Electornics(string)
+                  - warranty_till : 10/5/2017(string)
+                  - description : Nothing(string)
+
           + description : `Invoice Description Should Mention Here`
           + date : `10-08-2016`
 
