@@ -20,15 +20,36 @@ type DisplayAllComponents struct {
 	Deleted_at *time.Time
 }
 
+func removeDuplicates(elements []DisplayAllComponents) []DisplayAllComponents {
+		// Use map to record duplicates as we find them.
+		encountered := map[int]bool{}
+		result := []DisplayAllComponents{}
+
+		for v := range elements {
+	if encountered[elements[v].Id] == true {
+			// Do not add duplicate.
+	} else {
+			// Record this element as an encountered element.
+			encountered[elements[v].Id] = true
+			// Append to result slice.
+			result = append(result, elements[v])
+	}
+		}
+		// Return the new slice.
+		return result
+}
+
 func DisplayComponents(all string) []byte {
 	sess := SetupDB()
 	components := []DisplayAllComponents{}
 
-	query := sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.active, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine, categories.category").
-	From("components c").
+	query := sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.active, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine, categories.category, machine_components.component_id, machine_components.created_at").
+		From("components c").
 		LeftJoin("machine_components", "c.id = machine_components.component_id").
 		LeftJoin("machines", "machines.id = machine_components.machine_id").
-		LeftJoin("categories", "c.category_id = categories.id")
+		LeftJoin("categories", "c.category_id = categories.id").
+		OrderDir("machine_components.created_at", false)
+
 	// display all components or active components only ...
 	if(all == "false") {
 		query.Where("c.deleted_at IS Null").
@@ -43,7 +64,9 @@ func DisplayComponents(all string) []byte {
 		components[i].Warranty_till = t.Format("2006-01-02")
 	}
 	//================================
-	b, err := json.Marshal(components)
+	result := removeDuplicates(components)
+
+	b, err := json.Marshal(result)
 	CheckErr(err)
 	return b
 }
