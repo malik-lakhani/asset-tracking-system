@@ -33,6 +33,7 @@ class Display_machines extends Component {
   }
 
 	editMachine(row, cellName, cellValue) {
+		console.log("-->", row)
     this.props.actions.editMachine(row);
   }
 
@@ -54,7 +55,10 @@ class Display_machines extends Component {
 	}
 
 	render() {
-
+		let machines = [];
+		if(this.props.state.machines.Machines.length) {
+			machines = this.props.state.machines.Machines;
+		}
 	//===================== style ================================================
 		var selectRowProp = {
 			mode: "checkbox",
@@ -66,7 +70,7 @@ class Display_machines extends Component {
 
 		var table;
 		// if (this.props.state.users.AllUsers && this.props.state.users.AllUsers.length) {
-		table = (	<BootstrapTable data={ this.props.state.machines.Machines }
+		table = (	<BootstrapTable data={ machines }
 													pagination={true}
 													options={{
 														afterDeleteRow: this.deleteMachine,

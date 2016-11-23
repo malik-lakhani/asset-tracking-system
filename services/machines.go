@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"fmt"
+	"database/sql/driver"
 	"strings"
 	"time"
 )
@@ -61,8 +62,8 @@ func DisplayMachines(allMachiens string) []byte {
 
 	query := sess.Select("machines.id, users.name as User, machines.name").
 		From("machines").
-    LeftJoin("users_machine", "machines.id = users_machine.machine_id").
-    LeftJoin("users", "users.id = users_machine.user_id")
+		LeftJoin("users_machine", "machines.id = users_machine.machine_id").
+		LeftJoin("users", "users.id = users_machine.user_id")
 
 	//display all machines or active machines only ...
 	if(allMachiens == "false") {
@@ -82,8 +83,8 @@ func DisplayMachine(id int) []byte { // Display Single machine's information ...
 
 	sess.Select("u.id, u.name, machines.name").
 		From("users u").
-	    LeftJoin("users_machine", "u.id = users_machine.user_id").
-	    LeftJoin("machines", "machines.id = users_machine.machine_id").
+			LeftJoin("users_machine", "u.id = users_machine.user_id").
+			LeftJoin("machines", "machines.id = users_machine.machine_id").
 		Where("u.id = 1").
 		LoadStruct(&machineInfo)
 
@@ -93,45 +94,67 @@ func DisplayMachine(id int) []byte { // Display Single machine's information ...
 }
 
 type AllComponents struct {
- 	Id *int
- 	Name *string
- 	SerialNo *string
- 	Description *string
- 	Warranty *time.Time
- 	Warranty_till string
- 	Created_at *time.Time
- 	AddOn string
+	Id *int
+	Name *string
+	SerialNo *string
+	Description *string
+	Warranty *time.Time
+	Warranty_till string
+	Created_at *time.Time
+	AddOn string
 }
 
 type AllIncidents struct {
- 	Id *int
- 	LastUpdate *string
- 	Title *string
- 	Description *string
- 	Status *string
- 	Recorder *string
+	Id *int
+	LastUpdate *string
+	Title *string
+	Description *string
+	Status *string
+	Recorder *string
 }
 
 type PastUses struct {
-	Begin *time.Time
+	Begin NullTime
 	BeginDate string
-	End *time.Time
+	End NullTime
 	EndDate string
 	User *string
-
 }
 
 type AllInfoOfMachine struct {
 	Id int
 	Name string
 	Machine string
-	Created_at *time.Time
+	Created_at NullTime
 	UsingSince string
 
 	Components[] AllComponents
 	Incidents[] AllIncidents
 	PastUses[] PastUses
 }
+
+// ========To Handle Null Time stamp from database...===========================
+
+type NullTime struct {
+		Time  time.Time
+		Valid bool // Valid is true if Time is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (nt *NullTime) Scan(value interface{}) error {
+		nt.Time, nt.Valid = value.(time.Time)
+		return nil
+}
+
+// Value implements the driver Valuer interface.
+func (nt NullTime) Value() (driver.Value, error) {
+		if !nt.Valid {
+				return nil, nil
+		}
+		return nt.Time, nil
+}
+
+//==============================================================================
 
 func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	sess := SetupDB()
@@ -146,10 +169,11 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		fmt.Println(sql)
 		query2.LoadStruct(&machineInfo)
 
-		t := machineInfo.Created_at
-		machineInfo.UsingSince = t.Format("2006-01-02")
 	//==================================
-		fmt.Println("=>",machineInfo)
+
+		t := machineInfo.Created_at.Time
+		machineInfo.UsingSince = t.Format("2006-01-02")
+
 	//all information of machine's components ===========
 	MachineComponents := []AllComponents{}
 	query := sess.Select("components.id, components.name, components.serial_no, components.description, components.warranty_till AS Warranty, machine_components.created_at").
@@ -183,10 +207,10 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		LoadStruct(&pastUses)
 
 		for i := 0; i < len(pastUses); i++ {
-			t2 := pastUses[i].Begin
+			t2 := pastUses[i].Begin.Time
 			pastUses[i].BeginDate = t2.Format("2006-01-02")
 
-			t3 := pastUses[i].End
+			t3 := pastUses[i].End.Time
 			pastUses[i].EndDate = t3.Format("2006-01-02")
 		}
 

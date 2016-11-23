@@ -26,7 +26,7 @@ class Machine_information extends Component {
 	}
 
 	render() {
-
+		console.log("---->", this.props.props.machines.Machines.Machine)
 		//====================== style =============================================
 
 		let letterStyle = {
@@ -45,7 +45,7 @@ class Machine_information extends Component {
 		let Components = [];
 		let Incidents = [];
 
-		if(this.props.props.machines.Machines.Name) {
+		if(this.props.props.machines.Machines.Machine) {
 			MachineName = this.props.props.machines.Machines.Machine;
 			CurrentUser = this.props.props.machines.Machines.Name;
 			UsingSince = this.props.props.machines.Machines.UsingSince;
