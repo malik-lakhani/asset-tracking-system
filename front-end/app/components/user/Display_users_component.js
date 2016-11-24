@@ -85,7 +85,7 @@ class Display_users extends Component {
 													insertRow={true}
 													exportCSV={true} // to export data in CSV format ....
 													cellEdit={{
-						                mode: "click",
+						                mode: "dbclick",
 						                blurToSave: true,
 						                afterSaveCell: this.editUser
 					                }}

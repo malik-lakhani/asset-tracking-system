@@ -262,6 +262,7 @@ func RemoveComponentsFromMachine(machineId int, componentId int) {
 
 	_, err2 := sess.Update("components").
 		Set("active", false).
+		Set("deleted_at", "NOW()").
 		Where("id = ?", componentId).
 		Exec()
 	CheckErr(err2)

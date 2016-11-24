@@ -81,7 +81,7 @@ class Display_machines extends Component {
 													selectRow={selectRowProp}
 													insertRow={true}
 													cellEdit={{
-						                mode: "click",
+						                mode: "dbclick",
 						                blurToSave: true,
 						                afterSaveCell: this.editMachine
 					                }}

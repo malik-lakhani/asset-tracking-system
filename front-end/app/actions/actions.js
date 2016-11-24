@@ -23,7 +23,8 @@ import {
 	FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILULER, SET_FIELDS_INVOICES, SET_FIELDS_INVOICES_COMPONENT,
 		FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER, RESET_STATE_INVOICES,
 
-	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER, RESET_STATE_INCIDENTS
+	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER, RESET_STATE_INCIDENTS, FETCH_INCIDENT_INFORMATION_SUCCESS,
+	FETCH_INCIDENT_INFORMATION_FAILULER
 
 } from '../../constants';
 
@@ -544,5 +545,19 @@ function resetStateIncidents (dispatch) {
 	dispatch({ type: RESET_STATE_INCIDENTS})
 }
 
+export const fetchIncidentInfo = ((incidentId) => {
+	let url = `http://localhost:8000/incidents/${incidentId}/incidentInfo`;
+	return function(dispatch) {
+		axios.get(url)
+			.then((response) => {
+				console.log("==",url)
+				dispatch({ type: FETCH_INCIDENT_INFORMATION_SUCCESS, response })
+			})
+			.catch((err) => {
+				console.log("==err",err)
+				dispatch({ type: FETCH_INCIDENT_INFORMATION_FAILULER, err})
+			})
+		}
+});
 //==============================================================================
 

@@ -20,6 +20,15 @@ class Display_invoices extends Component {
 	}
 
 	render() {
+		let floatRight = {
+			float: 'right'
+		}
+
+		let paddingLeft = {
+			paddingLeft: '1029px'
+		}
+
+
 	var table;
 	if (this.props.state.invoices.Invoices && this.props.state.invoices.Invoices.length) {
 	table = (	<BootstrapTable data={ this.props.state.invoices.Invoices } exportCSV={true} pagination={true} search={true} striped={true} hover={true}>
@@ -33,7 +42,7 @@ class Display_invoices extends Component {
 	}
 		return (
 			<div>
-				<div><a href="http://localhost:8080/public/#/invoices/add/?_k=ycsmgk"><button type="button" className="btn btn-info">Add Invoice</button></a></div>
+				<div style = { paddingLeft }><Link to={`invoices/add/`}><button type="button" className="btn btn-info">Add Invoice</button></Link></div>
 				<div>
 					{table}
 				</div>

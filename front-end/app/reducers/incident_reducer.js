@@ -2,7 +2,9 @@ import {
 	FETCH_INCIDENTS_SUCCESS,
 	FETCH_INCIDENTS_FAILULER,
 	SET_FIELDS,
-	RESET_STATE_INCIDENTS
+	RESET_STATE_INCIDENTS,
+	FETCH_INCIDENT_INFORMATION_SUCCESS,
+	FETCH_INCIDENT_INFORMATION_FAILULER
 } from '../../constants';
 
 const initialState =
@@ -35,6 +37,14 @@ export default function incidents (state = initialState, action) {
 			state['title'] = ''
 			state['recorder'] = ''
 			state['machine'] = ''
+
+		case FETCH_INCIDENT_INFORMATION_SUCCESS:
+			console.log("from reducer:", action)
+			return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:true, err:''});
+
+		case FETCH_INCIDENT_INFORMATION_FAILULER:
+			console.log("from reducer:", action)
+			return Object.assign({}, state, { Incidents :'', isFetching:false, fetched:true, err:action.err});
 
 		default:
 			return state

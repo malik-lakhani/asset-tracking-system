@@ -73,7 +73,7 @@ class Display_category extends Component {
 																						insertRow={true}
 																						exportCSV={true}
 																						cellEdit={{
-																								mode: "click",
+																								mode: "dbclick",
 																								blurToSave: true,
 																								afterSaveCell: this.editCategory
 																						}}

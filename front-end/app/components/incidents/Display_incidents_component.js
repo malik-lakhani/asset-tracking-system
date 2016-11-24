@@ -4,7 +4,6 @@ import { Link } from 'React-Router';
 import './styles.css';
 
 function incidentInformation(cell, row){
-	console.log("--->", row)
 	return <Link to={`/incidents/${row.Id}`}>{ cell }</Link>
 }
 
@@ -70,7 +69,7 @@ class Display_incidents extends Component {
 													striped={true}
 													exportCSV={true}
 													cellEdit={{
-														mode: "click",
+														mode: "dbclick",
 														blurToSave: true,
 														afterSaveCell: this.editIncident
 					                }}
