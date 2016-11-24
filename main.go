@@ -1,7 +1,7 @@
 package main
 
 import (
-		"fmt"
+		// "fmt"
 		"io/ioutil"
 		"net/http"
 		"strconv"
@@ -160,7 +160,7 @@ func addIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func editIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	incident_id, err := strconv.Atoi(c.URLParams["incidents_id"]) // converting from string to int ...
+	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	componentId := r.FormValue("component_id")
 	title := r.FormValue("title")
@@ -170,25 +170,36 @@ func editIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	incident_id, err := strconv.Atoi(c.URLParams["incidents_id"]) // converting from string to int ...
+	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	services.DeleteIncident(incident_id) //PATH : /services/incidents.go
 }
 
 func displayIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	incidents_id, err := strconv.Atoi(c.URLParams["incidents_id"]) // converting from string to int ...
+	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
-	response := services.DisplayIncident(incidents_id) //PATH : /services/incidents.go
+	response := services.DisplayIncident(incident_id) //PATH : /services/incidents.go
 	w.Write([]byte(response))
 }
 
 func incidentsUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	component_id, err := strconv.Atoi(r.FormValue("component_id")) // converting from string to int ...
 	services.CheckErr(err)
-	incident_id, err1 := strconv.Atoi(r.FormValue("incidents_id")) // converting from string to int ...
+	incident_id, err1 := strconv.Atoi(r.FormValue("incident_id")) // converting from string to int ...
 	services.CheckErr(err1)
 	description := r.FormValue("description")
 	services.IncidentUpdates(incident_id, component_id, description) //PATH : /services/incidents.go
+}
+
+func incidentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
+	services.CheckErr(err)
+	response := services.IncidentInformations(incident_id) //PATH : /services/incidents.go
+	w.Write([]byte(response))
+}
+
+func incidentUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+
 }
 
 func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -226,7 +237,6 @@ func categoriesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 func addCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	category := r.FormValue("category")
 	description := r.FormValue("description")
-	fmt.Println(category, description)
 	services.AddNewCategory(category, description) //PATH : /services/category.go
 }
 
@@ -293,10 +303,12 @@ func main() {
 	//dealing with incidents ...
 	goji.Get("/incidents", incidentsHandler)
 	goji.Post("/incidents", addIncidentHandler)
-	goji.Patch("/incidents/:incidents_id", editIncidentHandler)
-	goji.Delete("/incidents/:incidents_id", deleteIncidentHandler)
-	goji.Get("/incidents/:incidents_id", displayIncidentHandler)
-	goji.Post("/incidents/:incidents_id/update", incidentsUpdateHandler)
+	goji.Patch("/incidents/:incident_id", editIncidentHandler)
+	goji.Delete("/incidents/:incident_id", deleteIncidentHandler)
+	goji.Get("/incidents/:incident_id", displayIncidentHandler)
+	goji.Post("/incidents/:incident_id/update", incidentsUpdateHandler)
+	goji.Get("/incidents/:incident_id/incidentInfo", incidentInfoHandler)
+	goji.Post("/incidents/:incident_id/incidentUpdate", incidentUpdateHandler)
 
 	//dealing with components ...
 	goji.Get("/components", componentsHandler)

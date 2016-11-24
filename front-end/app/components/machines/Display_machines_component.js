@@ -76,6 +76,7 @@ class Display_machines extends Component {
 														afterDeleteRow: this.deleteMachine,
 														onAddRow: this.addMachine
 													}}
+													exportCSV={true}
 													deleteRow={true}
 													selectRow={selectRowProp}
 													insertRow={true}

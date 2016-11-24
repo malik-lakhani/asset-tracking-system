@@ -94,7 +94,7 @@ class Edit_invoice extends Component {
 		let address;
 		let components = [];
 
-		if(this.props.props.invoices.invoice) {
+		if(this.props.props.invoices.invoice || this.props.props.invoices.invoicer) {
 			invoice = this.props.props.invoices.invoice
 			invoicer = this.props.props.invoices.invoicer
 			contact = this.props.props.invoices.contact

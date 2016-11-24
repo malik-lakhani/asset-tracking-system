@@ -83,7 +83,7 @@ class Display_users extends Component {
 													deleteRow={true}
 													selectRow={selectRowProp}
 													insertRow={true}
-													exportCSV={false} // to export data in CSV format ....
+													exportCSV={true} // to export data in CSV format ....
 													cellEdit={{
 						                mode: "click",
 						                blurToSave: true,

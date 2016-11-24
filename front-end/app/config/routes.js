@@ -9,9 +9,11 @@ import Add_invoice from '../containers/invoice/add_invoice_container';
 import Display_components from '../containers/components/display_components_container';
 import Display_machines from '../containers/machines/display_machines_container';
 import Display_incidents from '../containers/incidents/display_incidents_container';
-import Component_Information from '../containers/components/component_information_container';
-import Machine_Information from '../containers/machines/machine_information_container';
+import Component_information from '../containers/components/component_information_container';
+import Machine_information from '../containers/machines/machine_information_container';
 import Add_incidents from '../containers/incidents/add_incident_container';
+import Incident_information from '../containers/incidents/incident_information';
+
 
 module.exports = (
 	<Route path="" >
@@ -23,11 +25,12 @@ module.exports = (
 			<Route path="/invoices/edit/:invoiceId" component = { Edit_invoices } />
 			<Route path="/invoices/add" component = { Add_invoice } />
 			<Route path="/components" component = { Display_components } />
-			<Route path="/components/:componentId" component = { Component_Information } />
+			<Route path="/components/:componentId" component = { Component_information } />
 			<Route path="/machines" component = { Display_machines } />
-			<Route path="/machines/:machineId/components" component = { Machine_Information } />
+			<Route path="/machines/:machineId/components" component = { Machine_information } />
 			<Route path="/incidents" component = { Display_incidents } />
 			<Route path="/incidents/add" component = { Add_incidents } />
+			<Route path="/incidents/:incidentId" component = { Incident_information } />
 		</Route>,
 	</Route>
 );

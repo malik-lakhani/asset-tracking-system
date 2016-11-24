@@ -58,31 +58,32 @@ class Display_category extends Component {
 		return (
 			<div>
 				<select name="select2" onChange={this.filterCategory} className="selectpicker" data-width="auto">
-					<option value="active">Active</option>
-					<option value="all">All</option>
+						<option value="active">Active</option>
+						<option value="all">All</option>
 				</select>
 				<div>
-					<BootstrapTable data={this.props.state.category.AllCategories}
-													pagination={true}
-													options={{
-														afterDeleteRow :this.deleteCategory,
-														onAddRow :this.addCategory
-													}}
-													deleteRow={true}
-													selectRow={selectRowProp}
-													insertRow={true}
-													cellEdit={{
-														mode: "click",
-														blurToSave: true,
-														afterSaveCell: this.editCategory
-													}}
-													search={true}
-													striped={true}
-													hover={true} >
-						<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
-						<TableHeaderColumn dataField="Category" width="500" dataSort={true} editable={{ validator:Validator }} >Category</TableHeaderColumn>
-						<TableHeaderColumn dataField="Description" width="500" dataSort={true}  >Description</TableHeaderColumn>
-					</BootstrapTable>
+						<BootstrapTable data={this.props.state.category.AllCategories}
+																						pagination={true}
+																						options={{
+																								afterDeleteRow :this.deleteCategory,
+																								onAddRow :this.addCategory
+																						}}
+																						deleteRow={true}
+																						selectRow={selectRowProp}
+																						insertRow={true}
+																						exportCSV={true}
+																						cellEdit={{
+																								mode: "click",
+																								blurToSave: true,
+																								afterSaveCell: this.editCategory
+																						}}
+																						search={true}
+																						striped={true}
+																						hover={true}>
+								<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
+								<TableHeaderColumn width="260" dataSort={true} dataField="Category" editable={{ validator:Validator }} >Category</TableHeaderColumn>
+								<TableHeaderColumn width="350" dataSort={true} dataField="Description" editable={{ validator:Validator }}>Description</TableHeaderColumn>
+						</BootstrapTable>
 				</div>
 			</div>
 		)

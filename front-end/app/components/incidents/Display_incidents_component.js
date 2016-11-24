@@ -3,9 +3,10 @@ import React, {Component} from 'react';
 import { Link } from 'React-Router';
 import './styles.css';
 
-// function incidentInformation(cell, row){
-// 	return <Link to={`/components/${row.Id}`}>{ cell }</Link>
-// }
+function incidentInformation(cell, row){
+	console.log("--->", row)
+	return <Link to={`/incidents/${row.Id}`}>{ cell }</Link>
+}
 
 let Components = [];
 let ComponentIds = [];
@@ -67,15 +68,16 @@ class Display_incidents extends Component {
 													pagination={true}
 													search={true}
 													striped={true}
+													exportCSV={true}
 													cellEdit={{
-						                mode: "click",
-						                blurToSave: true,
-						                afterSaveCell: this.editIncident
+														mode: "click",
+														blurToSave: true,
+														afterSaveCell: this.editIncident
 					                }}
 													hover={true}>
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" editable={false} isKey={true} hidden={true}>#</TableHeaderColumn>
 						<TableHeaderColumn width="120" dataSort={true} dataField="Component" editable={{type:'select', options:{ values:Components }}}>Component</TableHeaderColumn>
-						<TableHeaderColumn width="200" dataSort={true} dataField="Title" >Title</TableHeaderColumn>
+						<TableHeaderColumn width="200" dataSort={true} dataField="Title" dataFormat={incidentInformation} >Title</TableHeaderColumn>
 						<TableHeaderColumn width="300" dataSort={true} dataField="Description">Description</TableHeaderColumn>
 						<TableHeaderColumn width="160"  dataSort={true} dataField="Warranty_till" editable={false}>Warranty(YYYY-MM-DD)</TableHeaderColumn>
 						<TableHeaderColumn width="80"  dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>

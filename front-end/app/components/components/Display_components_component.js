@@ -69,6 +69,7 @@ class Display_components extends Component {
 														pagination={true}
 														striped={true}
 														search={true}
+														exportCSV={true}
 														hover={true}>
 							<TableHeaderColumn isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
 							<TableHeaderColumn width="120" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>

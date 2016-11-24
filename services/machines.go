@@ -2,7 +2,7 @@ package services
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"database/sql/driver"
 	"strings"
 	"time"
@@ -165,8 +165,6 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		LeftJoin("users_machine","users_machine.machine_id = machines.id").
 		LeftJoin("users","users_machine.user_id = users.id").
 		Where("machines.id = ? AND users_machine.deleted_at IS NULL", machineId)
-		sql, _ := query2.ToSql()
-		fmt.Println(sql)
 		query2.LoadStruct(&machineInfo)
 
 	//==================================

@@ -22,7 +22,7 @@ class Display_invoices extends Component {
 	render() {
 	var table;
 	if (this.props.state.invoices.Invoices && this.props.state.invoices.Invoices.length) {
-	table = (	<BootstrapTable data={ this.props.state.invoices.Invoices } pagination={true} search={true} striped={true} hover={true}>
+	table = (	<BootstrapTable data={ this.props.state.invoices.Invoices } exportCSV={true} pagination={true} search={true} striped={true} hover={true}>
 							<TableHeaderColumn width="60" isKey={true} dataSort={true} dataField="Id" hidden={true}>#</TableHeaderColumn>
 							<TableHeaderColumn dataSort={true} dataField="Invoice_number" dataFormat={linkToEditInvoice} >Invoice Number</TableHeaderColumn>
 							<TableHeaderColumn dataSort={true} dataField="Invoice_date">Invoice Date(YYYY-MM-DD)</TableHeaderColumn>

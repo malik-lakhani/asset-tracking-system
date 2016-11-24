@@ -118,6 +118,9 @@ func DisplayIncident(incidentId int) []byte {
 }
 
 type IncidentUpdate struct {
+	Id int
+	ResolvedBy string
+	Created_at time.Time
 	ComponentId int
 	IncidentId int
 	Description string
@@ -180,3 +183,36 @@ func IncidentUpdates(incidentId int, componentId int, description string) {
 	//===========================================================
 }
 
+type IncidentInformation struct {
+	Status string
+	Recorder string
+	Machine string
+	Component string
+	ComponentId int
+	Description string
+
+	IncidentUpdates[] IncidentUpdate
+}
+
+func IncidentInformations(incident_id int) []byte{
+	sess := SetupDB()
+	m := IncidentInformation {}
+	err2 := sess.Select("incidents.status, incidents.recorder, incidents.component_id, components.name as Component, incidents.description").
+		From("incidents").
+		LeftJoin("components", "components.id = incidents.component_id").
+		Where("incidents.id = ? ", incident_id).
+		LoadStruct(&m)
+	CheckErr(err2)
+
+	p := []IncidentUpdate {}
+		err3 := sess.Select("id, description, resolved_by, created_at").
+		From("incident_update").
+		Where("incident_id = ? ", incident_id).
+		LoadStruct(&p)
+	CheckErr(err3)
+
+	m.IncidentUpdates = p
+	b, err := json.Marshal(m)
+	CheckErr(err)
+	return b
+}
