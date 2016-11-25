@@ -12,7 +12,8 @@ import Display_incidents from '../containers/incidents/display_incidents_contain
 import Component_information from '../containers/components/component_information_container';
 import Machine_information from '../containers/machines/machine_information_container';
 import Add_incidents from '../containers/incidents/add_incident_container';
-import Incident_information from '../containers/incidents/incident_information';
+import Incident_information from '../containers/incidents/incident_information_container';
+import Incident_update from '../containers/incidents/incident_update_container';
 
 
 module.exports = (
@@ -30,6 +31,7 @@ module.exports = (
 			<Route path="/machines/:machineId/components" component = { Machine_information } />
 			<Route path="/incidents" component = { Display_incidents } />
 			<Route path="/incidents/add" component = { Add_incidents } />
+			<Route path="/incidents/update" component = { Incident_update } />
 			<Route path="/incidents/:incidentId" component = { Incident_information } />
 		</Route>,
 	</Route>

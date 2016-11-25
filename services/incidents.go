@@ -121,6 +121,7 @@ type IncidentUpdate struct {
 	Id int
 	ResolvedBy string
 	Created_at time.Time
+	Resolved_Date string
 	ComponentId int
 	IncidentId int
 	Description string
@@ -210,6 +211,11 @@ func IncidentInformations(incident_id int) []byte{
 		Where("incident_id = ? ", incident_id).
 		LoadStruct(&p)
 	CheckErr(err3)
+
+	for i := 0; i < len(p); i++ {
+		t := p[i].Created_at
+		p[i].Resolved_Date = t.Format("2006-01-02")
+	}
 
 	m.IncidentUpdates = p
 	b, err := json.Marshal(m)

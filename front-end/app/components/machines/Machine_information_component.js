@@ -26,7 +26,7 @@ class Machine_information extends Component {
 	}
 
 	render() {
-		console.log("---->", this.props.props.machines.Machines.Machine)
+
 		//====================== style =============================================
 
 		let letterStyle = {

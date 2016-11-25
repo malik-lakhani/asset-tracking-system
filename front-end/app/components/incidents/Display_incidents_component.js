@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { Link } from 'React-Router';
 import './styles.css';
 
-function incidentInformation(cell, row){
+function incidentInformation(cell, row) {
 	return <Link to={`/incidents/${row.Id}`}>{ cell }</Link>
 }
 
@@ -49,21 +49,9 @@ class Display_incidents extends Component {
 			Components[i] = this.props.state.components.Components[i].Name;
 		}
 
-		return (
-			<div>
-				<div className="clearfix">
-					<div className="col-lg-1">
-						<select name="select2" onChange={this.filterIncidents} className="selectpicker" data-width="auto">
-							<option value="active">Active</option>
-							<option value="all">All</option>
-						</select>
-					</div>
-					<div className="pull-right">
-					 <Link to={`/incidents/add`}><button type="button" className="btn btn-info marginLeftRecord">Record New Incident</button></Link>
-					</div>
-				</div>
-				<div>
-					<BootstrapTable data={this.props.state.incidents.Incidents}
+		var table;
+		if (this.props.state.incidents.Incidents && this.props.state.incidents.Incidents.length) {
+		table = (	<BootstrapTable data={this.props.state.incidents.Incidents}
 													pagination={true}
 													search={true}
 													striped={true}
@@ -81,7 +69,26 @@ class Display_incidents extends Component {
 						<TableHeaderColumn width="160"  dataSort={true} dataField="Warranty_till" editable={false}>Warranty(YYYY-MM-DD)</TableHeaderColumn>
 						<TableHeaderColumn width="80"  dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Status" editable={false}>Status</TableHeaderColumn>
-					</BootstrapTable>
+					</BootstrapTable>);
+		} else {
+			table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)
+		}
+
+		return (
+			<div>
+				<div className="clearfix">
+					<div className="col-lg-1">
+						<select name="select2" onChange={this.filterIncidents} className="selectpicker" data-width="auto">
+							<option value="active">Active</option>
+							<option value="all">All</option>
+						</select>
+					</div>
+					<div className="pull-right">
+					 <Link to={`/incidents/add`}><button type="button" className="btn btn-info marginLeftRecord">Record New Incident</button></Link>
+					</div>
+				</div>
+				<div>
+					{ table }
 				</div>
 			</div>
 		)
