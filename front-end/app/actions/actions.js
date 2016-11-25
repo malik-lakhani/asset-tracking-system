@@ -24,7 +24,7 @@ import {
 		FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER, RESET_STATE_INVOICES,
 
 	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER, RESET_STATE_INCIDENTS, FETCH_INCIDENT_INFORMATION_SUCCESS,
-	FETCH_INCIDENT_INFORMATION_FAILULER
+	FETCH_INCIDENT_INFORMATION_FAILULER, ADD_INCIDENT_UPDATE_SUCCESS, ADD_INCIDENT_UPDATE_FAILULER
 
 } from '../../constants';
 
@@ -550,13 +550,29 @@ export const fetchIncidentInfo = ((incidentId) => {
 	return function(dispatch) {
 		axios.get(url)
 			.then((response) => {
-				console.log("==",url)
 				dispatch({ type: FETCH_INCIDENT_INFORMATION_SUCCESS, response })
 			})
 			.catch((err) => {
-				console.log("==err",err)
 				dispatch({ type: FETCH_INCIDENT_INFORMATION_FAILULER, err})
 			})
+		}
+});
+
+export const addIncidentUpdate = ((incidentId, resolvedBy, description) => {
+	let url = `http://localhost:8000/incidents/${incidentId}/update`;
+
+	return function(dispatch) {
+		axios.post(url, querystring.stringify({
+			description: description,
+			resolvedBy: resolvedBy
+		}))
+			.then(function (response) {
+				dispatch({ type: ADD_INCIDENT_UPDATE_SUCCESS, response})
+				location.assign(`http://localhost:8080/public/#/incidents/${incidentId}`);
+			})
+			.catch(function (err) {
+				dispatch({ type: ADD_INCIDENT_UPDATE_FAILULER, err})
+			});
 		}
 });
 //==============================================================================

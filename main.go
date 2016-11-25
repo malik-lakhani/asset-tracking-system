@@ -183,12 +183,11 @@ func displayIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func incidentsUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	component_id, err := strconv.Atoi(r.FormValue("component_id")) // converting from string to int ...
+	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
-	incident_id, err1 := strconv.Atoi(r.FormValue("incident_id")) // converting from string to int ...
-	services.CheckErr(err1)
 	description := r.FormValue("description")
-	services.IncidentUpdates(incident_id, component_id, description) //PATH : /services/incidents.go
+	resolvedBy := r.FormValue("resolvedBy")
+	services.IncidentUpdates(incident_id, resolvedBy, description) //PATH : /services/incidents.go
 }
 
 func incidentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {

@@ -65,7 +65,7 @@ class Incident_information extends Component {
 			<div>
 				<div>
 					<form onSubmit={ this.handleSubmit }>
-						<Link to={`incidents/update`} > <button className="btn btn-info" style={ floatRight }>Add Update</button> </Link>
+						<Link to={`incidents/${this.props.params.incidentId}/update`} > <button className="btn btn-info" style={ floatRight }>Add Update</button> </Link>
 					</form>
 				</div>
 
@@ -121,7 +121,7 @@ class Incident_information extends Component {
 									<label >Resolved By :</label>
 								</div>
 								<div className = "col-lg-2" style={ FontStyle }>
-									{ t.ResolvedBy }
+									{ t.Resolved_by }
 								</div>
 							</div>
 							<div className="clearfix form-group">

@@ -4,7 +4,9 @@ import {
 	SET_FIELDS,
 	RESET_STATE_INCIDENTS,
 	FETCH_INCIDENT_INFORMATION_SUCCESS,
-	FETCH_INCIDENT_INFORMATION_FAILULER
+	FETCH_INCIDENT_INFORMATION_FAILULER,
+	ADD_INCIDENT_UPDATE_SUCCESS,
+	ADD_INCIDENT_UPDATE_FAILULER
 } from '../../constants';
 
 const initialState =
@@ -43,8 +45,13 @@ export default function incidents (state = initialState, action) {
 			return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_INCIDENT_INFORMATION_FAILULER:
-			console.log("from reducer:", action)
 			return Object.assign({}, state, { Incidents :'', isFetching:false, fetched:true, err:action.err});
+
+		case ADD_INCIDENT_UPDATE_SUCCESS:
+			console.log('success');
+
+		case ADD_INCIDENT_UPDATE_FAILULER:
+			console.log('fail');
 
 		default:
 			return state

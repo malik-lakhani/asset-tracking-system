@@ -39,7 +39,14 @@ class Component_information extends Component {
 	}
 
 	render() {
-		var letterStyle = {
+
+	//=========================== styles =========================================
+
+		let setMargin = {
+			margin: "5px"
+		}
+
+		let letterStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '15px'
@@ -49,6 +56,8 @@ class Component_information extends Component {
 			width: '569px',
 			height: '75px'
 		}
+
+	//============================================================================
 
 		//null data will be pass to datatable if database contains no data ....
 		let status = 'Active';
@@ -70,7 +79,7 @@ class Component_information extends Component {
 			Log = this.props.props.components.Components.ComponentLog;
 
 			if(this.props.props.components.Components.Active == "false") {
-				status = 'decommitted';
+				status = 'Deactive';
 			}
 		}
 
@@ -112,7 +121,7 @@ class Component_information extends Component {
 						<h1>{Component}<h4>({status})</h4></h1>
 					</div>
 					<div className="pull-right">
-						<button type="button" className="btn btn-info marginLeftRecord" data-toggle="modal" data-target="#changeMachine">Change Machine</button>
+						<button type="button" className="btn btn-info marginLeftRecord" data-toggle="modal" data-target="#changeMachine" style= { setMargin }>Change Machine</button>
 						<button type="button" className="btn btn-danger" onClick= {this.handleDecommission} > Decommission </button>
 					</div>
 				</div>

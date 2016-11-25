@@ -35,7 +35,7 @@ func AddIncident(data string) {
 	CheckErr(err2)
 
 	_, err3 := sess.Update("components").
-		Set("active", "false").
+		Set("active", false).
 		Where("id = ?", i.Component_id).
 		Exec()
 	CheckErr(err3)
@@ -119,29 +119,16 @@ func DisplayIncident(incidentId int) []byte {
 
 type IncidentUpdate struct {
 	Id int
-	ResolvedBy string
+	Resolved_by string
 	Created_at time.Time
 	Resolved_Date string
-	ComponentId int
+	ComponentId int64
 	IncidentId int
 	Description string
 }
 
-func IncidentUpdates(incidentId int, componentId int, description string) {
+func IncidentUpdates(incidentId int, resolvedBy string, description string) {
 	sess := SetupDB()
-
- //insert record into incident_updates table ...===============
-	var incident IncidentUpdate
-	incident.ComponentId = componentId
-	incident.IncidentId = incidentId
-	incident.Description = description
-
-	_, err := sess.InsertInto("incident_update").
-		Columns("incident_id", "component_id", "description").
-		Record(incident).
-		Exec()
-	CheckErr(err)
-	//===========================================================
 
 	//select component id on which incident happen ....==========
 	id, err1 := sess.Select("component_id").
@@ -151,37 +138,46 @@ func IncidentUpdates(incidentId int, componentId int, description string) {
 	CheckErr(err1)
 	//===========================================================
 
-	//Add replaces components after resolved ....================
-	components := DisplayAllComponents{}
-	components.Active = true
-	err2 := sess.Select("name, invoice_id, warranty_till, description, active").
-		From("components").
-		Where("id = ? ", id).
-		LoadStruct(&components)
-	CheckErr(err2)
+ //insert record into incident_updates table ...===============
+	var incident IncidentUpdate
+	incident.ComponentId = id
+	incident.IncidentId = incidentId
+	incident.Resolved_by = resolvedBy
+	incident.Description = description
 
-	_, err3 := sess.InsertInto("components").
-		Columns("name", "invoice_id", "warranty_till", "description", "active").
-		Record(components).
+	_, err := sess.InsertInto("incident_update").
+		Columns("incident_id", "component_id", "description", "resolved_by").
+		Record(incident).
 		Exec()
-	CheckErr(err3)
+	CheckErr(err)
 	//===========================================================
 
-	//remove active is false of damaged component ...============
-	_, err4 := sess.Update("components").
-		Set("active", false).
-		Where("id = ?", componentId).
-		Exec()
-	CheckErr(err4)
-	//===========================================================
 
-	//===Add resolved date in incidents table after resolved component
-	_, err5 := sess.Update("incidents").
-		Set("resolved_at", "NOW()").
-		Where("id = ?", incidentId).
-		Exec()
-	CheckErr(err5)
-	//===========================================================
+
+	// //Add replaces components after resolved ....================
+	// components := DisplayAllComponents{}
+	// components.Active = true
+	// err2 := sess.Select("name, invoice_id, warranty_till, description, active").
+	// 	From("components").
+	// 	Where("id = ? ", id).
+	// 	LoadStruct(&components)
+	// CheckErr(err2)
+
+	// _, err3 := sess.InsertInto("components").
+	// 	Columns("name", "invoice_id", "warranty_till", "description", "active").
+	// 	Record(components).
+	// 	Exec()
+	// CheckErr(err3)
+	// //===========================================================
+
+	// //===Add resolved date in incidents table after resolved component
+	// _, err5 := sess.Update("incidents").
+	// 	Set("resolved_at", "NOW()").
+	// 	Set("status", "Resloved").
+	// 	Where("id = ?", incidentId).
+	// 	Exec()
+	// CheckErr(err5)
+	// //===========================================================
 }
 
 type IncidentInformation struct {

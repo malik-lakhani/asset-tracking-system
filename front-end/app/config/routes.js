@@ -31,7 +31,7 @@ module.exports = (
 			<Route path="/machines/:machineId/components" component = { Machine_information } />
 			<Route path="/incidents" component = { Display_incidents } />
 			<Route path="/incidents/add" component = { Add_incidents } />
-			<Route path="/incidents/update" component = { Incident_update } />
+			<Route path="/incidents/:incidentId/update" component = { Incident_update } />
 			<Route path="/incidents/:incidentId" component = { Incident_information } />
 		</Route>,
 	</Route>
