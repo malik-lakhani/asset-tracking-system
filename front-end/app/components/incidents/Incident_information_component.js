@@ -118,7 +118,7 @@ class Incident_information extends Component {
 						<div style={borderStyle}>
 							<div className="clearfix">
 								<div className = "col-lg-2 col-lg-offset-1">
-									<label >Resolved By :</label>
+									<label >Update By :</label>
 								</div>
 								<div className = "col-lg-2" style={ FontStyle }>
 									{ t.Resolved_by }

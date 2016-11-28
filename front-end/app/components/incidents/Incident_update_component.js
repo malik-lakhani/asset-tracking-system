@@ -65,7 +65,7 @@ class Add_incident_update extends Component {
 		e.preventDefault(e);
 
 		//=====validation of add component =========================================
-
+		let incidentId = this.props.params.incidentId;
 		let resolvedBy = this.props.state.incidents.resolvedBy;
 		let serial = this.props.state.incidents.serialNo;
 		let component = this.props.state.incidents.component;
@@ -98,7 +98,7 @@ class Add_incident_update extends Component {
 		//==========================================================================
 
 		if (status) {
-			// this.props.actions.addIncidentUpdate(incidentId, updatedBy, description)
+			this.props.actions.addReplacedComponent(incidentId, resolvedBy, description, component, category, serial, warranty);
 		}
 	}
 
@@ -218,7 +218,7 @@ class Add_incident_update extends Component {
 								<DatePicker className="textboxSize" name="Warranty" id="warranty" selected={ warrantyDate } onChange={this.handleWarrantyDateChange} />
 							</div>
 							<div className="modal-body">
-								<textarea name="Description" id="description" style= { textAreaWidth } onChange={ this.handleFields } placeholder="Description"/>
+								<textarea name="Description" id="description" style= { textAreaWidth } onChange={ this.handleFields } placeholder="Description of Component"/>
 							</div>
 							<div className="modal-footer">
 								<form onSubmit={ this.handleAddComponent } >

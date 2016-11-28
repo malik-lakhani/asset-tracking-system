@@ -396,9 +396,7 @@ export const setFieldForComponent = (field, value) => ({
 
 export const addInvoice = ((data) => {
 	//if invoide date not selected than it take the today's date as invoice date..
-	if(data.Invoice_date == '') {
-		data.Invoice_date = moment()
-	}
+
 	let serialNos = [];
 	let names = [];
 	let warrantyDate = [];
@@ -514,7 +512,7 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 		title: title,
 		description: description
 	}
-	return function( dispatch) {
+	return function(dispatch) {
 		axios.post(URL, data)
 			.then(function (response) {
 				resetStateIncidents(dispatch)
@@ -583,6 +581,26 @@ export const resolveIncident = ((incidentId, resolvedBy, description) => {
 		axios.post(url, querystring.stringify({
 			description: description,
 			resolvedBy: resolvedBy
+		}))
+			.then(function (response) {
+				location.assign(`http://localhost:8080/public/#/incidents/${incidentId}`);
+			})
+			.catch(function (err) {
+				console.log(err);
+			});
+		}
+});
+
+export const addReplacedComponent = ((incidentId, resolvedBy, description, component, category, serialNo, warranty) => {
+	let url = `http://localhost:8000/incidents/${incidentId}/addComponent`;
+
+	return function(dispatch) {
+		axios.post(url, querystring.stringify({
+			description: description,
+			resolvedBy: resolvedBy,
+			component: component,
+			category: category,
+			warranty: warranty.value
 		}))
 			.then(function (response) {
 				location.assign(`http://localhost:8080/public/#/incidents/${incidentId}`);

@@ -21,19 +21,19 @@ export default function components (state = initialState, action) {
 			return Object.assign({}, state, { Components: action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_COMPONENTS_FAILULER:
-			return Object.assign({}, state, { Components: '', isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { Components: '', isFetching:false, fetched:false, err:action.err});
 
 		case FETCH_COMPONENT_INFORMATION_SUCCESS:
 			return Object.assign({}, state, { Components: action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_COMPONENT_INFORMATION_FAILULER:
-			return Object.assign({}, state, { Components: '', isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { Components: '', isFetching:false, fetched:false, err:action.err});
 
 		case FILTER_COMPONENTS_SUCCESS:
 			return Object.assign({}, state, { Components: action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FILTER_COMPONENTS_FAILULER:
-			return Object.assign({}, state, { Components: '', isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { Components: '', isFetching:false, fetched:false, err:action.err});
 
 		default:
 			return state

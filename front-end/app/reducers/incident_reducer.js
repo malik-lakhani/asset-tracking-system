@@ -41,17 +41,16 @@ export default function incidents (state = initialState, action) {
 			state['machine'] = ''
 
 		case FETCH_INCIDENT_INFORMATION_SUCCESS:
-			console.log("from reducer:", action)
 			return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_INCIDENT_INFORMATION_FAILULER:
 			return Object.assign({}, state, { Incidents :'', isFetching:false, fetched:true, err:action.err});
 
 		case ADD_INCIDENT_UPDATE_SUCCESS:
-			console.log('success');
+			console.log('ADD_INCIDENT_UPDATE_SUCCESS');
 
 		case ADD_INCIDENT_UPDATE_FAILULER:
-			console.log('fail');
+			console.log('ADD_INCIDENT_UPDATE_FAILULER');
 
 		default:
 			return state

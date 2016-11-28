@@ -2,7 +2,7 @@ package services
 
 import(
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"time"
 )
 
@@ -179,11 +179,10 @@ func IncidentInformations(incident_id int) []byte{
 	CheckErr(err2)
 
 	p := []IncidentUpdate {}
-		err3 := sess.Select("id, description, resolved_by, created_at").
+	sess.Select("id, description, resolved_by, created_at").
 		From("incident_update").
 		Where("incident_id = ? ", incident_id).
 		LoadStruct(&p)
-	CheckErr(err3)
 
 	for i := 0; i < len(p); i++ {
 		t := p[i].Created_at
@@ -284,13 +283,22 @@ func IncidentAddComponent(incident_id int, resolvedBy string, categoryId int, co
 		Exec()
 	CheckErr(err5)
 	//============================================================================
-	fmt.Println("--->", c.ComponentId)
+
 	//=== deccommite component on which incident was happened ====================
 	_, err6 := sess.Update("components").
 		Set("deleted_at", "NOW()").
 		Where("id = ?", c.ComponentId).
 		Exec()
 	CheckErr(err6)
+	//============================================================================
+
+	//=== add update in incident update ==========================================
+	c.Description = "Component Replaced by New Component"
+	_, err7 := sess.InsertInto("incident_update").
+		Columns("incident_id", "component_id", "description", "resolved_by").
+		Record(c).
+		Exec()
+	CheckErr(err7)
 	//============================================================================
 
 }
