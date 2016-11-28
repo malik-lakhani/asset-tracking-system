@@ -149,7 +149,11 @@ func oneInvoiceDetailsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func incidentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	response := services.DisplayIncidents() //PATH : /services/incidents.go
+	all := r.URL.Query().Get("all")//either display all users or only active users ...
+	if all != "true"{//true for display all incidents ...
+		all = "false" // false for display only active incidents ...
+	} // default it will display active incidents only ...
+	response := services.DisplayIncidents(all) //PATH : /services/incidents.go
 	w.Write([]byte(response))
 }
 
@@ -190,15 +194,32 @@ func incidentsUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	services.IncidentUpdates(incident_id, resolvedBy, description) //PATH : /services/incidents.go
 }
 
+func resolveIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
+	services.CheckErr(err)
+	description := r.FormValue("description")
+	resolvedBy := r.FormValue("resolvedBy")
+	services.IncidentResolved(incident_id, resolvedBy, description) //PATH : /services/incidents.go
+}
+
+func addComponentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
+	services.CheckErr(err)
+	description := r.FormValue("description")
+	resolvedBy := r.FormValue("resolvedBy")
+	serialNo := r.FormValue("serialNo")
+	component := r.FormValue("component")
+	categoryId, err2 := strconv.Atoi(r.FormValue("category"))
+	services.CheckErr(err2)
+	warranty := r.FormValue("warranty")
+	services.IncidentAddComponent(incident_id, resolvedBy, categoryId, component, serialNo, warranty, description) //PATH : /services/incidents.go
+}
+
 func incidentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	response := services.IncidentInformations(incident_id) //PATH : /services/incidents.go
 	w.Write([]byte(response))
-}
-
-func incidentUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-
 }
 
 func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -299,15 +320,16 @@ func main() {
 	goji.Get("/invoices/:invoice_id", oneInvoiceDetailsHandler)
 	goji.Patch("/invoices/:invoice_id", editInvoiceHandler)
 
-	//dealing with incidents ...
+	//dealing with incidents and its updates ...
 	goji.Get("/incidents", incidentsHandler)
 	goji.Post("/incidents", addIncidentHandler)
 	goji.Patch("/incidents/:incident_id", editIncidentHandler)
 	goji.Delete("/incidents/:incident_id", deleteIncidentHandler)
 	goji.Get("/incidents/:incident_id", displayIncidentHandler)
-	goji.Post("/incidents/:incident_id/update", incidentsUpdateHandler)
 	goji.Get("/incidents/:incident_id/incidentInfo", incidentInfoHandler)
-	goji.Post("/incidents/:incident_id/incidentUpdate", incidentUpdateHandler)
+	goji.Post("/incidents/:incident_id/update", incidentsUpdateHandler)
+	goji.Post("/incidents/:incident_id/resolveIncident", resolveIncidentHandler)
+	goji.Post("/incidents/:incident_id/addComponent", addComponentHandler)
 
 	//dealing with components ...
 	goji.Get("/components", componentsHandler)

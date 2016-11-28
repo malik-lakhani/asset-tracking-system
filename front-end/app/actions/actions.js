@@ -575,5 +575,22 @@ export const addIncidentUpdate = ((incidentId, resolvedBy, description) => {
 			});
 		}
 });
+
+export const resolveIncident = ((incidentId, resolvedBy, description) => {
+	let url = `http://localhost:8000/incidents/${incidentId}/resolveIncident`;
+
+	return function(dispatch) {
+		axios.post(url, querystring.stringify({
+			description: description,
+			resolvedBy: resolvedBy
+		}))
+			.then(function (response) {
+				location.assign(`http://localhost:8080/public/#/incidents/${incidentId}`);
+			})
+			.catch(function (err) {
+				console.log(err);
+			});
+		}
+});
 //==============================================================================
 

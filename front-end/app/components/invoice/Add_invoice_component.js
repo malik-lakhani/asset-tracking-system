@@ -221,7 +221,7 @@ class Add_invoice extends Component {
 						}
 
 						let category;
-						if (allInvoiceData[index] && allInvoiceData[index][`category_${index}`]) { // after change the date ...
+						if (allInvoiceData[index] && allInvoiceData[index][`category_${index}`]) { // after change the category ...
 							category = allInvoiceData[index][`category_${index}`];
 						}
 
