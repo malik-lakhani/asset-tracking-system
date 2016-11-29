@@ -26,18 +26,6 @@ class Incident_information extends Component {
 			padding: '20px 25px 0px 100px'
 		};
 
-		let errFontStyle = {
-			color: 'red'
-		}
-
-		let floatRight = {
-			float: 'right'
-		}
-
-		let FontStyle = {
-			color:'blue'
-		}
-
 		let borderStyle = {
 			border: 'solid',
 			borderWidth: '1px',
@@ -65,7 +53,7 @@ class Incident_information extends Component {
 			<div>
 				<div>
 					<form onSubmit={ this.handleSubmit }>
-						<Link to={`incidents/${this.props.params.incidentId}/update`} > <button className="btn btn-info" style={ floatRight }>Add Update</button> </Link>
+						<Link to={`incidents/${this.props.params.incidentId}/update`} > <button className="btn btn-info floatRight">Add Update</button> </Link>
 					</form>
 				</div>
 
@@ -76,7 +64,7 @@ class Incident_information extends Component {
 							<div className = "col-lg-2 col-lg-offset-1">
 								<label>Status :</label>
 							</div>
-							<div className = "col-lg-2" style={ FontStyle }>
+							<div className = "col-lg-2 fontStyle">
 								{ Status }
 							</div>
 						</div>
@@ -84,7 +72,7 @@ class Incident_information extends Component {
 							<div className="col-lg-2 col-lg-offset-1">
 								<label >Recorder :</label>
 							</div>
-							<div className = "col-lg-2" style={ FontStyle }>
+							<div className = "col-lg-2 fontStyle" >
 								{ Recorder }
 							</div>
 						</div>
@@ -92,7 +80,7 @@ class Incident_information extends Component {
 							<div className="col-lg-2 col-lg-offset-1">
 								<label >Component :</label>
 							</div>
-							<div className = "col-lg-2" style={ FontStyle }>
+							<div className = "col-lg-2 fontStyle">
 								{ Component }
 							</div>
 						</div>
@@ -100,7 +88,7 @@ class Incident_information extends Component {
 							<div className="col-lg-2 col-lg-offset-1">
 								<label >Description :</label>
 							</div>
-							<div className="col-lg-8" style={ FontStyle }>
+							<div className="col-lg-8 fontStyle">
 								{ Description }
 							</div>
 						</div>
@@ -120,7 +108,7 @@ class Incident_information extends Component {
 								<div className = "col-lg-2 col-lg-offset-1">
 									<label >Update By :</label>
 								</div>
-								<div className = "col-lg-2" style={ FontStyle }>
+								<div className = "col-lg-2 fontStyle">
 									{ t.Resolved_by }
 								</div>
 							</div>
@@ -128,7 +116,7 @@ class Incident_information extends Component {
 								<div className = "col-lg-2 col-lg-offset-1">
 									<label >Description :</label>
 								</div>
-								<div className = "col-lg-8" style={ FontStyle }>
+								<div className = "col-lg-8 fontStyle">
 									{t.Description}
 								</div>
 							</div>

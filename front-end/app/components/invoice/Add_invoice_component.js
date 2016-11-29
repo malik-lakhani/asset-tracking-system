@@ -36,7 +36,7 @@ class Add_invoice extends Component {
 	}
 
 	componentDidMount() {
-		this.props.actions.fetchCatogories(false, this.props.dispatch);
+		this.props.actions.fetchCategories(false, this.props.dispatch);
 	}
 
 	handleFieldsInvoice(event) {
@@ -116,10 +116,10 @@ class Add_invoice extends Component {
 			invoiceDate = this.props.props.invoices.Invoice_date;
 		}
 
-		let errFontStyle = {
-			color: 'red',
-			fontWeight: 'bold'
-		}
+		// let errFontStyle = {
+		// 	color: 'red',
+		// 	fontWeight: 'bold'
+		// }
 
 		let letterStyle = {
 			border: 'solid',
@@ -127,32 +127,32 @@ class Add_invoice extends Component {
 			padding: '20px 25px 20px 100px'
 		};
 
-		let addComponent = {
-			maxHeight: '100%',
-			overflow: 'scroll'
-		};
+		// let addComponent = {
+		// 	maxHeight: '100%',
+		// 	overflow: 'scroll'
+		// };
 
-		let paddingTop = {
-			paddingTop: '10px'
-		}
+		// let paddingTop = {
+		// 	paddingTop: '10px'
+		// }
 
-		let setWidth = {
-			width: '100%'
-		}
+		// let setWidth = {
+		// 	width: '100%'
+		// }
 
-		let block = {
-			border: 'solid',
-			borderWidth: '2px',
-			padding: '20px 25px 20px 100px'
-		}
+		// let block = {
+		// 	border: 'solid',
+		// 	borderWidth: '2px',
+		// 	padding: '20px 25px 20px 100px'
+		// }
 
 		let selectcss ={
 			width: '80%'
 		}
 
-		let setPaddingleft = {
-			paddingLeft: '15px'
-		}
+		// let setPaddingleft = {
+		// 	paddingLeft: '15px'
+		// }
 
 		let categories = [];
 		for(let i = 0; i < this.props.props.category.AllCategories.length; i++){
@@ -174,12 +174,12 @@ class Add_invoice extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoice*</label>
 							<input className="textboxSize" type="text" required={true} name="Invoice" id="invoice" onChange={ this.handleFieldsInvoice } placeholder="ex. 12MOUSE1811" />
-							<HelpBlock style={ errFontStyle }> {this.state.invoiceErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.invoiceErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoicer*</label>
 							<input className="textboxSize" type="text" name="Invoicer" id="invoicer" onChange={ this.handleFieldsInvoice } placeholder="ex. Jay systems" />
-							<HelpBlock style={ errFontStyle }> {this.state.invoicerErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.invoicerErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -190,7 +190,7 @@ class Add_invoice extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>
 							<input className="textboxSize" type="text" name="Contact" id="contact" onChange={ this.handleFieldsInvoice }  placeholder="ex. +91 9909970574" />
-							<HelpBlock style={ errFontStyle }> {this.state.contactErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.contactErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -207,11 +207,11 @@ class Add_invoice extends Component {
 			</div>
 			<br/>
 
-				<div style={setWidth}>
+				<div className="setWidth">
 					<label className="control-label text-center">Components </label>
 					<button className="btn btn-success pull-right" onClick={this.addInputField}> Add Component </button>
 					<br/>
-					<HelpBlock className="center" style={ errFontStyle }> { this.state.componentErr } </HelpBlock>
+					<HelpBlock className="center errFontStyle"> { this.state.componentErr } </HelpBlock>
 					<br/>
 
 					{this.state.inputs.map(function (input, index) {
@@ -229,13 +229,13 @@ class Add_invoice extends Component {
 						let ref = `input_${index}`;
 						return (
 							<div>
-								<div style={block}>
+								<div className="block">
 									<div className="clearfix">
 										<span className="pull-right" onClick={this.removeInputField.bind(this, index)} id={ref} ><button type="button" className="btn btn-danger btn-sm">Remove</button></span>
-										<label style={paddingTop}> Component #{index + 1} </label>
+										<label className="paddingTop"> Component #{index + 1} </label>
 									</div>
 									<div>
-										<div className="clearfix" style={setPaddingleft}>
+										<div className="clearfix" className="setPaddingleft">
 											<input type="text" className="col-lg-2 textboxSize" onChange={ this.handleFieldsComponent} id={`serial_${index}`} componentId={index} placeholder="Serial" />
 											<input type="text" className="col-lg-2 col-lg-offset-1 textboxSize" onChange={ this.handleFieldsComponent } id={`component_${index}`} placeholder="Component Name" />
 											<DatePicker className="col-lg-2 col-lg-offset-1 textboxSize" id={`warrantyDate_${ index }`} selected={ date } onChange={this.handleDateChange.bind(this, index)} placeholder="Component Name"/>

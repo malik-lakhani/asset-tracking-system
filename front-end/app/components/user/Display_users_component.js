@@ -65,13 +65,6 @@ class Display_users extends Component {
 	}
 
 	render() {
-
-	//===================== style ================================================
-		let activeStyle = {
-			width: '150'
-		}
-	// ===========================================================================
-
 		let options = [
 			{ value: 'active', label: 'Active' },
 			{ value: 'all', label: 'All' }
@@ -87,7 +80,7 @@ class Display_users extends Component {
 			<div>
 				<div className="clearfix">
 					<div className="col-lg-2">
-						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterUsers }/>
+						<Select searchable={ false } className="activeStyle" clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } onChange={ this.filterUsers }/>
 					</div>
 				</div>
 				<div>

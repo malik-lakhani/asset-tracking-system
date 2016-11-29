@@ -9,6 +9,7 @@ var Main = React.createClass({
 		}
 		return  (
 			<div className="main-container">
+
 				<div>
 					<Header />
 				</div>
@@ -20,6 +21,7 @@ var Main = React.createClass({
 				<div style={padding1}>
 					<Footer/>
 				</div>
+
 			</div>
 		)
 	}

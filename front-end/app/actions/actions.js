@@ -161,8 +161,6 @@ export const editCategory = ((row) => {
 		})).then(function(response) {
 				console.log('success');
 		});
-
-
 });
 
 export const addCategory = ((row, machineId) => {

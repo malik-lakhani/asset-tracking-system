@@ -2,7 +2,6 @@ package services
 
 import(
 	"encoding/json"
-	// "fmt"
 	"time"
 )
 
@@ -31,7 +30,6 @@ type InvoiceDetails struct {
 	Invoicer_contact string
 	Description string
 	InvoiceDate string
-	// InvoiceDate time.Time
 }
 
 type ComponentsInfo struct {
@@ -150,8 +148,8 @@ func DisplayOneInvoice(invoiceId int) []byte {
 	components := []DisplayAllComponents{}
 	sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine").
 		From("components c").
-    LeftJoin("machine_components", "c.id = machine_components.component_id").
-    LeftJoin("machines", "machines.id = machine_components.machine_id").
+		LeftJoin("machine_components", "c.id = machine_components.component_id").
+		LeftJoin("machines", "machines.id = machine_components.machine_id").
 		Where("c.invoice_id = ?", invoiceId).
 		LoadStruct(&components)
 

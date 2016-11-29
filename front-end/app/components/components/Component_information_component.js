@@ -42,20 +42,11 @@ class Component_information extends Component {
 
 	//=========================== styles =========================================
 
-		let setMargin = {
-			margin: "5px"
-		}
-
 		let letterStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '15px'
 		};
-
-		let textAreaSize = {
-			width: '569px',
-			height: '75px'
-		}
 
 	//============================================================================
 
@@ -121,12 +112,12 @@ class Component_information extends Component {
 						<h1>{Component}<h4>({status})</h4></h1>
 					</div>
 					<div className="pull-right">
-						<button type="button" className="btn btn-info marginLeftRecord" data-toggle="modal" data-target="#changeMachine" style= { setMargin }>Change Machine</button>
+						<button type="button" className="btn btn-info marginLeftRecord setMargin" data-toggle="modal" data-target="#changeMachine">Change Machine</button>
 						<button type="button" className="btn btn-danger" onClick= {this.handleDecommission} > Decommission </button>
 					</div>
 				</div>
 
-				<div style={letterStyle}>
+				<div className="letterStyle" style= { letterStyle }>
 					<div>
 						<div className="col-lg-4 col-lg-offset-2">
 							<Field component={rendreLabel} label="Invoice" /> <Link to={`/invoices/edit/${this.props.props.components.Components.Invoice_id}`}> { this.props.props.components.Components.Invoice_number } </Link>
@@ -177,7 +168,7 @@ class Component_information extends Component {
 								<TableHeaderColumn width="200" dataSort={true} dataField="Added_at">Added At</TableHeaderColumn>
 								<TableHeaderColumn width="100" dataSort={true} dataField="Removed_at">Removed At</TableHeaderColumn>
 							</BootstrapTable>
-          </div>
+					</div>
 				</div>
 			</div>
 		)

@@ -6,7 +6,7 @@ import 'react-select/dist/react-select.css';
 import './styles.css';
 
 function componentInformation(cell, row){
-   return <Link to={`/components/${row.Id}`}>{ cell }</Link>
+	return <Link to={`/components/${row.Id}`}>{ cell }</Link>
 }
 
 class Display_components extends Component {
@@ -36,7 +36,7 @@ class Display_components extends Component {
 
 	componentDidMount() {
 		this.props.actions.fetchComponents(false, this.props.dispatch);
-		this.props.actions.fetchCatogories(false, this.props.dispatch);
+		this.props.actions.fetchCategories(false, this.props.dispatch);
 	}
 
 	render() {
@@ -86,7 +86,7 @@ class Display_components extends Component {
 
 		return (
 			<div>
-				<div className= "clearfix" style = { setPadding } >
+				<div className= "clearfix setPadding">
 					<div className="pull-left" >
 						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterComponents }/>
 					</div>

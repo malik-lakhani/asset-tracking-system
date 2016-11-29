@@ -1,17 +1,16 @@
 package main
 
 import (
-		// "fmt"
-		"io/ioutil"
-		"net/http"
-		"strconv"
-		_"github.com/lib/pq"
-		"github.com/zenazn/goji"
-		_"github.com/gocraft/dbr"
-		"github.com/zenazn/goji/web"
-		"github.com/rs/cors"
+	"io/ioutil"
+	"net/http"
+	"strconv"
+	_"github.com/lib/pq"
+	"github.com/zenazn/goji"
+	_"github.com/gocraft/dbr"
+	"github.com/zenazn/goji/web"
+	"github.com/rs/cors"
 
-		"./services"
+	"./services"
 )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {

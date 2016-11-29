@@ -8,7 +8,6 @@ import rootReducer  from './reducers/rootReducer'
 import routes from './config/routes';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-
 import { createHistory } from 'history';
 
 const logger = createLogger();

@@ -79,11 +79,6 @@ class Edit_invoice extends Component {
 			padding: '20px 25px 20px 100px'
 		};
 
-		let errFontStyle = {
-			color: 'red',
-			fontWeight: 'bold'
-		}
-
 		//==========================================================================
 
 		var invoiceDate = moment(this.props.props.invoices.date);
@@ -118,12 +113,12 @@ class Edit_invoice extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoice*</label>
 							<input className="textboxSize" type="text" name="Invoice" id="invoice" value={ invoice }  onChange={this.handleFields} placeholder="ex. 12MOUSE1811" />
-							<HelpBlock style={ errFontStyle }> {this.state.invoiceErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.invoiceErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoicer*</label>
 							<input className="textboxSize" type="text" name="Invoicer" id="invoicer" value={invoicer} onChange={this.handleFields} placeholder="ex. Jay systems" />
-							<HelpBlock style={ errFontStyle }> {this.state.invoicerErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.invoicerErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -134,7 +129,7 @@ class Edit_invoice extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>
 							<input className="textboxSize" type="text" name="Contact" id="contact" value={ contact } onChange={this.handleFields} placeholder="ex. +91 9909970574" />
-							<HelpBlock style={ errFontStyle }> {this.state.contactErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.contactErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">

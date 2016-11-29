@@ -1,9 +1,9 @@
 package services
 
 import (
-				"encoding/json"
-				"strings"
-				"time"
+	"encoding/json"
+	"strings"
+	"time"
 )
 
 // sess *dbr.Session = SetupDB()
@@ -85,7 +85,6 @@ func DeleteUser(userIds string) {
 		CheckErr(err)
 	}
 	//==============================
-
 }
 
 func DisplayUser(userId int) []byte {

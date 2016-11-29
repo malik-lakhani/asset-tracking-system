@@ -86,10 +86,6 @@ class Add_incident extends Component {
 			padding: '20px 25px 20px 100px'
 		};
 
-		let errFontStyle = {
-			color: 'red'
-		}
-
 	//============================================================================
 
 		let Machines = [];
@@ -113,24 +109,24 @@ class Add_incident extends Component {
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Recorder*</label>
 							<input className="textboxSize" type="text" value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="recorder" />
-							<HelpBlock style={ errFontStyle }> {this.state.recorderErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.recorderErr} </HelpBlock>
 					</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Machine*</label>
 							<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
-							<HelpBlock style={ errFontStyle }> {this.state.machineErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.machineErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Title*</label>
 							<input className="textboxSize" type="text" value={ this.props.props.incidents.title } name="Title" id="title" onChange={ this.handleFields } placeholder="title"/>
-							<HelpBlock style={ errFontStyle }> {this.state.titleErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.titleErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Component*</label>
 							<Select name="form-field-name" value={ this.state.component } options={ Components } onChange={ this.handleComponentsChange } />
-							<HelpBlock style={ errFontStyle }> {this.state.componentErr} </HelpBlock>
+							<HelpBlock className="errFontStyle"> {this.state.componentErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">

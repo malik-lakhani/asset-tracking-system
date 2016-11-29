@@ -47,14 +47,6 @@ class Display_incidents extends Component {
 			{ value: 'all', label: 'All' }
 		];
 
-		let marginLeftRecord = {
-			marginleft: '-7%',
-		};
-
-		let activeStyle = {
-			width: '150'
-		}
-
 		let ComponentId;
 		for(let i = 0; i < this.props.state.components.Components.length; i++) {
 			ComponentIds[i] = this.props.state.components.Components[i].Id;
@@ -90,7 +82,7 @@ class Display_incidents extends Component {
 			<div>
 				<div className="clearfix">
 					<div className="col-lg-2">
-						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterIncidents }/>
+						<Select searchable={ false } clearable={ false } placeholder="Active" className="activeStyle" value={ this.state.activeAll } options={ options } onChange={ this.filterIncidents }/>
 					</div>
 					<div className="pull-right">
 					 <Link to={`/incidents/add`}><button type="button" className="btn btn-info marginLeftRecord">Record New Incident</button></Link>

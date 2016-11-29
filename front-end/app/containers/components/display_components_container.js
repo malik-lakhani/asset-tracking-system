@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions/actions';
 
 const mapStateToProps = (state) => {
-  return {
-    state: state
-  };
+	return {
+		state: state
+	};
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

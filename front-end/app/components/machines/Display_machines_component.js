@@ -74,10 +74,6 @@ class Display_machines extends Component {
 			clickToSelect: true,
 			bgColor: "rgb(238, 193, 213)"
 		};
-
-		let activeStyle = {
-			width: '150'
-		}
 	// ===========================================================================
 
 		let table;
@@ -108,7 +104,7 @@ class Display_machines extends Component {
 			<div>
 				<div className="clearfix">
 					<div className="col-lg-2">
-						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterMachines }/>
+						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } className="activeStyle" onChange={ this.filterMachines }/>
 					</div>
 				</div>
 				<div>

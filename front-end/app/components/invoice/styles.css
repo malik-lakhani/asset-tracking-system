@@ -18,3 +18,49 @@
 	border-radius: 6px;
 }
 
+.errFontStyle {
+	color: red;
+	font-weight: bold;
+}
+
+.letterStyle {
+	border: solid;
+	border-width: 2px;
+	padding: 20px 25px 20px 100px;
+};
+
+.addComponent {
+	max-height: 100%;
+	overflow: scroll;
+};
+
+.paddingTop {
+	padding-top: 10px;
+}
+
+.setWidth {
+	width: 100%
+}
+
+.block {
+	border: solid;
+	border-width: 2px;
+	padding: 20px 25px 20px 100px;
+}
+
+/*.selectcss {
+	width: 80%;
+}*/
+
+.setPaddingleft {
+	padding-left: 15px;
+}
+
+.floatRight {
+	float: right;
+}
+
+.paddingLeft {
+	padding-left: 1029px;
+}
+

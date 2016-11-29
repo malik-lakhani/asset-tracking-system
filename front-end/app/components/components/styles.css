@@ -1,7 +1,22 @@
-.marginLeftRecordNewIncident {
-	margin-left: -35%;
-}
-
 .center{
 	text-align: center;
+}
+
+.setPadding {
+	padding: 0px 12px 0px 12px;
+}
+
+.setMargin {
+	margin: 5px;
+}
+
+.letterStyle {
+	border: solid;
+	border-width: 2px;
+	padding: 15px;
+}
+
+.textAreaSize {
+	width: 569px;
+	height: 75px;
 }

@@ -52,28 +52,22 @@ class Display_category extends Component {
 
 	render() {
 
-		//===================== style ================================================
-		let activeStyle = {
-			width: '150'
-		}
-
 		let selectRowProp = {
 			mode: "checkbox",
 			clickToSelect: true,
 			bgColor: "rgb(238, 193, 213)"
 		};
-	// ===========================================================================
 
 		let options = [
-			{ value: 'active', label: 'Active' },
-			{ value: 'all', label: 'All' }
+			{	value: 'active', label: 'Active' },
+			{	value: 'all', label: 'All' }
 		];
 
 		return (
 			<div>
 				<div className="clearfix">
 					<div className="col-lg-2">
-						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterCategory }/>
+						<Select searchable={ false } clearable={ false } placeholder="Active" className="activeStyle" value={ this.state.activeAll } options={ options } onChange={ this.filterCategory }/>
 					</div>
 				</div>
 				<div>
