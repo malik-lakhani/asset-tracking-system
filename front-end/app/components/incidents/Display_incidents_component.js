@@ -1,6 +1,8 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
 import { Link } from 'React-Router';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import './styles.css';
 
 function incidentInformation(cell, row) {
@@ -13,6 +15,7 @@ class Display_incidents extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			activeAll: 'Active'
 		};
 		this.filterIncidents = this.filterIncidents.bind(this);
 		this.editIncident = this.editIncident.bind(this);
@@ -24,12 +27,13 @@ class Display_incidents extends Component {
 		this.props.actions.editIncident(row, ComponentId);
 	}
 
-	filterIncidents(e) {
-	var all = false;
-	if(e.target.value == "all") {
-		all = true
-	}
-		this.props.actions.fetchIncidents(all, this.props.dispatch);
+	filterIncidents(val) {
+		let all = false;
+		if(val.value == "all") {
+			all = true
+		}
+		this.setState({activeAll:val.value});
+		this.props.actions.fetchIncidents(all);
 	}
 
 	componentDidMount() {
@@ -38,10 +42,18 @@ class Display_incidents extends Component {
 	}
 
 	render() {
+		let options = [
+			{ value: 'active', label: 'Active' },
+			{ value: 'all', label: 'All' }
+		];
 
-		var marginLeftRecord = {
+		let marginLeftRecord = {
 			marginleft: '-7%',
 		};
+
+		let activeStyle = {
+			width: '150'
+		}
 
 		let ComponentId;
 		for(let i = 0; i < this.props.state.components.Components.length; i++) {
@@ -49,7 +61,7 @@ class Display_incidents extends Component {
 			Components[i] = this.props.state.components.Components[i].Name;
 		}
 
-		var table;
+		let table;
 		if (this.props.state.incidents.Incidents && this.props.state.incidents.Incidents.length) {
 		table = (	<BootstrapTable data={this.props.state.incidents.Incidents}
 													pagination={true}
@@ -77,11 +89,8 @@ class Display_incidents extends Component {
 		return (
 			<div>
 				<div className="clearfix">
-					<div className="col-lg-1">
-						<select name="select2" onChange={this.filterIncidents} className="selectpicker" data-width="auto">
-							<option value="active">Active</option>
-							<option value="all">All</option>
-						</select>
+					<div className="col-lg-2">
+						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterIncidents }/>
 					</div>
 					<div className="pull-right">
 					 <Link to={`/incidents/add`}><button type="button" className="btn btn-info marginLeftRecord">Record New Incident</button></Link>

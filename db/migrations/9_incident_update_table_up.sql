@@ -4,6 +4,7 @@ create table incident_update (
 	component_id int references components(id),
   updated_by varchar(32),
 	description text,
+  resolved_by varchar(32),
 	created_at timestamp not null default now(),
 	modified_at timestamp
 )

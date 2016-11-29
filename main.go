@@ -187,19 +187,12 @@ func displayIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func incidentsUpdateHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	isResolved := r.URL.Query().Get("resolved")
 	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	description := r.FormValue("description")
 	resolvedBy := r.FormValue("resolvedBy")
-	services.IncidentUpdates(incident_id, resolvedBy, description) //PATH : /services/incidents.go
-}
-
-func resolveIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
-	services.CheckErr(err)
-	description := r.FormValue("description")
-	resolvedBy := r.FormValue("resolvedBy")
-	services.IncidentResolved(incident_id, resolvedBy, description) //PATH : /services/incidents.go
+	services.IncidentUpdates(incident_id, resolvedBy, description, isResolved) //PATH : /services/incidents.go
 }
 
 func addComponentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -276,13 +269,6 @@ func deleteCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	services.DeleteCategory(ids) //PATH : /services/users.go
 }
 
-// func displayOneCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-// 	category_id, err := strconv.Atoi(c.URLParams["category_id"]) // converting from string to int ...
-// 	services.CheckErr(err)
-// 	b := services.DisplayCategory(user_id) //PATH : /services/users.go
-// 	w.Write([]byte(b))
-// }
-
 func main() {
 
 //======= Middleware for AJAX Requsests ========================================
@@ -328,7 +314,6 @@ func main() {
 	goji.Get("/incidents/:incident_id", displayIncidentHandler)
 	goji.Get("/incidents/:incident_id/incidentInfo", incidentInfoHandler)
 	goji.Post("/incidents/:incident_id/update", incidentsUpdateHandler)
-	goji.Post("/incidents/:incident_id/resolveIncident", resolveIncidentHandler)
 	goji.Post("/incidents/:incident_id/addComponent", addComponentHandler)
 
 	//dealing with components ...

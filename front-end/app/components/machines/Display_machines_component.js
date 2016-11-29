@@ -1,13 +1,15 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import './styles.css';
 
 function Validator(value){
-  if(!value){
-    return "*"
-  }
-  return true;
+	if(!value){
+		return "*"
+	}
+	return true;
 }
 
 function machineInformation(cell, row){
@@ -21,6 +23,7 @@ class Display_machines extends Component {
 		super(props);
 		this.state = {
 			data: [],
+			activeAll: ''
 		};
 		this.filterMachines = this.filterMachines.bind(this);
 		this.editMachine = this.editMachine.bind(this);
@@ -29,24 +32,24 @@ class Display_machines extends Component {
 	}
 
 	addMachine(row) {
-    this.props.actions.addMachine(row);
-  }
-
-	editMachine(row, cellName, cellValue) {
-		console.log("-->", row)
-    this.props.actions.editMachine(row);
-  }
-
-  deleteMachine(id) {
-  	this.props.actions.deleteMachine(id);
+		this.props.actions.addMachine(row);
 	}
 
-	filterMachines(e) {
-		var all = false;
-		if(e.target.value == "all") {
+	editMachine(row, cellName, cellValue) {
+		this.props.actions.editMachine(row);
+	}
+
+	deleteMachine(id) {
+		this.props.actions.deleteMachine(id);
+	}
+
+	filterMachines(val) {
+		let all = false;
+		if(val.value == "all") {
 			all = true
 		}
-		this.props.actions.fetchMachines(all, this.props.dispatch);
+		this.setState({activeAll:val.value});
+		this.props.actions.fetchMachines(all);
 	}
 
 	componentDidMount() {
@@ -59,17 +62,25 @@ class Display_machines extends Component {
 		if(this.props.state.machines.Machines.length) {
 			machines = this.props.state.machines.Machines;
 		}
+
+		let options = [
+			{ value: 'active', label: 'Active' },
+			{ value: 'all', label: 'All' }
+		];
+
 	//===================== style ================================================
-		var selectRowProp = {
+		let selectRowProp = {
 			mode: "checkbox",
 			clickToSelect: true,
 			bgColor: "rgb(238, 193, 213)"
 		};
+
+		let activeStyle = {
+			width: '150'
+		}
 	// ===========================================================================
 
-
-		var table;
-		// if (this.props.state.users.AllUsers && this.props.state.users.AllUsers.length) {
+		let table;
 		table = (	<BootstrapTable data={ machines }
 													pagination={true}
 													options={{
@@ -81,27 +92,25 @@ class Display_machines extends Component {
 													selectRow={selectRowProp}
 													insertRow={true}
 													cellEdit={{
-						                mode: "dbclick",
-						                blurToSave: true,
-						                afterSaveCell: this.editMachine
-					                }}
+														mode: "dbclick",
+														blurToSave: true,
+														afterSaveCell: this.editMachine
+													}}
 													search={true}
 													striped={true}
 													hover={true}>
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true}  autoValue={true} hidden={true} >Id</TableHeaderColumn>
 						<TableHeaderColumn width="260" dataSort={true} dataField="Name" dataFormat={machineInformation} editable={{ validator:Validator }}>Name</TableHeaderColumn>
 						<TableHeaderColumn width="350" dataSort={true} dataField="User" editable={false} hiddenOnInsert={true} autoValue={false}>Current User</TableHeaderColumn>
-					</BootstrapTable>);
-		// } else {
-		// 	table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)
-		// }
+					</BootstrapTable> );
 
 		return (
 			<div>
-				<select name="select2" onChange={this.filterMachines} className="selectpicker" data-width="auto">
-					<option value="active">Active</option>
-					<option value="all">All</option>
-				</select>
+				<div className="clearfix">
+					<div className="col-lg-2">
+						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterMachines }/>
+					</div>
+				</div>
 				<div>
 					{ table }
 				</div>

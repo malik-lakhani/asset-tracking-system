@@ -2,6 +2,8 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
 import { Link } from 'react-router'
 import axios from 'axios';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import './styles.css';
 
 function Validator(value){
@@ -15,7 +17,8 @@ class Display_category extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data :[]
+			data :[],
+			activeAll: ''
 		};
 		this.filterCategory = this.filterCategory.bind(this);
 		this.editCategory = this.editCategory.bind(this);
@@ -35,32 +38,44 @@ class Display_category extends Component {
 		this.props.actions.deleteCategory(id);
 	}
 
-	filterCategory(e) {
+	filterCategory(val) {
 		var all = false;
-		if(e.target.value == "all") {
+		if(val.value == "all") {
 			all = true
 		}
-		this.props.actions.fetchCategories(all, this.props.dispatch);
+		this.props.actions.fetchCategories(all);
 	}
 
 	componentDidMount() {
-		this.props.actions.fetchCatogories(false, this.props.dispatch);
+		this.props.actions.fetchCategories(false);
 	}
 
 	render() {
+
+		//===================== style ================================================
+		let activeStyle = {
+			width: '150'
+		}
 
 		let selectRowProp = {
 			mode: "checkbox",
 			clickToSelect: true,
 			bgColor: "rgb(238, 193, 213)"
 		};
+	// ===========================================================================
+
+		let options = [
+			{ value: 'active', label: 'Active' },
+			{ value: 'all', label: 'All' }
+		];
 
 		return (
 			<div>
-				<select name="select2" onChange={this.filterCategory} className="selectpicker" data-width="auto">
-						<option value="active">Active</option>
-						<option value="all">All</option>
-				</select>
+				<div className="clearfix">
+					<div className="col-lg-2">
+						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterCategory }/>
+					</div>
+				</div>
 				<div>
 						<BootstrapTable data={this.props.state.category.AllCategories}
 																						pagination={true}

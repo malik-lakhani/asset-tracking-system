@@ -111,7 +111,7 @@ export const addUser = ((row, machineId) => {
 
 //========================Actions Releated to Categories =======================
 
-export const fetchCatogories = ((All, dispatch) => {
+export const fetchCategories = ((All, dispatch) => {
 	const URL = `http://localhost:8000/components/categories`;
 	let all = false;
 
@@ -556,8 +556,8 @@ export const fetchIncidentInfo = ((incidentId) => {
 		}
 });
 
-export const addIncidentUpdate = ((incidentId, resolvedBy, description) => {
-	let url = `http://localhost:8000/incidents/${incidentId}/update`;
+export const addIncidentUpdate = ((incidentId, resolvedBy, description, isResolved) => {
+	let url = `http://localhost:8000/incidents/${incidentId}/update?resolved=${isResolved}`;
 
 	return function(dispatch) {
 		axios.post(url, querystring.stringify({
@@ -570,23 +570,6 @@ export const addIncidentUpdate = ((incidentId, resolvedBy, description) => {
 			})
 			.catch(function (err) {
 				dispatch({ type: ADD_INCIDENT_UPDATE_FAILULER, err})
-			});
-		}
-});
-
-export const resolveIncident = ((incidentId, resolvedBy, description) => {
-	let url = `http://localhost:8000/incidents/${incidentId}/resolveIncident`;
-
-	return function(dispatch) {
-		axios.post(url, querystring.stringify({
-			description: description,
-			resolvedBy: resolvedBy
-		}))
-			.then(function (response) {
-				location.assign(`http://localhost:8080/public/#/incidents/${incidentId}`);
-			})
-			.catch(function (err) {
-				console.log(err);
 			});
 		}
 });

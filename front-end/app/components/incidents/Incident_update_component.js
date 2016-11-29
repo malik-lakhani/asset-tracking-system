@@ -15,7 +15,6 @@ class Add_incident_update extends Component {
 		super(props);
 		this.state = {
 			resolvedByErr: '',
-			descErr: '',
 
 			updateByErr: '',
 			serialErr: '',
@@ -31,7 +30,7 @@ class Add_incident_update extends Component {
 	}
 
 	componentDidMount() {
-		this.props.actions.fetchCatogories(false, this.props.dispatch);
+		this.props.actions.fetchCategories(false, this.props.dispatch);
 	}
 
 	handleFields(event) {
@@ -52,12 +51,13 @@ class Add_incident_update extends Component {
 			this.setState({resolvedByErr: '*Required'})
 			status = false;
 		}
-		if(description == '') {
+		if(description == '' || description == undefined) {
 			this.setState({descErr: '*Required'})
 			status = false;
 		}
 		if(status) {
-			this.props.actions.resolveIncident(incidentId, updatedBy, description)
+			let isResolved = true;
+			this.props.actions.addIncidentUpdate(incidentId, updatedBy, description, isResolved)
 		}
 	}
 
@@ -114,9 +114,9 @@ class Add_incident_update extends Component {
 	}
 
 	handleSubmit(e) {
+
 		e.preventDefault(e);
 		let updatedBy = this.props.state.incidents.updatedBy;
-		let description = this.props.state.incidents.description;
 		let incidentId = this.props.params.incidentId;
 
 		this.setState({resolvedByErr: ''});
@@ -126,12 +126,9 @@ class Add_incident_update extends Component {
 			this.setState({resolvedByErr: '*Required'})
 			status = false;
 		}
-		if(description == '') {
-			this.setState({descErr: '*Required'})
-			status = false;
-		}
 		if (status) {
-			this.props.actions.addIncidentUpdate(incidentId, updatedBy, description)
+			let resolvedStatus = false;
+			this.props.actions.addIncidentUpdate(incidentId, updatedBy, description, resolvedStatus)
 		}
 	}
 
@@ -179,8 +176,7 @@ class Add_incident_update extends Component {
 			fontWeight: 'bold'
 		}
 
-		//============================================================================
-		console.log("this.props", this.props)
+		//==========================================================================
 		let category;
 		if (this.props.state.incidents.category) { // after change the category ...
 			category = this.props.state.incidents.category;
@@ -260,7 +256,6 @@ class Add_incident_update extends Component {
 							</div>
 							<div className="col-lg-offset-1">
 								<textarea name="Description" id="description" onChange={ this.handleFields } placeholder="description" style= { textAreaWidth } />
-								<HelpBlock style={ errFontStyle }> {this.state.descErr} </HelpBlock>
 							</div>
 						</div>
 					</div>

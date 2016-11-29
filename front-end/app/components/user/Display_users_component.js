@@ -2,6 +2,8 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
 import { Link } from 'react-router'
 import axios from 'axios';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import './styles.css';
 
 var selectRowProp = {
@@ -23,7 +25,8 @@ class Display_users extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data :[]
+			data :[],
+			activeAll: ''
 		};
 		this.filterUsers = this.filterUsers.bind(this);
 		this.editUser = this.editUser.bind(this);
@@ -32,8 +35,9 @@ class Display_users extends Component {
 	}
 
 	editUser(row, cellName, cellValue) {
-		let indexOfMachineId = MachineNames.indexOf(cellValue);
+		let indexOfMachineId = MachineNames.indexOf(row.Machine_name);
 		let MachineId = MachineIds[indexOfMachineId]
+		console.log(row)
 		this.props.actions.editUser(row, MachineId);
 	}
 
@@ -47,12 +51,12 @@ class Display_users extends Component {
 		this.props.actions.deleteUser(id);
 	}
 
-	filterUsers(e) {
+	filterUsers(val) {
 		var all = false;
-		if(e.target.value == "all") {
+		if(val.value == "all") {
 			all = true
 		}
-		this.props.actions.fetchUsers(all, this.props.dispatch);
+		this.props.actions.fetchUsers(all);
 	}
 
 	componentDidMount() {
@@ -61,6 +65,18 @@ class Display_users extends Component {
 	}
 
 	render() {
+
+	//===================== style ================================================
+		let activeStyle = {
+			width: '150'
+		}
+	// ===========================================================================
+
+		let options = [
+			{ value: 'active', label: 'Active' },
+			{ value: 'all', label: 'All' }
+		];
+
 		let MachineId;
 		for(let i = 0; i < this.props.state.machines.Machines.length; i++) {
 			MachineIds[i] = this.props.state.machines.Machines[i].Id;
@@ -69,10 +85,11 @@ class Display_users extends Component {
 
 		return (
 			<div>
-				<select name="select2" onChange={this.filterUsers} className="selectpicker" data-width="auto">
-					<option value="active">Active</option>
-					<option value="all">All</option>
-				</select>
+				<div className="clearfix">
+					<div className="col-lg-2">
+						<Select searchable={ false } clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } style={ activeStyle } onChange={ this.filterUsers }/>
+					</div>
+				</div>
 				<div>
 					<BootstrapTable data={this.props.state.users.AllUsers}
 													pagination={true}

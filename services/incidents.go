@@ -131,7 +131,7 @@ type IncidentUpdate struct {
 	Description string
 }
 
-func IncidentUpdates(incidentId int, resolvedBy string, description string) {
+func IncidentUpdates(incidentId int, resolvedBy string, description string, isResolved string) {
 	sess := SetupDB()
 
 	//select component id on which incident happen ....===========================
@@ -155,6 +155,17 @@ func IncidentUpdates(incidentId int, resolvedBy string, description string) {
 		Exec()
 	CheckErr(err)
 	//============================================================================
+
+	if(isResolved == "true") {
+	//update status of incident to resolved ...===================================
+		_, err3 := sess.Update("incidents").
+			Set("status", "resolved").
+			Set("resolved_at", "NOW()").
+			Where("id = ?", incident.IncidentId).
+			Exec()
+		CheckErr(err3)
+	//============================================================================
+	}
 }
 
 type IncidentInformation struct {
@@ -193,41 +204,6 @@ func IncidentInformations(incident_id int) []byte{
 	b, err := json.Marshal(m)
 	CheckErr(err)
 	return b
-}
-
-func IncidentResolved(incidentId int, resolvedBy string, description string) {
-	sess := SetupDB()
-
-	//select component id on which incident happen ....===========================
-	id, err1 := sess.Select("component_id").
-		From("incidents").
-		Where("id = ?", incidentId).
-		ReturnInt64()
-	CheckErr(err1)
-	//============================================================================
-
- //insert record into incident_updates table ...================================
-	var incident IncidentUpdate
-	incident.ComponentId = id
-	incident.IncidentId = incidentId
-	incident.Resolved_by = resolvedBy
-	incident.Description = description
-
-	_, err := sess.InsertInto("incident_update").
-		Columns("incident_id", "component_id", "description", "resolved_by").
-		Record(incident).
-		Exec()
-	CheckErr(err)
-	//============================================================================
-
-	//update status of incident to resolved ...===================================
-		_, err3 := sess.Update("incidents").
-		Set("status", "resolved").
-		Set("resolved_at", "NOW()").
-		Where("id = ?", incident.IncidentId).
-		Exec()
-	CheckErr(err3)
-	//============================================================================
 }
 
 type IncidentComponentInfo struct {

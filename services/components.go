@@ -199,12 +199,11 @@ func DisplayComponentInformation(ComponentId int) []byte {
 
 	//===== Will Give entire history of component ================================
 	log := []ComponentLog{}
-	err2 := sess.Select("machine_components.id, machines.name AS Machine, machine_components.created_at, machine_components.deleted_at").
+	sess.Select("machine_components.id, machines.name AS Machine, machine_components.created_at, machine_components.deleted_at").
 		From("machine_components").
 		LeftJoin("machines", "machine_components.machine_id = machines.id").
 		Where("machine_components.component_id= ?", ComponentId).
 		LoadStruct(&log)
-	CheckErr(err2)
 
 	//extract only date from timestamp========
 	for i := 0; i < len(log); i++ {

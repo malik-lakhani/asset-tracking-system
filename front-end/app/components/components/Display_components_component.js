@@ -46,7 +46,7 @@ class Display_components extends Component {
 			categories[i] = ComponentInfo;
 		}
 
-		var options = [
+		let options = [
 			{ value: 'active', label: 'Active' },
 			{ value: 'all', label: 'All' }
 		];
@@ -63,7 +63,7 @@ class Display_components extends Component {
 			padding: '0px 12px 0px 12px'
 		}
 
-		var table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>);
+		let table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>);
 		if (this.props.state.components.Components && this.props.state.components.Components.length) {
 			table = (	<BootstrapTable data={this.props.state.components.Components}
 														pagination={true}
