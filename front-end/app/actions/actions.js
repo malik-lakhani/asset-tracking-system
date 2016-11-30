@@ -2,6 +2,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { push } from 'react-router-redux'
 import moment from 'moment';
+import { hashHistory } from 'react-router'
 
 import {
 
@@ -103,13 +104,15 @@ export const addUser = ((row, machineId) => {
 		}
 });
 
+/*
 //==============================================================================
 
 
+							***	Actions Releated to Categories ***
 
 
-
-//========================Actions Releated to Categories =======================
+//==============================================================================
+*/
 
 export const fetchCategories = ((All, dispatch) => {
 	const URL = `http://localhost:8000/components/categories`;
@@ -174,14 +177,16 @@ export const addCategory = ((row, machineId) => {
 		}
 });
 
+/*
 //==============================================================================
 
 
+									***		Actions Releated to Machines 	***
 
 
+//==============================================================================
+*/
 
-
-//========================Actions Releated to Machines =========================
 export const fetchMachines = ((Action, dispatch) => {
 	const URL = `http://localhost:8000/machines`;
 	let allMachine = true;
@@ -260,12 +265,15 @@ export const fetchMachineInformation = ((machineId) => {
 		}
 });
 
+/*
 //==============================================================================
 
 
+										*** 	Actions Releated to Components 	***
 
 
-//========================Actions Releated to Components========================
+//==============================================================================
+*/
 
 export const fetchComponents = ((Action, dispatch) => {
 	const URL = `http://localhost:8000/components`;
@@ -320,8 +328,7 @@ export const changeMachine = ((componentId, machineId) => {
 			querystring.stringify({
 				'component_id' : componentId
 			})).then((response) => {
-				let URL = `http://localhost:8080/public/#/components/${componentId}`
-				location.assign(URL);
+				hashHistory.push(`components/${componentId}`);
 			})
 			.catch((err) => {
 				console.log('Error:', err)
@@ -347,12 +354,15 @@ export const decommitComponentFromMachine = ((componentId, machineId) => {
 
 });
 
+/*
 //==============================================================================
 
 
+										*** 	Actions Releated to Invoices 	***
 
 
-//========================Actions Releated to Invoices==========================
+//==============================================================================
+*/
 
 export const fetchInvoices = ((dispatch) => {
 	const URL = `http://localhost:8000/invoices`;
@@ -393,7 +403,7 @@ export const setFieldForComponent = (field, value) => ({
 });
 
 export const addInvoice = ((data) => {
-	//if invoide date not selected than it take the today's date as invoice date..
+	//if invoide date not selected than will take the today's date as invoice date..
 	if(data.Invoice_date == undefined || data.Invoice_date == '') {
 			data.Invoice_date = moment();
 	}
@@ -442,7 +452,7 @@ export const addInvoice = ((data) => {
 		axios.post(URL, invoice)
 			.then(function (response) {
 				resetStateInvoices(dispatch);
-				location.assign(`http://localhost:8080/public/#/invoices`);
+				hashHistory.push(`/invoices`)
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -456,7 +466,7 @@ export const editInvoice = (Id, data) => {
 		date = data.Invoice_date.format()
 	}
 
-	let url = `http://localhost:8000/invoices/${Id}` ;
+	let url = `http://localhost:8000/invoices/${Id}`;
 	return function( dispatch) {
 	axios.patch(url,
 		querystring.stringify({
@@ -468,7 +478,7 @@ export const editInvoice = (Id, data) => {
 			'date' : date
 		}))
 		.then(function(response) {
-			location.assign(`http://localhost:8080/public/#/invoices/`);
+			hashHistory.push(`/invoices`)
 		})
 		.catch(function (err) {
 				console.log("Error")
@@ -479,12 +489,16 @@ export const editInvoice = (Id, data) => {
 export function resetStateInvoices (dispatch) {
 	dispatch({ type: RESET_STATE_INVOICES})
 }
+
+/*
 //==============================================================================
 
 
+										*** 	Actions Releated to Incidents 	***
 
 
-//========================Actions Releated to Incidents=========================
+//==============================================================================
+*/
 
 export const fetchIncidents = ((Action) => {
 	const URL = `http://localhost:8000/incidents`;
@@ -515,6 +529,7 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 	return function(dispatch) {
 		axios.post(URL, data)
 			.then(function (response) {
+				hashHistory.push(`/incidents`)
 				resetStateIncidents(dispatch)
 			})
 			.catch(function (error) {
@@ -565,7 +580,7 @@ export const addIncidentUpdate = ((incidentId, resolvedBy, description, isResolv
 		}))
 			.then(function (response) {
 				dispatch({ type: ADD_INCIDENT_UPDATE_SUCCESS, response})
-				location.assign(`http://localhost:8080/public/#/incidents/${incidentId}`);
+				hashHistory.push(`/incidents/${incidentId}`)
 			})
 			.catch(function (err) {
 				dispatch({ type: ADD_INCIDENT_UPDATE_FAILULER, err})
@@ -585,12 +600,14 @@ export const addReplacedComponent = ((incidentId, resolvedBy, description, compo
 			warranty: warranty.value
 		}))
 			.then(function (response) {
-				location.assign(`http://localhost:8080/public/#/incidents/${incidentId}`);
+				hashHistory.push(`/incidents/${incidentId}`)
 			})
 			.catch(function (err) {
 				console.log(err);
 			});
 		}
 });
+
+
 //==============================================================================
 

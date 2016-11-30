@@ -122,7 +122,7 @@ func DisplayIncident(incidentId int) []byte {
 
 type IncidentUpdate struct {
 	Id int
-	Resolved_by string
+	Updated_by string
 	Created_at time.Time
 	Resolved_Date string
 	ComponentId int64
@@ -145,11 +145,11 @@ func IncidentUpdates(incidentId int, resolvedBy string, description string, isRe
 	var incident IncidentUpdate
 	incident.ComponentId = id
 	incident.IncidentId = incidentId
-	incident.Resolved_by = resolvedBy
+	incident.Updated_by = resolvedBy
 	incident.Description = description
 
 	_, err := sess.InsertInto("incident_update").
-		Columns("incident_id", "component_id", "description", "resolved_by").
+		Columns("incident_id", "component_id", "description", "updated_by").
 		Record(incident).
 		Exec()
 	CheckErr(err)
@@ -189,7 +189,7 @@ func IncidentInformations(incident_id int) []byte{
 	CheckErr(err2)
 
 	p := []IncidentUpdate {}
-	sess.Select("id, description, resolved_by, created_at").
+	sess.Select("id, description, updated_by, created_at").
 		From("incident_update").
 		Where("incident_id = ? ", incident_id).
 		LoadStruct(&p)
@@ -270,7 +270,7 @@ func IncidentAddComponent(incident_id int, resolvedBy string, categoryId int, co
 	//=== add update in incident update ==========================================
 	c.Description = "Component Replaced by New Component"
 	_, err7 := sess.InsertInto("incident_update").
-		Columns("incident_id", "component_id", "description", "resolved_by").
+		Columns("incident_id", "component_id", "description", "updated_by").
 		Record(c).
 		Exec()
 	CheckErr(err7)

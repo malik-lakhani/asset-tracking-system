@@ -94,24 +94,41 @@ Incidents dealing with components.
                 "modified_at" : "2016-08-08T02:15:15Z"
             }
 
-## Update Incidents [/incidents/{incident_id}/update]
+## Update incident [/incidents/{incident_id}/update{?resolved}]
+
+### Add incident update[POST]
 
 + Parameters
-    + incident_id : 1 - Id of incident
-
-### Incident Updates [POST]
+    + incident_id: 1 - Id of incident to be update
+    + resolved: false - true If incident is resolved successfully or component replace with new component successfully.
 
 + Request (application/json)
 
     + Attributes
-        + component_id: `1`
-        + incident_id : `1`
-        + description: `Component has been Replaced Successfully...`
+        + incident_id: `1`,
+        + updated_by: `Rakshit Menpara`,
+        + description: `Component has been depatured for replacement`
 
-+ Response 201
++ Response 200
 
+###Add Replaced Component [/incidents/{incident_id}/addComponent]
 
+## Add Replaced Component[POST]
 
++ Parameters
+    +  incident_id : 1 - id of incident to delete
 
++ Request (application/json)
 
+    + Attributes
+        + incident_id: `1`,
+        + updated_by: `Rakshit Menpara`,
+        + component(object)
+          - serial_no : `12SOECE11230`
+          - name : Mouse(string)
+          - category : 1
+          - warranty : `11-12-2018`
+          - description : 'This component has been replaced successfully after incident happened on it.'
+
++ Response 200
 

@@ -109,7 +109,7 @@ class Incident_information extends Component {
 									<label >Update By :</label>
 								</div>
 								<div className = "col-lg-2 fontStyle">
-									{ t.Resolved_by }
+									{ t.Updated_by }
 								</div>
 							</div>
 							<div className="clearfix form-group">
