@@ -117,6 +117,7 @@ class Add_incident_update extends Component {
 
 		e.preventDefault(e);
 		let updatedBy = this.props.state.incidents.updatedBy;
+		let description = this.props.state.incidents.description;
 		let incidentId = this.props.params.incidentId;
 
 		this.setState({resolvedByErr: ''});

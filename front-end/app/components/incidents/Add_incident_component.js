@@ -60,6 +60,7 @@ class Add_incident extends Component {
 			this.setState({titleErr: '*Required'})
 			status = false;
 		}
+
 		if(status) {
 			this.props.actions.addIncident(componentId , recorder, title, description, this.props.dispatch)
 		}

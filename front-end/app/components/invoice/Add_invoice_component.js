@@ -113,38 +113,14 @@ class Add_invoice extends Component {
 	render() {
 		let invoiceDate = moment();
 		if(this.props.props.invoices.Invoice_date) {
-			invoiceDate = this.props.props.invoices.Invoice_date;
+			invoiceDate = moment(this.props.props.invoices.Invoice_date);
 		}
-
-		// let errFontStyle = {
-		// 	color: 'red',
-		// 	fontWeight: 'bold'
-		// }
 
 		let letterStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
 		};
-
-		// let addComponent = {
-		// 	maxHeight: '100%',
-		// 	overflow: 'scroll'
-		// };
-
-		// let paddingTop = {
-		// 	paddingTop: '10px'
-		// }
-
-		// let setWidth = {
-		// 	width: '100%'
-		// }
-
-		// let block = {
-		// 	border: 'solid',
-		// 	borderWidth: '2px',
-		// 	padding: '20px 25px 20px 100px'
-		// }
 
 		let selectcss ={
 			width: '80%'
@@ -185,7 +161,7 @@ class Add_invoice extends Component {
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Invoice Date*</label>
-								<DatePicker className="textboxSize" name="Invoice_date" id="invoice_date" selected={ invoiceDate } onChange={this.handleInvoiceDateChange} />
+								<DatePicker className="textboxSize" name="Invoice_date" id="invoice_date" dateFormat="DD/MM/YYYY" selected={ invoiceDate } onChange={this.handleInvoiceDateChange} />
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>
@@ -238,7 +214,7 @@ class Add_invoice extends Component {
 										<div className="clearfix" className="setPaddingleft">
 											<input type="text" className="col-lg-2 textboxSize" onChange={ this.handleFieldsComponent} id={`serial_${index}`} componentId={index} placeholder="Serial" />
 											<input type="text" className="col-lg-2 col-lg-offset-1 textboxSize" onChange={ this.handleFieldsComponent } id={`component_${index}`} placeholder="Component Name" />
-											<DatePicker className="col-lg-2 col-lg-offset-1 textboxSize" id={`warrantyDate_${ index }`} selected={ date } onChange={this.handleDateChange.bind(this, index)} placeholder="Component Name"/>
+											<DatePicker className="col-lg-2 col-lg-offset-1 textboxSize" id={`warrantyDate_${ index }`} dateFormat="DD/MM/YYYY" selected={ date } onChange={this.handleDateChange.bind(this, index)} placeholder="Component Name"/>
 										</div>
 										<br/>
 										<div className="clearfix">

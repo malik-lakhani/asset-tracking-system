@@ -394,7 +394,9 @@ export const setFieldForComponent = (field, value) => ({
 
 export const addInvoice = ((data) => {
 	//if invoide date not selected than it take the today's date as invoice date..
-
+	if(data.Invoice_date == undefined || data.Invoice_date == '') {
+			data.Invoice_date = moment();
+	}
 	let serialNos = [];
 	let names = [];
 	let warrantyDate = [];
@@ -474,7 +476,7 @@ export const editInvoice = (Id, data) => {
 	}
 }
 
-function resetStateInvoices (dispatch) {
+export function resetStateInvoices (dispatch) {
 	dispatch({ type: RESET_STATE_INVOICES})
 }
 //==============================================================================
@@ -514,7 +516,6 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 		axios.post(URL, data)
 			.then(function (response) {
 				resetStateIncidents(dispatch)
-				location.assign(`http://localhost:8080/public/#/incidents/`);
 			})
 			.catch(function (error) {
 				console.log(error);
