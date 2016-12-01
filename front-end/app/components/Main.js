@@ -3,10 +3,11 @@ import Header from './header/Header';
 import Footer from './footer/Footer';
 
 var Main = React.createClass({
-	render(){
-		let padding1 = {
+	render() {
+		let padding = {
 			paddingTop: "45px"
 		}
+
 		return  (
 			<div className="main-container">
 
@@ -15,11 +16,11 @@ var Main = React.createClass({
 				</div>
 
 				<div className="container">
-					{this.props.children}
+					{ this.props.children }
 				</div>
 
-				<div style={padding1}>
-					<Footer/>
+				<div style={padding}>
+					<Footer />
 				</div>
 
 			</div>

@@ -8,6 +8,7 @@ import {
 const initialState =
 	{
 		Machines: [],
+		MachineInfo: [],
 		isFetching : true,
 		fetched : false,
 		err : ''
@@ -22,10 +23,10 @@ export default function machines (state = initialState, action) {
 			return Object.assign({}, state, { Machines: '', isFetching:false, fetched:false, err:action.err});
 
 		case FETCH_MACHINES_INFORMATION_SUCCESS:
-			return Object.assign({}, state, { Machines: action.response.data, isFetching:false, fetched:true, err:''});
+			return Object.assign({}, state, { MachineInfo: action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_MACHINES_INFORMATION_FAILULER:
-			return Object.assign({}, state, { Machines: '', isFetching:false, fetched:false, err:action.err});
+			return Object.assign({}, state, { MachineInfo: '', isFetching:false, fetched:false, err:action.err});
 
 		default:
 			return state

@@ -19,6 +19,8 @@ func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 		all = "false" // false for display only active users ...
 	} // default it will display active users only ...
 	b := services.DisplayUsers(all)
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
@@ -47,6 +49,8 @@ func displayOneUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	user_id, err := strconv.Atoi(c.URLParams["user_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	b := services.DisplayUser(user_id) //PATH : /services/users.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
@@ -56,6 +60,8 @@ func machinesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 		all = "false"
 	}
 	b := services.DisplayMachines(all) //PATH : /services/machines.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
@@ -90,6 +96,8 @@ func machineComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 		all = "false"
 	}
 	response := services.DisplayMachineComponents(id, all) //PATH : /services/machines.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
 }
 
@@ -119,6 +127,8 @@ func changeUserFromMachine(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func invoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	b := services.DisplayInvoices() //PATH : /services/invoices.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
@@ -144,6 +154,7 @@ func oneInvoiceDetailsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	invoice_id, err := strconv.Atoi(c.URLParams["invoice_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	b := services.DisplayOneInvoice(invoice_id) //PATH : /services/invoices.go
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
@@ -153,6 +164,7 @@ func incidentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 		all = "false" // false for display only active incidents ...
 	} // default it will display active incidents only ...
 	response := services.DisplayIncidents(all) //PATH : /services/incidents.go
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
 }
 
@@ -182,6 +194,7 @@ func displayIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	response := services.DisplayIncident(incident_id) //PATH : /services/incidents.go
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
 }
 
@@ -211,6 +224,7 @@ func incidentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	incident_id, err := strconv.Atoi(c.URLParams["incident_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	response := services.IncidentInformations(incident_id) //PATH : /services/incidents.go
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
 }
 
@@ -220,6 +234,7 @@ func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 		all = "false"
 	}
 	response := services.DisplayComponents(all) //PATH : /services/components.go
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
 }
 
@@ -227,6 +242,7 @@ func filterComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	category, err := strconv.Atoi(r.URL.Query().Get("category_id")) // converting from string to int ...
 	services.CheckErr(err)
 	response := services.FilterComponents(category) //PATH : /services/components.go
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
 }
 
@@ -234,6 +250,7 @@ func componentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	component_id, err := strconv.Atoi(c.URLParams["component_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	response := services.DisplayComponentInformation(component_id) //PATH : /services/components.go
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
 }
 
@@ -243,6 +260,7 @@ func categoriesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 		all = "false" // false for display only active users ...
 	} // default it will display active users only ...
 	b := services.DisplayCategories(all)
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 

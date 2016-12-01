@@ -20,7 +20,7 @@ class Incident_information extends Component {
 
 	render() {
 		//======================== style =============================================
-		let letterStyle = {
+		let borderStyle1 = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '20px 25px 0px 100px'
@@ -59,7 +59,7 @@ class Incident_information extends Component {
 
 					<div>
 					<h3 className="center"><u> Incident #{ this.props.params.incidentId} </u></h3>
-					<div style={letterStyle}>
+					<div style={borderStyle1}>
 						<div className="clearfix">
 							<div className = "col-lg-2 col-lg-offset-1">
 								<label>Status :</label>
@@ -100,7 +100,7 @@ class Incident_information extends Component {
 			{/*================== Display incident updates ...=====================*/}
 
 				{IncidentUpdates.map(t => (
-					<div>
+					<div key={t.Updated_by}>
 						<br/>
 						<div> Date : {t.Resolved_Date}</div>
 						<div style={borderStyle}>

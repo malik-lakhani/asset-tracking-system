@@ -62,6 +62,7 @@ class Add_incident extends Component {
 
 	handleMachinesChange(event) {
 		this.setState({machine: event.value});
+		this.props.actions.fetchMachineInformation(event.value)
 	}
 
 	handleComponentsChange(event) {
@@ -75,7 +76,7 @@ class Add_incident extends Component {
 	render() {
 	//======================== style =============================================
 
-		let letterStyle = {
+		let borderStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
@@ -90,16 +91,30 @@ class Add_incident extends Component {
 		}
 
 		let Components = [];
-		for(let i = 0; i < this.props.props.components.Components.length; i++){
-			let ComponentInfo = { value : this.props.props.components.Components[i].Id, label: this.props.props.components.Components[i].Name };
-			Components[i] = ComponentInfo;
+		//====== will gives only thosecomponents which are connected to perticuller machine ...
+		if(this.props.props.machines.MachineInfo.Components) {
+			for(let i = 0; i < this.props.props.machines.MachineInfo.Components.length; i++) {
+				let ComponentInfo = { value : this.props.props.machines.MachineInfo.Components[i].Id, label: this.props.props.machines.MachineInfo.Components[i].Name };
+				Components[i] = ComponentInfo;
+			}
 		}
+		//==========================================================================
+
+		//== will gives all the components regardless connected with any machine ===
+		//== By default it will shows all the components ===========================
+		else {
+			for(let i = 0; i < this.props.props.components.Components.length; i++) {
+				let ComponentInfo = { value : this.props.props.components.Components[i].Id, label: this.props.props.components.Components[i].Name };
+				Components[i] = ComponentInfo;
+			}
+		}
+		//==========================================================================
 
 		const { handleSubmit, pristine, reset, submitting } = this.props
 		return (
 			<div>
 				<h2 className="center"> Record New Incident </h2>
-				<div style={letterStyle}>
+				<div style={borderStyle}>
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Recorder*</label>
@@ -108,7 +123,7 @@ class Add_incident extends Component {
 					</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Machine</label>
-							<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
+							<Select name="Machine" id="machine" clearable={false} value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -119,7 +134,7 @@ class Add_incident extends Component {
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Component*</label>
-							<Select name="form-field-name" value={ this.state.component } options={ Components } onChange={ this.handleComponentsChange } />
+							<Select name="form-field-name" clearable={false} value={ this.state.component } options={ Components } onChange={ this.handleComponentsChange } />
 							<HelpBlock className="errFontStyle"> {this.state.componentErr} </HelpBlock>
 						</div>
 					</div>

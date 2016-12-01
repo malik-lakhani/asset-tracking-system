@@ -29,7 +29,7 @@ class Machine_information extends Component {
 
 		//====================== style =============================================
 
-		let letterStyle = {
+		let borderStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '15px'
@@ -44,14 +44,14 @@ class Machine_information extends Component {
 		let PastUses = [];
 		let Components = [];
 		let Incidents = [];
-
-		if(this.props.props.machines.Machines.Machine) {
-			MachineName = this.props.props.machines.Machines.Machine;
-			CurrentUser = this.props.props.machines.Machines.Name;
-			UsingSince = this.props.props.machines.Machines.UsingSince;
-			PastUses = this.props.props.machines.Machines.PastUses;
-			Components = this.props.props.machines.Machines.Components;
-			Incidents = this.props.props.machines.Machines.Incidents;
+		console.log(this.props)
+		if(this.props.props.machines.MachineInfo.Machine) {
+			MachineName = this.props.props.machines.MachineInfo.Machine;
+			CurrentUser = this.props.props.machines.MachineInfo.Name;
+			UsingSince = this.props.props.machines.MachineInfo.UsingSince;
+			PastUses = this.props.props.machines.MachineInfo.PastUses;
+			Components = this.props.props.machines.MachineInfo.Components;
+			Incidents = this.props.props.machines.MachineInfo.Incidents;
 		}
 
 		const { handleSubmit, pristine, reset, submitting } = this.props
@@ -59,7 +59,7 @@ class Machine_information extends Component {
 
 			<div >
 				<h1>{ MachineName }</h1>
-				<div style={letterStyle}>
+				<div style={borderStyle}>
 					<div>
 						<div className="col-lg-offset-1">
 							<Field component={rendreLabel} label="Current User" name="user" /> <Link to={`/users`}> { CurrentUser } </Link>

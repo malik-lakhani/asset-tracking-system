@@ -37,7 +37,6 @@ class Display_users extends Component {
 	editUser(row, cellName, cellValue) {
 		let indexOfMachineId = MachineNames.indexOf(row.Machine_name);
 		let MachineId = MachineIds[indexOfMachineId]
-		console.log(row)
 		this.props.actions.editUser(row, MachineId);
 	}
 

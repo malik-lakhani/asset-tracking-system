@@ -147,7 +147,7 @@ class Add_incident_update extends Component {
 
 		//======================== style =============================================
 
-		let letterStyle = {
+		let borderStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '15px'
@@ -222,7 +222,7 @@ class Add_incident_update extends Component {
 
 					<div>
 					<h3>Add update to Incident # { this.props.params.incidentId } </h3>
-					<div style={letterStyle}>
+					<div style={borderStyle}>
 						<div className="clearfix form-group">
 							<div className="col-lg-offset-1">
 								<label>Updated By :</label>
