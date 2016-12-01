@@ -14,7 +14,7 @@ class Display_components extends Component {
 		super(props);
 		this.state = {
 			category: '',
-			activeAll: 'Active'
+			activeAll: 'active'
 		};
 		this.filterComponents = this.filterComponents.bind(this);
 		this.handleCategoryChange = this.handleCategoryChange.bind(this);

@@ -15,7 +15,7 @@ class Display_incidents extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activeAll: 'Active'
+			activeAll: 'active'
 		};
 		this.filterIncidents = this.filterIncidents.bind(this);
 		this.editIncident = this.editIncident.bind(this);

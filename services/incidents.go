@@ -1,6 +1,6 @@
 package services
 
-import(
+import (
 	"encoding/json"
 	"time"
 )
@@ -84,11 +84,9 @@ func DisplayIncidents(all string) []byte {
 	sess := SetupDB()
 	incidentInfo := []IncidentInfo{}
 
-	query := sess.Select("i.id, i.title, i.description, i.status, i.recorder, components.name AS Component, components.serial_no,components.warranty_till AS Warranty_timestamp, machines.name AS Machine").
+	query := sess.Select("i.id, i.title, i.description, i.status, i.recorder, components.name AS Component, components.serial_no,components.warranty_till AS Warranty_timestamp").
 		From("incidents i").
-		LeftJoin("components", "i.component_id = components.id").
-		LeftJoin("machine_components", "i.component_id = machine_components.component_id").
-		LeftJoin("machines", "machines.id = machine_components.component_id")
+		LeftJoin("components", "i.component_id = components.id")
 
 		if(all == "false") {
 			query.Where("i.status = ?", "active")

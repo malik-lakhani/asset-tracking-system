@@ -23,7 +23,7 @@ class Display_machines extends Component {
 		super(props);
 		this.state = {
 			data: [],
-			activeAll: ''
+			activeAll: 'active'
 		};
 		this.filterMachines = this.filterMachines.bind(this);
 		this.editMachine = this.editMachine.bind(this);

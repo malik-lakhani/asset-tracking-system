@@ -1,8 +1,7 @@
 import axios from 'axios';
 import querystring from 'querystring';
-import { push } from 'react-router-redux'
 import moment from 'moment';
-import { hashHistory } from 'react-router'
+import { hashHistory } from 'react-router';
 
 import {
 
@@ -80,16 +79,25 @@ export const deleteUser = ((id) => {
 
 export const editUser = ((row, machineId) => {
 	let url = `http://localhost:8000/users/${row.Id}` ;
-	axios.patch(url,
-		querystring.stringify({
-			'name' : row.Name,
-			'company_email' : row.Company_email,
-			'machine_id' : machineId
-		})).then(function(response) {
-				console.log('Response : ', response);
-		}).catch(function (err) {
-				console.log('Error From patch User : ', err);
-		});
+	return function(dispatch) {
+		axios.patch(url,
+			querystring.stringify({
+				'name' : row.Name,
+				'company_email' : row.Company_email,
+				'machine_id' : machineId
+			})).then(function(response) {
+					console.log("Response", response)
+					if(response.status == 200) {
+						alert("Edited successfully ...")
+						dispatch({ type: EDIT_USER_SUCCESS })
+					} else {
+						dispatch({ type: EDIT_USER_FAILULER })
+					}
+
+			}).catch(function (err) {
+					console.log('Error From patch User : ', err);
+			});
+		}
 });
 
 export const addUser = ((row, machineId) => {
@@ -345,7 +353,7 @@ export const decommitComponentFromMachine = ((componentId, machineId) => {
 		})
 			.then((response) => {
 				console.log("Response decommitte component:", response);
-				location.reload();
+				hashHistory.push(`components/`);
 			})
 			.catch((err) => {
 				console.log("Eroor from decommitte component :", err);

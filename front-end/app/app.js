@@ -7,11 +7,11 @@ import { Provider } from 'react-redux'
 import rootReducer  from './reducers/rootReducer'
 import routes from './config/routes';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
+// import createLogger from 'redux-logger';
 import { createHistory } from 'history';
 
-const logger = createLogger();
-const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
+// const logger = createLogger();
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(rootReducer);
 
 render(

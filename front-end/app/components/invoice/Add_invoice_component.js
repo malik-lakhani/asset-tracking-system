@@ -116,14 +116,15 @@ class Add_invoice extends Component {
 			invoiceDate = moment(this.props.props.invoices.Invoice_date);
 		}
 
-		let letterStyle = {
+		let borderStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
 		};
 
 		let selectcss ={
-			width: '80%'
+			width: '80%',
+			overflow: 'scroll'
 		}
 
 		// let setPaddingleft = {
@@ -145,7 +146,7 @@ class Add_invoice extends Component {
 
 				<div>
 				<h2 className="center"> Add Invoice </h2>
-				<div style={letterStyle}>
+				<div style={borderStyle}>
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoice*</label>
@@ -172,11 +173,11 @@ class Add_invoice extends Component {
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Description</label>
-							<textarea className="textAreaSize form-control" name="Description" id="description" onChange={ this.handleFieldsInvoice } placeholder="description"/>
+							<textarea className="textAreaSize form-control" name="Description" id="description" onChange={ this.handleFieldsInvoice } placeholder="Description"/>
 						</div>
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Address</label>
-							<textarea className="textAreaSize form-control" name="Address" id="address" onChange={ this.handleFieldsInvoice } placeholder="address"/>
+							<textarea className="textAreaSize form-control" name="Address" id="address" onChange={ this.handleFieldsInvoice } placeholder="Address"/>
 						</div>
 					</div>
 				</div>
@@ -204,7 +205,7 @@ class Add_invoice extends Component {
 					//============== To Display add component ============================
 						let ref = `input_${index}`;
 						return (
-							<div>
+							<div key={ref}>
 								<div className="block">
 									<div className="clearfix">
 										<span className="pull-right" onClick={this.removeInputField.bind(this, index)} id={ref} ><button type="button" className="btn btn-danger btn-sm">Remove</button></span>
@@ -212,7 +213,7 @@ class Add_invoice extends Component {
 									</div>
 									<div>
 										<div className="clearfix" className="setPaddingleft">
-											<input type="text" className="col-lg-2 textboxSize" onChange={ this.handleFieldsComponent} id={`serial_${index}`} componentId={index} placeholder="Serial" />
+											<input type="text" className="col-lg-2 textboxSize" onChange={ this.handleFieldsComponent} id={`serial_${index}`} placeholder="Serial" />
 											<input type="text" className="col-lg-2 col-lg-offset-1 textboxSize" onChange={ this.handleFieldsComponent } id={`component_${index}`} placeholder="Component Name" />
 											<DatePicker className="col-lg-2 col-lg-offset-1 textboxSize" id={`warrantyDate_${ index }`} dateFormat="DD/MM/YYYY" selected={ date } onChange={this.handleDateChange.bind(this, index)} placeholder="Component Name"/>
 										</div>

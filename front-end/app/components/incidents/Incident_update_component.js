@@ -177,7 +177,7 @@ class Add_incident_update extends Component {
 								<h4 className="modal-title center">Add Component</h4>
 							</div>
 							<div className="modal-body">
-								<input type="text" name="ResolvedBy" id="resolvedBy" placeholder="Resolved By" onChange={ this.handleFields } className="textBoxWidth"/>
+								<input type="text" name="ResolvedBy" id="resolvedBy" placeholder="Update By" onChange={ this.handleFields } className="textBoxWidth"/>
 								<HelpBlock className="errFontStyle"> {this.state.updateByErr} </HelpBlock>
 							</div>
 							<div className="modal-body">
@@ -228,7 +228,7 @@ class Add_incident_update extends Component {
 								<label>Updated By :</label>
 							</div>
 							<div className="col-lg-offset-1">
-								<input type="text" name="UpdateBy" id="updatedBy" value={this.props.state.incidents.updateBy} onChange={ this.handleFields } placeholder="update by" className="textBoxWidth"/>
+								<input type="text" name="UpdateBy" id="updatedBy" value={this.props.state.incidents.updateBy} onChange={ this.handleFields } placeholder="Update by" className="textBoxWidth"/>
 								<HelpBlock className="errFontStyle"> {this.state.resolvedByErr} </HelpBlock>
 							</div>
 						</div>
@@ -237,7 +237,7 @@ class Add_incident_update extends Component {
 								<label >Description :</label>
 							</div>
 							<div className="col-lg-offset-1">
-								<textarea name="Description" id="description" onChange={ this.handleFields } placeholder="description" className="textAreaWidth" />
+								<textarea name="Description" id="description" onChange={ this.handleFields } placeholder="Description" className="textAreaWidth" />
 							</div>
 						</div>
 					</div>

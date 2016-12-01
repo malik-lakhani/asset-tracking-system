@@ -109,7 +109,8 @@ class Component_information extends Component {
 
 				<div className="clearfix">
 					<div className="col-lg-1">
-						<h1>{Component}<h4>({status})</h4></h1>
+						<h1>{Component}</h1>
+						<h4>({status})</h4>
 					</div>
 					<div className="pull-right">
 						<button type="button" className="btn btn-info marginLeftRecord setMargin" data-toggle="modal" data-target="#changeMachine">Change Machine</button>
@@ -120,18 +121,18 @@ class Component_information extends Component {
 				<div className="letterStyle" style= { letterStyle }>
 					<div>
 						<div className="col-lg-4 col-lg-offset-2">
-							<Field component={rendreLabel} label="Invoice" /> <Link to={`/invoices/edit/${this.props.props.components.Components.Invoice_id}`}> { this.props.props.components.Components.Invoice_number } </Link>
+							<Field component={rendreLabel} label="Invoice" name="invoice" /> <Link to={`/invoices/edit/${this.props.props.components.Components.Invoice_id}`}> { this.props.props.components.Components.Invoice_number } </Link>
 						</div>
 						<div>
-							<Field component={rendreLabel} label="Warranty Valid Till" /> { this.props.props.components.Components.Warranty_till }
+							<Field component={rendreLabel} label="Warranty Valid Till" name="warranty" /> { this.props.props.components.Components.Warranty_till }
 						</div>
 					</div>
 					<div>
 						<div className=" col-lg-4 col-lg-offset-2">
-							<Field component={rendreLabel} label="Name" /> { Component }
+							<Field component={rendreLabel} label="Name" name="name"/> { Component }
 						</div>
 						<div>
-							<Field component={rendreLabel} label="Machine" /> <Link to={`/machines/${MachineId}/components`} > { MachineName } </Link>
+							<Field component={rendreLabel} label="Machine" name="machine" /> <Link to={`/machines/${MachineId}/components`} > { MachineName } </Link>
 						</div>
 					</div>
 					<div className="clearfix form-group">
@@ -140,7 +141,7 @@ class Component_information extends Component {
 							<textarea disabled className="textAreaSize" name="Description" value={ this.props.props.components.Components.Description } />
 						</div>
 						<div className="col-lg-2 col-lg-offset-2">
-							<Field component={rendreLabel} label="User" /> { User }
+							<Field component={rendreLabel} label="User" name="user" /> { User }
 						</div>
 					</div>
 				</div>

@@ -4,7 +4,8 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import { HelpBlock } from 'react-bootstrap'
+import { HelpBlock } from 'react-bootstrap';
+
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-select/dist/react-select.css';
 import './styles.css';
@@ -73,7 +74,7 @@ class Edit_invoice extends Component {
 
 		//============style=========================================================
 
-		let letterStyle = {
+		let borderStyle = {
 			border: 'solid',
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
@@ -108,7 +109,7 @@ class Edit_invoice extends Component {
 
 				<div>
 				<h2 className="center"> Edit Invoice </h2>
-				<div style={letterStyle}>
+				<div style={borderStyle}>
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoice*</label>
@@ -160,7 +161,7 @@ class Edit_invoice extends Component {
 						<TableHeaderColumn width="150" dataSort={true} dataField="Name">Name</TableHeaderColumn>
 						<TableHeaderColumn width="100" dataSort={true} dataField="Active">Active</TableHeaderColumn>
 						<TableHeaderColumn width="120" dataField="Warranty_till">Warranty Till</TableHeaderColumn>
-						<TableHeaderColumn hidden={true} dataField="invoice_id">Invoice</TableHeaderColumn>
+						<TableHeaderColumn hidden={true} dataField="Invoice_id">Invoice</TableHeaderColumn>
 						<TableHeaderColumn width="240" dataSort={true} dataField="Description">Description</TableHeaderColumn>
 						<TableHeaderColumn width="150" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
 					</BootstrapTable>

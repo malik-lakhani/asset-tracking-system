@@ -26,7 +26,7 @@ class Display_users extends Component {
 		super(props);
 		this.state = {
 			data :[],
-			activeAll: ''
+			activeAll: 'active'
 		};
 		this.filterUsers = this.filterUsers.bind(this);
 		this.editUser = this.editUser.bind(this);
@@ -52,6 +52,8 @@ class Display_users extends Component {
 	}
 
 	filterUsers(val) {
+		this.setState({activeAll: val.value});
+		console.log(this.state)
 		var all = false;
 		if(val.value == "all") {
 			all = true

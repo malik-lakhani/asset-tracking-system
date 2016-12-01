@@ -12,22 +12,30 @@ const initialState =
 		AllUsers: [],
 		isFetching : true,
 		fetched : false,
-		err : ''
+		err : '',
+
+		edited: false
 	}
 
 export default function users (state = initialState, action) {
 	switch (action.type) {
 		case FETCH_USERS_SUCCESS:
-			return Object.assign({}, state, { AllUsers: action.response.data, isFetching:false, fetched:true, err:''});
+			return Object.assign({}, state, { AllUsers: action.response.data, isFetching:false, fetched:true, err:'', edited: false});
 
 		case FETCH_USERS_FAILULER:
-			return Object.assign({}, state, { AllUsers: '', isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { AllUsers: '', isFetching:false, fetched:false, err:action.err});
 
 		case DELETE_USER_SUCCESS:
 			return Object.assign({}, state, { isFetching:false, fetched:true, err:''});
 
 		case DELETE_USER_FAILULER:
 			return Object.assign({}, state, { isFetching:false, fetched:false, err:err});
+
+		case EDIT_USER_SUCCESS:
+			return Object.assign({}, state, { AllUsers: '', isFetching:false, fetched:true, edited:true, err:action.err});
+
+		case EDIT_USER_FAILULER:
+			return Object.assign({}, state, { AllUsers: '', isFetching:false, fetched:true, edited:false, err:action.err});
 
 		default:
 			return state

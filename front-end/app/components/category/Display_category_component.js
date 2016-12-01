@@ -18,7 +18,7 @@ class Display_category extends Component {
 		super(props);
 		this.state = {
 			data :[],
-			activeAll: ''
+			activeAll: 'active'
 		};
 		this.filterCategory = this.filterCategory.bind(this);
 		this.editCategory = this.editCategory.bind(this);
@@ -39,6 +39,7 @@ class Display_category extends Component {
 	}
 
 	filterCategory(val) {
+		this.setState({activeAll: val.value});
 		var all = false;
 		if(val.value == "all") {
 			all = true
@@ -67,32 +68,32 @@ class Display_category extends Component {
 			<div>
 				<div className="clearfix">
 					<div className="col-lg-2">
-						<Select searchable={ false } clearable={ false } placeholder="Active" className="activeStyle" value={ this.state.activeAll } options={ options } onChange={ this.filterCategory }/>
+						<Select searchable={ false } clearable={ false } placeholder="Active" className="activeStyle" value="Active" options={ options } onChange={ this.filterCategory }/>
 					</div>
 				</div>
 				<div>
-						<BootstrapTable data={this.props.state.category.AllCategories}
-																						pagination={true}
-																						options={{
-																								afterDeleteRow :this.deleteCategory,
-																								onAddRow :this.addCategory
-																						}}
-																						deleteRow={true}
-																						selectRow={selectRowProp}
-																						insertRow={true}
-																						exportCSV={true}
-																						cellEdit={{
-																								mode: "dbclick",
-																								blurToSave: true,
-																								afterSaveCell: this.editCategory
-																						}}
-																						search={true}
-																						striped={true}
-																						hover={true}>
-								<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
-								<TableHeaderColumn width="260" dataSort={true} dataField="Category" editable={{ validator:Validator }} >Category</TableHeaderColumn>
-								<TableHeaderColumn width="350" dataSort={true} dataField="Description" editable={{ validator:Validator }}>Description</TableHeaderColumn>
-						</BootstrapTable>
+					<BootstrapTable data={this.props.state.category.AllCategories}
+													pagination={true}
+													options={{
+														afterDeleteRow :this.deleteCategory,
+														onAddRow :this.addCategory
+													}}
+													deleteRow={true}
+													selectRow={selectRowProp}
+													insertRow={true}
+													exportCSV={true}
+													cellEdit={{
+														mode: "dbclick",
+														blurToSave: true,
+														afterSaveCell: this.editCategory
+													}}
+													search={true}
+													striped={true}
+													hover={true}>
+							<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
+							<TableHeaderColumn width="260" dataSort={true} dataField="Category" editable={{ validator:Validator }} >Category</TableHeaderColumn>
+							<TableHeaderColumn width="350" dataSort={true} dataField="Description" editable={{ validator:Validator }}>Description</TableHeaderColumn>
+					</BootstrapTable>
 				</div>
 			</div>
 		)

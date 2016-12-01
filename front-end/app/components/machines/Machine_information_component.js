@@ -62,10 +62,10 @@ class Machine_information extends Component {
 				<div style={letterStyle}>
 					<div>
 						<div className="col-lg-offset-1">
-							<Field component={rendreLabel} label="Current User" /> <Link to={`/users`}> { CurrentUser } </Link>
+							<Field component={rendreLabel} label="Current User" name="user" /> <Link to={`/users`}> { CurrentUser } </Link>
 						</div>
 						<div className="col-lg-offset-1">
-							<Field component={rendreLabel} label="Using Since" /> { UsingSince }
+							<Field component={rendreLabel} label="Using Since" name="usingScince" /> { UsingSince }
 						</div>
 					</div>
 				</div>

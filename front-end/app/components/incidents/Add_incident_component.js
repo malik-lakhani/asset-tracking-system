@@ -14,7 +14,6 @@ class Add_incident extends Component {
 			component : '',
 
 			recorderErr: '',
-			machineErr: '',
 			titleErr: '',
 			componentErr: ''
 		};
@@ -39,17 +38,12 @@ class Add_incident extends Component {
 		let description = this.props.props.incidents.description;
 
 		this.setState({recorderErr: ''});
-		this.setState({machineErr: ''});
 		this.setState({titleErr: ''});
 		this.setState({componentErr: ''});
 		let status = true;
 
 		if(recorder == '') {
 			this.setState({recorderErr: '*Required'});
-			status = false;
-		}
-		if(machine == '') {
-			this.setState({machineErr: '*Required'})
 			status = false;
 		}
 		if(componentId == '') {
@@ -109,19 +103,18 @@ class Add_incident extends Component {
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Recorder*</label>
-							<input className="textboxSize" type="text" value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="recorder" />
+							<input className="textboxSize" type="text" value={ this.props.props.incidents.recorder } name="Recorder" id="recorder" onChange={ this.handleFields }  placeholder="Recorder" />
 							<HelpBlock className="errFontStyle"> {this.state.recorderErr} </HelpBlock>
 					</div>
 						<div className = "col-lg-2 col-lg-offset-2">
-							<label >Machine*</label>
+							<label >Machine</label>
 							<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
-							<HelpBlock className="errFontStyle"> {this.state.machineErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Title*</label>
-							<input className="textboxSize" type="text" value={ this.props.props.incidents.title } name="Title" id="title" onChange={ this.handleFields } placeholder="title"/>
+							<input className="textboxSize" type="text" value={ this.props.props.incidents.title } name="Title" id="title" onChange={ this.handleFields } placeholder="Title"/>
 							<HelpBlock className="errFontStyle"> {this.state.titleErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
@@ -133,7 +126,7 @@ class Add_incident extends Component {
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Description</label>
-							<textarea className="textAreaSize" name="Description" value={ this.props.props.incidents.description }  id="description" onChange={ this.handleFields } placeholder="description"/>
+							<textarea className="textAreaSize" name="Description" value={ this.props.props.incidents.description }  id="description" onChange={ this.handleFields } placeholder="Description"/>
 						</div>
 					</div>
 				</div>
