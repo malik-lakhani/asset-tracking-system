@@ -37,13 +37,13 @@ export const setFieldValue = (field, value) => ({
 //========================Actions Releated to Users=============================
 
 export const fetchUsers = ((All, dispatch) => {
-	const URL = `http://localhost:8000/users`;
 	let all = false;
 
 	if(All == true){
 		all = true;
 	}
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/users`;
 		axios.get(URL, { params: { all: all }})
 			.then((response) => {
 				dispatch({ type: FETCH_USERS_SUCCESS, response })
@@ -55,15 +55,14 @@ export const fetchUsers = ((All, dispatch) => {
 });
 
 export const deleteUser = ((id) => {
-	let url = `http://localhost:8000/users/${id[0]}` ;
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/users/${id[0]}` ;
 
-	//======To delete multiple user in one attempt =====
-	for(let i=1; i<id.length; i++){
-		url += ','+id[i]
-	}
-	//==================================================
-
-	return function() {
+		//======To delete multiple user in one attempt =====
+		for(let i=1; i<id.length; i++){
+			url += ','+id[i]
+		}
+		//==================================================
 		axios({
 			method: 'delete',
 			url: url
@@ -78,8 +77,8 @@ export const deleteUser = ((id) => {
 });
 
 export const editUser = ((row, machineId) => {
-	let url = `http://localhost:8000/users/${row.Id}` ;
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/users/${row.Id}` ;
 		axios.patch(url,
 			querystring.stringify({
 				'name' : row.Name,
@@ -101,8 +100,8 @@ export const editUser = ((row, machineId) => {
 });
 
 export const addUser = ((row, machineId) => {
-	const url = `http://localhost:8000/users`;
-	return function() {
+	return function(dispatch, getState, options) {
+		const url = `${options.prefix}/users`;
 		axios.post(url,
 			querystring.stringify({
 				'name' : row.Name,
@@ -123,13 +122,13 @@ export const addUser = ((row, machineId) => {
 */
 
 export const fetchCategories = ((All, dispatch) => {
-	const URL = `http://localhost:8000/components/categories`;
 	let all = false;
 
 	if(All == true){
 		all = true;
 	}
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/components/categories`;
 		axios.get(URL, { params: { all: all }})
 			.then((response) => {
 				dispatch({ type: FETCH_CATEGORIES_SUCCESS, response })
@@ -141,15 +140,15 @@ export const fetchCategories = ((All, dispatch) => {
 });
 
 export const deleteCategory = ((id) => {
-	let url = `http://localhost:8000/components/categories/${id[0]}` ;
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/components/categories/${id[0]}` ;
 
-	//======To delete multiple user in one attempt =====
-	for(let i=1; i<id.length; i++){
-		url += ','+id[i]
-	}
-	//==================================================
+		//======To delete multiple user in one attempt =====
+		for(let i=1; i<id.length; i++){
+			url += ','+id[i]
+		}
+		//==================================================
 
-	return function() {
 		axios({
 			method: 'delete',
 			url: url
@@ -164,19 +163,21 @@ export const deleteCategory = ((id) => {
 });
 
 export const editCategory = ((row) => {
-	let url = `http://localhost:8000/components/categories/${row.Id}` ;
-	axios.patch(url,
-		querystring.stringify({
-			'category' : row.Category,
-			'description' : row.Description,
-		})).then(function(response) {
-				console.log('success');
-		});
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/components/categories/${row.Id}` ;
+		axios.patch(url,
+			querystring.stringify({
+				'category' : row.Category,
+				'description' : row.Description,
+			})).then(function(response) {
+					console.log('success');
+			});
+		}
 });
 
 export const addCategory = ((row, machineId) => {
-	const url = `http://localhost:8000/components/categories`;
-	return function() {
+	return function(dispatch, getState, options) {
+		const url = `${options.prefix}/components/categories`;
 		axios.post(url,
 			querystring.stringify({
 				'category' : row.Category,
@@ -195,14 +196,14 @@ export const addCategory = ((row, machineId) => {
 //==============================================================================
 */
 
-export const fetchMachines = ((Action, dispatch) => {
-	const URL = `http://localhost:8000/machines`;
+export const fetchMachines = ((Action) => {
 	let allMachine = true;
 
-	if(Action == false){
+	if(Action == false) {
 		allMachine = false;
 	}
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/machines`;
 		axios.get(URL, { params: { all: allMachine }})
 			.then((response) => {
 				dispatch({ type: FETCH_MACHINES_SUCCESS, response })
@@ -214,15 +215,15 @@ export const fetchMachines = ((Action, dispatch) => {
 });
 
 export const deleteMachine = ((id) => {
-	let url = `http://localhost:8000/machines/${id[0]}` ;
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/machines/${id[0]}` ;
 
-	//======To delete multiple user in one attempt =====
-	for(let i=1; i<id.length; i++){
-		url += ','+id[i]
-	}
-	//==================================================
+		//======To delete multiple user in one attempt =====
+		for(let i=1; i<id.length; i++){
+			url += ','+id[i]
+		}
+		//==================================================
 
-	return function() {
 		axios({
 			method: 'delete',
 			url: url
@@ -237,20 +238,22 @@ export const deleteMachine = ((id) => {
 });
 
 export const editMachine = ((row) => {
-	let url = `http://localhost:8000/machines/${row.Id}` ;
-	axios.patch(url,
-		querystring.stringify({
-			'name' : row.Name,
-		})).then(function(response) {
-				console.log('Response : ', response);
-		}).catch(function (err) {
-				console.log('Error From patch User : ', err);
-		});
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/machines/${row.Id}`;
+		axios.patch(url,
+			querystring.stringify({
+				'name' : row.Name,
+			})).then(function(response) {
+					console.log('Response : ', response);
+			}).catch(function (err) {
+					console.log('Error From patch User : ', err);
+			});
+		}
 });
 
 export const addMachine = ((row) => {
-	let url = `http://localhost:8000/machines`;
-	return function() {
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/machines`;
 		axios.post(url,
 			querystring.stringify({
 				name: row.Name
@@ -261,8 +264,8 @@ export const addMachine = ((row) => {
 });
 
 export const fetchMachineInformation = ((machineId) => {
-	const URL = `http://localhost:8000/machines/${machineId}/components`;
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/machines/${machineId}/components`;
 		axios.get(URL)
 			.then((response) => {
 				dispatch({ type: FETCH_MACHINES_INFORMATION_SUCCESS, response })
@@ -284,13 +287,13 @@ export const fetchMachineInformation = ((machineId) => {
 */
 
 export const fetchComponents = ((Action, dispatch) => {
-	const URL = `http://localhost:8000/components`;
 	let allComponents = false;
 
 	if(Action == true) {
 		allComponents = true;
 	}
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/components`;
 		axios.get(URL, { params: { all: allComponents }})
 			.then((response) => {
 				dispatch({ type: FETCH_COMPONENTS_SUCCESS, response })
@@ -302,9 +305,8 @@ export const fetchComponents = ((Action, dispatch) => {
 });
 
 export const filterComponents = ((category_id) => {
-	const URL = `http://localhost:8000/components/filter`;
-
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/components/filter`;
 		axios.get(URL, { params: { category_id: category_id }})
 			.then((response) => {
 				dispatch({ type: FILTER_COMPONENTS_SUCCESS, response })
@@ -316,9 +318,9 @@ export const filterComponents = ((category_id) => {
 });
 
 export const fetchComponentDetails = ((componentId, dispatch) => {
-	let URL = `http://localhost:8000/components/${componentId}`
 	let allComponents = false;
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		let URL = `${options.prefix}/components/${componentId}`
 		axios.get(URL)
 			.then((response) => {
 				dispatch({ type: FETCH_COMPONENT_INFORMATION_SUCCESS, response })
@@ -330,8 +332,8 @@ export const fetchComponentDetails = ((componentId, dispatch) => {
 });
 
 export const changeMachine = ((componentId, machineId) => {
-	let URL = `http://localhost:8000/machines/${machineId}/components`
-	return function() {
+	return function(dispatch, getState, options) {
+		let URL = `${options.prefix}/machines/${machineId}/components`
 		axios.post(URL,
 			querystring.stringify({
 				'component_id' : componentId
@@ -345,8 +347,8 @@ export const changeMachine = ((componentId, machineId) => {
 });
 
 export const decommitComponentFromMachine = ((componentId, machineId) => {
-	let URL = `http://localhost:8000/machines/${machineId}/components/${componentId}`
-	return function() {
+	return function(dispatch, getState, options) {
+		let URL = `${options.prefix}/machines/${machineId}/components/${componentId}`
 		axios({
 			method: 'delete',
 			url: URL
@@ -373,8 +375,8 @@ export const decommitComponentFromMachine = ((componentId, machineId) => {
 */
 
 export const fetchInvoices = ((dispatch) => {
-	const URL = `http://localhost:8000/invoices`;
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/invoices`;
 		axios.get(URL)
 			.then((response) => {
 				dispatch({ type: FETCH_INVOICES_SUCCESS, response })
@@ -386,8 +388,8 @@ export const fetchInvoices = ((dispatch) => {
 });
 
 export const fetchInvoiceDetails = ((invoiceId) => {
-	const URL = `http://localhost:8000/invoices/${invoiceId}`;;
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/invoices/${invoiceId}`;
 		axios.get(URL)
 			.then((response) => {
 				dispatch({ type: FETCH_ONE_INVOICE_SUCCESS, response })
@@ -455,16 +457,16 @@ export const addInvoice = ((data) => {
 		component_details: component_details
 	}
 
-	const URL = `http://localhost:8000/invoices`;
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/invoices`;
 		axios.post(URL, invoice)
-			.then(function (response) {
-				resetStateInvoices(dispatch);
-				hashHistory.push(`/invoices`)
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
+		.then(function (response) {
+			resetStateInvoices(dispatch);
+			hashHistory.push(`/invoices`)
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 	}
 });
 
@@ -474,9 +476,9 @@ export const editInvoice = (Id, data) => {
 		date = data.Invoice_date.format()
 	}
 
-	let url = `http://localhost:8000/invoices/${Id}`;
-	return function( dispatch) {
-	axios.patch(url,
+	return function( dispatch, getState, options) {
+		let url = `${options.prefix}/invoices/${Id}`;
+		axios.patch(url,
 		querystring.stringify({
 			'invoice' : data.invoice,
 			'invoicer' : data.invoicer,
@@ -509,13 +511,13 @@ export function resetStateInvoices (dispatch) {
 */
 
 export const fetchIncidents = ((Action) => {
-	const URL = `http://localhost:8000/incidents`;
 	let allIncidents = false;
 
 	if(Action == true) {
 		allIncidents = true;
 	}
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/incidents`;
 		axios.get(URL, { params: { all: allIncidents }})
 			.then((response) => {
 				dispatch({ type: FETCH_INCIDENTS_SUCCESS, response })
@@ -527,14 +529,14 @@ export const fetchIncidents = ((Action) => {
 });
 
 export const addIncident = ((component, recorder, title, description, dispatch) => {
-	const URL = `http://localhost:8000/incidents`;
 	let data = {
 		component_id: component,
 		recorder: recorder,
 		title: title,
 		description: description
 	}
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		const URL = `${options.prefix}/incidents`;
 		axios.post(URL, data)
 			.then(function (response) {
 				hashHistory.push(`/incidents`)
@@ -547,18 +549,20 @@ export const addIncident = ((component, recorder, title, description, dispatch) 
 });
 
 export const editIncident = ((row, componentId) => {
-	let url = `http://localhost:8000/incidents/${row.Id}` ;
-	axios.patch(url,
-		querystring.stringify({
-			'title' : row.Title,
-			'description' : row.Description,
-			'recorder' : row.Recorder,
-			'component_id': componentId
-		})).then(function(response) {
-				console.log('Response : ', response);
-		}).catch(function (err) {
-				console.log('Error From patch User : ', err);
-		});
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/incidents/${row.Id}`;
+		axios.patch(url,
+			querystring.stringify({
+				'title' : row.Title,
+				'description' : row.Description,
+				'recorder' : row.Recorder,
+				'component_id': componentId
+			})).then(function(response) {
+					console.log('Response : ', response);
+			}).catch(function (err) {
+					console.log('Error From patch User : ', err);
+			});
+		}
 });
 
 function resetStateIncidents (dispatch) {
@@ -566,8 +570,8 @@ function resetStateIncidents (dispatch) {
 }
 
 export const fetchIncidentInfo = ((incidentId) => {
-	let url = `http://localhost:8000/incidents/${incidentId}/incidentInfo`;
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/incidents/${incidentId}/incidentInfo`;
 		axios.get(url)
 			.then((response) => {
 				dispatch({ type: FETCH_INCIDENT_INFORMATION_SUCCESS, response })
@@ -579,9 +583,8 @@ export const fetchIncidentInfo = ((incidentId) => {
 });
 
 export const addIncidentUpdate = ((incidentId, resolvedBy, description, isResolved) => {
-	let url = `http://localhost:8000/incidents/${incidentId}/update?resolved=${isResolved}`;
-
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/incidents/${incidentId}/update?resolved=${isResolved}`;
 		axios.post(url, querystring.stringify({
 			description: description,
 			resolvedBy: resolvedBy
@@ -597,9 +600,8 @@ export const addIncidentUpdate = ((incidentId, resolvedBy, description, isResolv
 });
 
 export const addReplacedComponent = ((incidentId, resolvedBy, description, component, category, serialNo, warranty) => {
-	let url = `http://localhost:8000/incidents/${incidentId}/addComponent`;
-
-	return function(dispatch) {
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/incidents/${incidentId}/addComponent`;
 		axios.post(url, querystring.stringify({
 			description: description,
 			resolvedBy: resolvedBy,

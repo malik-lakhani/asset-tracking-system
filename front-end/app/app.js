@@ -10,9 +10,14 @@ import thunk from 'redux-thunk';
 // import createLogger from 'redux-logger';
 import { createHistory } from 'history';
 
+var options = {
+  prefix: "http://localhost:8000"
+}
+
 // const logger = createLogger();
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk.withExtraArgument(options))(createStore);
 const store = createStoreWithMiddleware(rootReducer);
+
 
 render(
 	<Provider store = { store } >

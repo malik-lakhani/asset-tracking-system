@@ -52,11 +52,11 @@ class Display_components extends Component {
 		];
 
 		let activeStyle = {
-			width: '150'
+			width: '150px'
 		}
 
 		let categoryStyle = {
-			 width: '200'
+			 width: '200px'
 		}
 
 		let setPadding = {
