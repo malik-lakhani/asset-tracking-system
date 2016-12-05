@@ -22,11 +22,11 @@ class Display_components extends Component {
 
 	filterComponents(val) {
 		var all = false;
-		if(val.value == "all") {
+		if(val.value == "all")
 			all = true
-		}
 		this.setState({activeAll:val.value});
-		this.props.actions.fetchComponents(all, this.props.dispatch);
+		if(this.state.activeAll != val.value)
+			this.props.actions.fetchComponents(all, this.props.dispatch);
 	}
 
 	handleCategoryChange(val) {

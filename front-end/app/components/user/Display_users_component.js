@@ -52,12 +52,11 @@ class Display_users extends Component {
 
 	filterUsers(val) {
 		this.setState({activeAll: val.value});
-		console.log(this.state)
 		var all = false;
-		if(val.value == "all") {
+		if(val.value == "all")
 			all = true
-		}
-		this.props.actions.fetchUsers(all);
+		if(this.state.activeAll != val.value)
+			this.props.actions.fetchUsers(all);
 	}
 
 	componentDidMount() {

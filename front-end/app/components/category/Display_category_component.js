@@ -41,10 +41,10 @@ class Display_category extends Component {
 	filterCategory(val) {
 		this.setState({activeAll: val.value});
 		var all = false;
-		if(val.value == "all") {
+		if(val.value == "all")
 			all = true
-		}
-		this.props.actions.fetchCategories(all);
+		if(this.state.activeAll != val.value)
+			this.props.actions.fetchCategories(all);
 	}
 
 	componentDidMount() {
@@ -52,7 +52,6 @@ class Display_category extends Component {
 	}
 
 	render() {
-
 		let selectRowProp = {
 			mode: "checkbox",
 			clickToSelect: true,
@@ -68,7 +67,7 @@ class Display_category extends Component {
 			<div>
 				<div className="clearfix">
 					<div className="col-lg-2">
-						<Select searchable={ false } clearable={ false } placeholder="Active" className="activeStyle" value="Active" options={ options } onChange={ this.filterCategory }/>
+						<Select searchable={ false } clearable={ false } placeholder="Active" className="activeStyle" value={ this.state.activeAll } options={ options } onChange={ this.filterCategory }/>
 					</div>
 				</div>
 				<div>

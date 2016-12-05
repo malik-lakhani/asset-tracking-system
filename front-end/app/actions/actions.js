@@ -85,12 +85,12 @@ export const editUser = ((row, machineId) => {
 				'company_email' : row.Company_email,
 				'machine_id' : machineId
 			})).then(function(response) {
-					if(response.status == 200) {
-						alert("Edited successfully ...")
-					} else {
-						alert("There is some problem in edit ...")
-						console.log("Error :", response.err)
-					}
+				if(response.status == 200) {
+					alert("Edited successfully ...")
+				} else {
+					alert("There is some problem in edit ...")
+					console.log("Error :", response.err)
+				}
 			}).catch(function (err) {
 					console.log('Error From patch User : ', err);
 			});
@@ -179,13 +179,15 @@ export const editCategory = ((row) => {
 });
 
 export const addCategory = ((row, machineId) => {
-	return function(dispatch, getState, options) {
+	 return function(dispatch, getState, options) {
 		const url = `${options.prefix}/components/categories`;
 		axios.post(url,
 			querystring.stringify({
 				'category' : row.Category,
 				'description' : row.Description,
-			}))
+			})).then(function(response) {
+				// fetchCategories(false)
+			});
 		}
 });
 

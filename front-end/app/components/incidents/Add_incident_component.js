@@ -91,7 +91,7 @@ class Add_incident extends Component {
 		}
 
 		let Components = [];
-		//====== will gives only thosecomponents which are connected to perticuller machine ...
+		//====== will gives only those components which are connected to perticuller machine ...
 		if(this.props.props.machines.MachineInfo.Components) {
 			for(let i = 0; i < this.props.props.machines.MachineInfo.Components.length; i++) {
 				let ComponentInfo = { value : this.props.props.machines.MachineInfo.Components[i].Id, label: this.props.props.machines.MachineInfo.Components[i].Name };
@@ -122,7 +122,7 @@ class Add_incident extends Component {
 							<HelpBlock className="errFontStyle"> {this.state.recorderErr} </HelpBlock>
 					</div>
 						<div className = "col-lg-2 col-lg-offset-2">
-							<label >Machine</label>
+							<label >Machine ( optional )</label>
 							<Select name="Machine" id="machine" clearable={false} value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
 						</div>
 					</div>

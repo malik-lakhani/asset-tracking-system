@@ -214,7 +214,7 @@ class Add_invoice extends Component {
 									<div>
 										<div className="clearfix" className="setPaddingleft">
 											<input type="text" className="col-lg-2 textboxSize" onChange={ this.handleFieldsComponent} id={`serial_${index}`} placeholder="Serial" />
-											<input type="text" className="col-lg-2 col-lg-offset-1 textboxSize" onChange={ this.handleFieldsComponent } id={`component_${index}`} placeholder="Component Name" />
+											<input type="text" className="col-lg-2 col-lg-offset-1 textboxSize marginRight" onChange={ this.handleFieldsComponent } id={`component_${index}`} placeholder="Component Name" />
 											<DatePicker className="col-lg-2 col-lg-offset-1 textboxSize" id={`warrantyDate_${ index }`} dateFormat="DD/MM/YYYY" selected={ date } onChange={this.handleDateChange.bind(this, index)} placeholder="Component Name"/>
 										</div>
 										<br/>

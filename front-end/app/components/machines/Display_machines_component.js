@@ -45,11 +45,11 @@ class Display_machines extends Component {
 
 	filterMachines(val) {
 		let all = false;
-		if(val.value == "all") {
+		if(val.value == "all")
 			all = true
-		}
 		this.setState({activeAll:val.value});
-		this.props.actions.fetchMachines(all);
+		if(this.state.activeAll != val.value)
+			this.props.actions.fetchMachines(all);
 	}
 
 	componentDidMount() {

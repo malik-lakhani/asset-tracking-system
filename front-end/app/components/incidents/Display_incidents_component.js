@@ -29,11 +29,11 @@ class Display_incidents extends Component {
 
 	filterIncidents(val) {
 		let all = false;
-		if(val.value == "all") {
+		if(val.value == "all")
 			all = true
-		}
 		this.setState({activeAll:val.value});
-		this.props.actions.fetchIncidents(all);
+		if(this.state.activeAll != val.value)
+			this.props.actions.fetchIncidents(all);
 	}
 
 	componentDidMount() {
