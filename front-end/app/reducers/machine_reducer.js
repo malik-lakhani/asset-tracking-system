@@ -2,7 +2,11 @@ import {
 	FETCH_MACHINES_SUCCESS,
 	FETCH_MACHINES_FAILULER,
 	FETCH_MACHINES_INFORMATION_SUCCESS,
-	FETCH_MACHINES_INFORMATION_FAILULER
+	FETCH_MACHINES_INFORMATION_FAILULER,
+	EDIT_MACHINE_SUCCESS,
+	EDIT_MACHINE_FAILULER,
+	DELETE_MACHINE_SUCCESS,
+	DELETE_MACHINE_FAILULER
 } from '../../constants';
 
 const initialState =
@@ -11,6 +15,7 @@ const initialState =
 		MachineInfo: [],
 		isFetching : true,
 		fetched : false,
+		status: {},
 		err : ''
 	}
 
@@ -27,6 +32,18 @@ export default function machines (state = initialState, action) {
 
 		case FETCH_MACHINES_INFORMATION_FAILULER:
 			return Object.assign({}, state, { MachineInfo: '', isFetching:false, fetched:false, err:action.err});
+
+		case EDIT_MACHINE_SUCCESS:
+			return Object.assign({}, state, { status: action.data, isFetching:false, fetched:true, err:''});
+
+		case EDIT_MACHINE_FAILULER:
+			return Object.assign({}, state, { status: '', isFetching:false, fetched:false, err:action.err});
+
+		case DELETE_MACHINE_SUCCESS:
+			return Object.assign({}, state, { status: action.data, isFetching:false, fetched:true, err:''});
+
+		case DELETE_MACHINE_FAILULER:
+			return Object.assign({}, state, { status: '', isFetching:false, fetched:false, err:action.err});
 
 		default:
 			return state

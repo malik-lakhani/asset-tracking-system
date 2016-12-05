@@ -146,12 +146,16 @@ func DisplayOneInvoice(invoiceId int) []byte {
 	//==============components details related to perticuller invoice ============
 
 	components := []DisplayAllComponents{}
-	sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine").
+
+	query := sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.active, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine, categories.category, machine_components.component_id, machine_components.created_at").
 		From("components c").
 		LeftJoin("machine_components", "c.id = machine_components.component_id").
 		LeftJoin("machines", "machines.id = machine_components.machine_id").
+		LeftJoin("categories", "c.category_id = categories.id").
 		Where("c.invoice_id = ?", invoiceId).
-		LoadStruct(&components)
+		OrderDir("machine_components.created_at", false)
+
+		query.LoadStruct(&components)
 
 
 	//extract only date from timestamp========
@@ -161,8 +165,9 @@ func DisplayOneInvoice(invoiceId int) []byte {
 	}
 	//=========================================
 
-	invoiceDetails.Components = components
 
+	result := removeDuplicates(components)
+	invoiceDetails.Components = result
 	//============================================================================
 
 	b, err := json.Marshal(invoiceDetails)

@@ -68,10 +68,10 @@ export const deleteUser = ((id) => {
 			url: url
 		})
 			.then((response) => {
-				console.log(DELETE_USER_SUCCESS);
+				dispatch({ type: DELETE_USER_SUCCESS, data: response })
 			})
 			.catch((err) => {
-				console.log(DELETE_USER_FAILULER, ':', err);
+				dispatch({ type: DELETE_USER_FAILULER, err: err })
 			})
 		}
 });
@@ -85,14 +85,12 @@ export const editUser = ((row, machineId) => {
 				'company_email' : row.Company_email,
 				'machine_id' : machineId
 			})).then(function(response) {
-					console.log("Response", response)
 					if(response.status == 200) {
 						alert("Edited successfully ...")
-						dispatch({ type: EDIT_USER_SUCCESS })
 					} else {
-						dispatch({ type: EDIT_USER_FAILULER })
+						alert("There is some problem in edit ...")
+						console.log("Error :", response.err)
 					}
-
 			}).catch(function (err) {
 					console.log('Error From patch User : ', err);
 			});
@@ -170,7 +168,12 @@ export const editCategory = ((row) => {
 				'category' : row.Category,
 				'description' : row.Description,
 			})).then(function(response) {
-					console.log('success');
+					if(response.status == 200) {
+						alert("Edited successfully ...")
+					} else {
+						alert("There is some problem in edit ...")
+						console.log("Error :", response.err)
+					}
 			});
 		}
 });
@@ -229,10 +232,10 @@ export const deleteMachine = ((id) => {
 			url: url
 		})
 			.then((response) => {
-				console.log(DELETE_MACHINE_SUCCESS);
+				dispatch({ type: DELETE_MACHINE_SUCCESS, data: response})
 			})
 			.catch((err) => {
-				console.log(DELETE_MACHINE_FAILULER, ':', err);
+				dispatch({ type: DELETE_MACHINE_FAILULER, err: err})
 			})
 		}
 });
@@ -244,9 +247,14 @@ export const editMachine = ((row) => {
 			querystring.stringify({
 				'name' : row.Name,
 			})).then(function(response) {
-					console.log('Response : ', response);
+				if(response.status == 200) {
+					alert("Edited successfully ...")
+				} else {
+					alert("There is some problem in edit ...")
+					console.log("Error :", response.err)
+				}
 			}).catch(function (err) {
-					console.log('Error From patch User : ', err);
+					dispatch({ type: EDIT_MACHINE_SUCCESS, err: err})
 			});
 		}
 });
@@ -558,7 +566,12 @@ export const editIncident = ((row, componentId) => {
 				'recorder' : row.Recorder,
 				'component_id': componentId
 			})).then(function(response) {
-					console.log('Response : ', response);
+					if(response.status == 200) {
+						alert("Edited successfully ...")
+					} else {
+						alert("There is some problem in edit ...")
+						console.log("Error :", response.err)
+					}
 			}).catch(function (err) {
 					console.log('Error From patch User : ', err);
 			});

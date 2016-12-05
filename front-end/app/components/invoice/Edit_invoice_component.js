@@ -157,13 +157,14 @@ class Edit_invoice extends Component {
 													search={true}
 													hover={true}>
 						<TableHeaderColumn isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
-						<TableHeaderColumn width="180" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
+						<TableHeaderColumn width="170" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
 						<TableHeaderColumn width="150" dataSort={true} dataField="Name">Name</TableHeaderColumn>
-						<TableHeaderColumn width="100" dataSort={true} dataField="Active">Active</TableHeaderColumn>
-						<TableHeaderColumn width="120" dataField="Warranty_till">Warranty Till</TableHeaderColumn>
+						<TableHeaderColumn width="80" dataSort={true} dataField="Active">Active</TableHeaderColumn>
+						<TableHeaderColumn width="100" dataField="Warranty_till">Warranty Till</TableHeaderColumn>
 						<TableHeaderColumn hidden={true} dataField="Invoice_id">Invoice</TableHeaderColumn>
-						<TableHeaderColumn width="240" dataSort={true} dataField="Description">Description</TableHeaderColumn>
-						<TableHeaderColumn width="150" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
+						<TableHeaderColumn width="280" dataSort={true} dataField="Description">Description</TableHeaderColumn>
+						<TableHeaderColumn width="100" dataSort={true} dataField="Category">Category</TableHeaderColumn>
+						<TableHeaderColumn width="100" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
 				</div>

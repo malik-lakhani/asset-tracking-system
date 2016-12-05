@@ -89,10 +89,10 @@ class Display_category extends Component {
 													}}
 													search={true}
 													striped={true}
-													hover={true}>
+													hover={true} >
 							<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
 							<TableHeaderColumn width="260" dataSort={true} dataField="Category" editable={{ validator:Validator }} >Category</TableHeaderColumn>
-							<TableHeaderColumn width="350" dataSort={true} dataField="Description" editable={{ validator:Validator }}>Description</TableHeaderColumn>
+							<TableHeaderColumn width="350" dataSort={true} dataField="Description" editable={true} >Description</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
 			</div>
