@@ -7,13 +7,13 @@ import (
 )
 
 type Categories struct {
-	Id int
+	Id int64
 	Category string
 	Description *string
 	Deleted_at *time.Time
 }
 
-func AddNewCategory(category string, descritpion string) {
+func AddNewCategory(category string, descritpion string) []byte {
 	sess := SetupDB()
 	var m = Categories{}
 	m.Category = category
@@ -24,6 +24,16 @@ func AddNewCategory(category string, descritpion string) {
 		Record(m).
 		Exec()
 	CheckErr(err)
+
+	//get id of inserted category ...
+	lastInsertedId, err := sess.Select("MAX(id)").
+		From("categories").
+		ReturnInt64()
+
+	m.Id = lastInsertedId
+	b, err := json.Marshal(m)
+	CheckErr(err)
+	return b
 }
 
 func EditCategoryInfo(categoryId int, category string, descritpion string) {
@@ -70,6 +80,5 @@ func DisplayCategories(allCategories string) []byte { // Display one User's Info
 
 	b, err := json.Marshal(categories)
 	CheckErr(err)
-
 	return b
 }

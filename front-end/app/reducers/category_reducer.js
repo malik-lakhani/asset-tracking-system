@@ -4,7 +4,9 @@ import {
 	EDIT_CATEGORY_SUCCESS,
 	EDIT_CATEGORY_FAILULER,
 	DELETE_CATEGORY_SUCCESS,
-	DELETE_CATEGORY_FAILULER
+	DELETE_CATEGORY_FAILULER,
+	ADD_CATEGORY_SUCCESS,
+	ADD_CATEGORY_FAILULER
 } from '../../constants';
 
 const initialState =
@@ -28,6 +30,14 @@ export default function categories (state = initialState, action) {
 
 		case DELETE_CATEGORY_FAILULER:
 			return Object.assign({}, state, { isFetching:false, fetched:false, err:err});
+
+		case ADD_CATEGORY_SUCCESS:
+			let newState = state.AllCategories
+			newState.push(action.response.data)
+			return Object.assign({}, state, { AllCategories: newState ,isFetching:false, fetched:true, err:''});
+
+		case ADD_CATEGORY_FAILULER:
+			return Object.assign({}, state, { isFetching:false, fetched:false, err: action.err});
 
 		default:
 			return state

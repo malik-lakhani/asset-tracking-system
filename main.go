@@ -20,7 +20,6 @@ func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	} // default it will display active users only ...
 	b := services.DisplayUsers(all)
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
@@ -28,7 +27,9 @@ func addUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	company_email := r.FormValue("company_email")
 	machine_id := r.FormValue("machine_id")
-	services.AddNewUser(name, company_email, machine_id) //PATH : /services/users.go
+	response := services.AddNewUser(name, company_email, machine_id) //PATH : /services/users.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(response))
 }
 
 func editUserInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -50,7 +51,6 @@ func displayOneUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	services.CheckErr(err)
 	b := services.DisplayUser(user_id) //PATH : /services/users.go
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
@@ -61,13 +61,14 @@ func machinesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	}
 	b := services.DisplayMachines(all) //PATH : /services/machines.go
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(b))
 }
 
 func addMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
-	services.AddNewMachine(name) //PATH : /services/machines.go
+	response := services.AddNewMachine(name) //PATH : /services/machines.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(response))
 }
 
 func editMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -267,7 +268,9 @@ func categoriesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 func addCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	category := r.FormValue("category")
 	description := r.FormValue("description")
-	services.AddNewCategory(category, description) //PATH : /services/category.go
+	response := services.AddNewCategory(category, description) //PATH : /services/category.go
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(response))
 }
 
 func editCategoryInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {

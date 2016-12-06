@@ -13,9 +13,9 @@ import {
 	FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_FAILULER, EDIT_CATEGORY_SUCCESS, EDIT_CATEGORY_FAILULER,
 		DELETE_CATEGORY_SUCCESS, DELETE_CATEGORY_FAILULER, ADD_CATEGORY_SUCCESS, ADD_CATEGORY_FAILULER,
 
-	FETCH_MACHINES_SUCCESS, FETCH_MACHINES_FAILULER, EDIT_MACHINE_SUCCESS, EDIT_MACHINE_FAILULER,
-		DELETE_MACHINE_SUCCESS, DELETE_MACHINE_FAILULER,FETCH_MACHINES_INFORMATION_SUCCESS,
-		FETCH_MACHINES_INFORMATION_FAILULER,
+	ADD_MACHINE_SUCCESS, ADD_MACHINE_FAILULER, FETCH_MACHINES_SUCCESS, FETCH_MACHINES_FAILULER,
+		EDIT_MACHINE_SUCCESS, EDIT_MACHINE_FAILULER, DELETE_MACHINE_SUCCESS, DELETE_MACHINE_FAILULER,
+		FETCH_MACHINES_INFORMATION_SUCCESS, FETCH_MACHINES_INFORMATION_FAILULER,
 
 	FETCH_COMPONENTS_SUCCESS, FETCH_COMPONENTS_FAILULER, FETCH_COMPONENT_INFORMATION_SUCCESS,
 		FETCH_COMPONENT_INFORMATION_FAILULER, FILTER_COMPONENTS_SUCCESS, FILTER_COMPONENTS_FAILULER,
@@ -105,7 +105,11 @@ export const addUser = ((row, machineId) => {
 				'name' : row.Name,
 				'company_email' : row.Company_email,
 				'machine_id' : machineId
-			}))
+			})).then(function(response) {
+				dispatch({ type: ADD_USER_SUCCESS, response: response })
+			}).catch(function (err) {
+				dispatch({ type: ADD_USER_FAILULER, err: err })
+			});
 		}
 });
 
@@ -186,8 +190,10 @@ export const addCategory = ((row, machineId) => {
 				'category' : row.Category,
 				'description' : row.Description,
 			})).then(function(response) {
-				// fetchCategories(false)
-			});
+				dispatch({ type: ADD_CATEGORY_SUCCESS, response: response})
+			}).catch((err) => {
+				dispatch({ type: ADD_CATEGORY_FAILULER, err: err})
+			})
 		}
 });
 
@@ -268,9 +274,11 @@ export const addMachine = ((row) => {
 			querystring.stringify({
 				name: row.Name
 			})).then(function(response) {
-				console.log('added successfully', response);
-		});
-	}
+				dispatch({ type: ADD_MACHINE_SUCCESS, response: response})
+			}).catch(function (err) {
+				dispatch({ type: ADD_MACHINE_FAILULER, err: err})
+			});
+		}
 });
 
 export const fetchMachineInformation = ((machineId) => {

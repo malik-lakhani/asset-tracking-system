@@ -8,7 +8,7 @@ import (
 )
 
 type MachineInfo struct{
-	Id *int
+	Id int64
 	Name string
 	User *string
 	Deleted_at *time.Time
@@ -16,7 +16,7 @@ type MachineInfo struct{
 	UserName *string
 }
 
-func AddNewMachine(name string) {
+func AddNewMachine(name string) []byte {
 	sess := SetupDB()
 	addMachine := MachineInfo{}
 	addMachine.Name = name
@@ -27,6 +27,16 @@ func AddNewMachine(name string) {
 		Record(addMachine).
 		Exec()
 	CheckErr(err)
+
+	//get id of inserted machine ...
+	lastInsertedId, err := sess.Select("MAX(id)").
+		From("machines").
+		ReturnInt64()
+	addMachine.Id = lastInsertedId
+
+	b, err := json.Marshal(addMachine)
+	CheckErr(err)
+	return b
 }
 
 func EditMachineInfo(id int, name string) {
@@ -55,6 +65,25 @@ func DeleteMachine(machineIds string) {
 
 }
 
+func removeDuplicatesUser(elements []MachineInfo) []MachineInfo {
+		// Use map to record duplicates as we find them.
+		encountered := map[int64]bool{}
+		result := []MachineInfo{}
+
+		for v := range elements {
+	if encountered[elements[v].Id] == true {
+			// Do not add duplicate.
+	} else {
+			// Record this element as an encountered element.
+			encountered[elements[v].Id] = true
+			// Append to result slice.
+			result = append(result, elements[v])
+	}
+		}
+		// Return the new slice.
+		return result
+}
+
 func DisplayMachines(allMachiens string) []byte {
 	sess := SetupDB()
 	machinesInfo := []MachineInfo{}
@@ -62,7 +91,8 @@ func DisplayMachines(allMachiens string) []byte {
 	query := sess.Select("machines.id, users.name as User, machines.name").
 		From("machines").
 		LeftJoin("users_machine", "machines.id = users_machine.machine_id").
-		LeftJoin("users", "users.id = users_machine.user_id")
+		LeftJoin("users", "users.id = users_machine.user_id").
+		OrderDir("users_machine.created_at", false)
 
 	//display all machines or active machines only ...
 	if(allMachiens == "false") {
@@ -71,7 +101,9 @@ func DisplayMachines(allMachiens string) []byte {
 	} else {
 		query.LoadStruct(&machinesInfo)
 	}
-	b, err := json.Marshal(machinesInfo)
+	result := removeDuplicatesUser(machinesInfo)
+
+	b, err := json.Marshal(result)
 	CheckErr(err)
 	return b
 }
@@ -177,7 +209,7 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		From("components").
 		Join("machine_components", "machine_components.component_id = components.id")
 
-	query.Where("machine_components.machine_id = ?", machineId).
+	query.Where("machine_components.machine_id = ? AND machine_components.deleted_at is NULL", machineId ).
 		LoadStruct(&MachineComponents)
 
 	for i := 0; i < len (MachineComponents); i++ {

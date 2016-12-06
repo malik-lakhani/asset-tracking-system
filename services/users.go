@@ -22,10 +22,11 @@ type UsersMachine struct {
 }
 
 type userInfo struct {
-	Name, Company_email, Machine_id string
+	Name, Company_email, Machine_id, Machine_name string
+	Id int64
 }
 
-func AddNewUser(name string, email string, machineId string) {
+func AddNewUser(name string, email string, machineId string) []byte {
 	sess := SetupDB()
 	var m userInfo
 	m.Name = name
@@ -43,6 +44,14 @@ func AddNewUser(name string, email string, machineId string) {
 		From("users").
 		ReturnInt64()
 
+	//get name of machine assigned to user ...
+	machine, err2 := sess.Select("name").
+		From("machines").
+		Where("id= ? ", machineId).
+		ReturnString()
+		CheckErr(err2)
+	m.Machine_name = machine
+
 	addUserMachine := UsersMachine{}
 	addUserMachine.User_id = lastInsertedId
 	addUserMachine.Machine_id = m.Machine_id
@@ -52,6 +61,11 @@ func AddNewUser(name string, email string, machineId string) {
 		Record(addUserMachine).
 		Exec()
 	CheckErr(err1)
+
+	m.Id = lastInsertedId
+	b, err := json.Marshal(m)
+	CheckErr(err)
+	return b
 }
 
 func EditUserInfo(userId int, name string, company_email string, machine_id string) {
