@@ -23,9 +23,10 @@ Display All Categories.
     + body
 
             [{
-            "id": 1,
-            "category": "electronics",
-            "description": "description of category ",
+                "id": 1,
+                "category": "electronics",
+                "description": "description of category ",
+                "deleted_at": null
             }]
 
 ## All Categories [/categories]
@@ -40,6 +41,15 @@ Display All Categories.
 
 + Response 201
 
+    + body
+
+            {
+                "id": 1,
+                "category": "electronics",
+                "description": "description of category ",
+                "deleted_at": null
+            }
+
 ## Edit Category [/categories/{category_id}]
 
 ### Edit Category[PATCH]
@@ -50,9 +60,8 @@ Display All Categories.
 + Request (application/json)
 
     + Attributes
-        + information
-            + category: `electronics`
-            + description: `description`
+        + category: `electronics`
+        + description: `description`
 
 + Response 200
 

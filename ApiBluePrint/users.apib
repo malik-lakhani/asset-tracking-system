@@ -47,6 +47,17 @@ Display All Users.
 
 + Response 201
 
+    + body
+
+            {
+                "id" : 1,
+                "name" : "ashvin",
+                "company_email" : "ashvin@improwised.com",
+                "machine_id" : 1,
+                "machine_name" : "mako"
+            }
+
+
 ## Edit User [/users/{user_id}]
 
 ### Edit User[PATCH]
@@ -57,11 +68,10 @@ Display All Users.
 + Request (application/json)
 
     + Attributes
-        + information
-            + name: `Ashvin Kumbhani`
-            + company_email: `ashvin@improwised.com`
-            + machine_id: `1`
-            + machine: `mako`
+        + name: `Ashvin Kumbhani`
+        + company_email: `ashvin@improwised.com`
+        + machine_id: `1`
+        + machine: `mako`
 
 + Response 200
 

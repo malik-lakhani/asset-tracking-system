@@ -36,7 +36,7 @@ $ go run ./db/migration.go
 
 TODO: How to run tests
 s
-Run following command from apricot
+Run following command from cantaloupe
 ```
 GO_ENV2=testing go test
 ```

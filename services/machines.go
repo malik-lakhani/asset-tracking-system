@@ -12,8 +12,6 @@ type MachineInfo struct{
 	Name string
 	User *string
 	Deleted_at *time.Time
-	UserId *int
-	UserName *string
 }
 
 func AddNewMachine(name string) []byte {

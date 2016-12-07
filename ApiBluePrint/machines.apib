@@ -43,6 +43,15 @@ Display All Machines.
 
 + Response 201
 
+    + body
+
+            {
+                "id" : 1,
+                "name" : "mako",
+                "user" : null,
+                "deleted_at" : null
+            }
+
 ## Edit Machine [/machines/{machine_id}]
 
 ### Edit Machine[PATCH]
@@ -105,22 +114,22 @@ Display Machine Components.
                 "name" : "mako",
                 "usingScence" : "2015-12-11",
                 "components":[{
-                                "id" : 1,
-                                "name" : "Mouse",
-                                "serial_no" : "12SO11",
-                                "description" : "description of component",
-                                "warranty_till" : "2017-12-11"
+                        "id" : 1,
+                        "name" : "Mouse",
+                        "serial_no" : "12SO11",
+                        "description" : "description of component",
+                        "warranty_till" : "2017-12-11"
                 }],
-                "components":[{
-                                "title" : "title of description",
-                                "description" : "description of incident",
-                                "recorder" : "shailesh davara",
-                                "status" : "Active"
+                "incidents":[{
+                        "title" : "title of description",
+                        "description" : "description of incident",
+                        "recorder" : "shailesh davara",
+                        "status" : "Active"
                 }],
                 "pastUses":[{
-                                "begin" : "2015-12-11",
-                                "end" : "2017-12-11",
-                                "user" : "ashvin"
+                        "begin" : "2015-12-11",
+                        "end" : "2017-12-11",
+                        "user" : "ashvin"
                 }],
 
             }
@@ -135,12 +144,11 @@ Display Machine Components.
 + Request (application/json)
 
     + Attributes
-        + information
-            + id : `1`
-            + machine_id : `2`
-            + name : `mako`
-            + components_id : 2
-            + components_name : `MotherBoard`
+        + id : `1`
+        + machine_id : `2`
+        + name : `mako`
+        + components_id : 2
+        + components_name : `MotherBoard`
 
 + Response 201
 
