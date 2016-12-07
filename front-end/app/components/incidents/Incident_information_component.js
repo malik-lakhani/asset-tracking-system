@@ -50,13 +50,13 @@ class Incident_information extends Component {
 
 		const { handleSubmit, pristine, reset, submitting } = this.props
 		return (
+
 			<div>
 				<div>
 					<form onSubmit={ this.handleSubmit }>
 						<Link to={`incidents/${this.props.params.incidentId}/update`} > <button className="btn btn-info floatRight">Add Update</button> </Link>
 					</form>
 				</div>
-
 					<div>
 					<h3 className="center"><u> Incident #{ this.props.params.incidentId} </u></h3>
 					<div style={borderStyle1}>
@@ -100,7 +100,7 @@ class Incident_information extends Component {
 			{/*================== Display incident updates ...=====================*/}
 
 				{IncidentUpdates.map(t => (
-					<div key={t.Updated_by}>
+					<div key={t.Description}>
 						<br/>
 						<div> Date : {t.Resolved_Date}</div>
 						<div style={borderStyle}>
