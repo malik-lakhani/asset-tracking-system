@@ -4,6 +4,10 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions/actions';
 
+
+import 'jquery/dist/jquery.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
 const mapStateToProps = (state) => {
 	return {
 		state: state

@@ -12,10 +12,22 @@ class Incident_information extends Component {
 		super(props);
 		this.state = {
 		};
+		this.showUpdateButton = this.showUpdateButton.bind(this);
 	}
 
 	componentDidMount() {
 		this.props.actions.fetchIncidentInfo(this.props.params.incidentId)
+	}
+
+	showUpdateButton() {
+		if(this.props.state.incidents.Incidents.Status == "active") {
+			return(	<div>
+								<form onSubmit={ this.handleSubmit }>
+									<Link to={`incidents/${this.props.params.incidentId}/update`} > <button className="btn btn-info floatRight">Add Update</button> </Link>
+								</form>
+							</div>
+						);
+		}
 	}
 
 	render() {
@@ -52,11 +64,7 @@ class Incident_information extends Component {
 		return (
 
 			<div>
-				<div>
-					<form onSubmit={ this.handleSubmit }>
-						<Link to={`incidents/${this.props.params.incidentId}/update`} > <button className="btn btn-info floatRight">Add Update</button> </Link>
-					</form>
-				</div>
+				{this.showUpdateButton()}
 					<div>
 					<h3 className="center"><u> Incident #{ this.props.params.incidentId} </u></h3>
 					<div style={borderStyle1}>

@@ -52,6 +52,11 @@ class Display_category extends Component {
 	}
 
 	render() {
+		let categories = [];
+		if(this.props.state.category.AllCategories.length) {
+			categories = this.props.state.category.AllCategories;
+		}
+
 		let selectRowProp = {
 			mode: "checkbox",
 			clickToSelect: true,
@@ -71,7 +76,7 @@ class Display_category extends Component {
 					</div>
 				</div>
 				<div>
-					<BootstrapTable data={this.props.state.category.AllCategories}
+					<BootstrapTable data={ categories }
 													pagination={true}
 													options={{
 														afterDeleteRow :this.deleteCategory,
@@ -91,7 +96,7 @@ class Display_category extends Component {
 													hover={true} >
 							<TableHeaderColumn dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
 							<TableHeaderColumn width="260" dataSort={true} dataField="Category" editable={{ validator:Validator }} >Category</TableHeaderColumn>
-							<TableHeaderColumn width="350" dataSort={true} dataField="Description" editable={true} >Description</TableHeaderColumn>
+							<TableHeaderColumn width="350" dataSort={true} dataField="Description" editable={{ type:'textarea' }} >Description</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
 			</div>

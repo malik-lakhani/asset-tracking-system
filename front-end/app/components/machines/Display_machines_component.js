@@ -96,7 +96,7 @@ class Display_machines extends Component {
 													striped={true}
 													hover={true}>
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true}  autoValue={true} hidden={true} >Id</TableHeaderColumn>
-						<TableHeaderColumn width="260" dataSort={true} dataField="Name" dataFormat={machineInformation} editable={{ validator:Validator }}>Name</TableHeaderColumn>
+						<TableHeaderColumn width="260" dataSort={true} dataField="Name" dataFormat={machineInformation} editable={{ validator:Validator }}>Machine</TableHeaderColumn>
 						<TableHeaderColumn width="350" dataSort={true} dataField="User" editable={false} hiddenOnInsert={true} autoValue={false}>Current User</TableHeaderColumn>
 					</BootstrapTable> );
 

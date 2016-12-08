@@ -16,10 +16,6 @@ class Machine_information extends Component {
 		};
 	}
 
-	displayComponents(machineId) {
-		let URL = `http://localhost:8000/machines/${machineId}/components`
-	}
-
 	componentDidMount() {
 		let { machineId } = this.props.params;
 		this.props.actions.fetchMachineInformation(machineId);

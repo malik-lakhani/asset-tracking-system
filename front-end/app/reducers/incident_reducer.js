@@ -19,7 +19,15 @@ const initialState =
 		description: '',
 		title: '',
 		recorder: '',
-		machine: ''
+		machine: '',
+
+		resolvedBy: '',
+		updatedBy: '',
+		serialNo: '',
+		component: '',
+
+
+
 	}
 
 export default function incidents (state = initialState, action) {
@@ -28,7 +36,7 @@ export default function incidents (state = initialState, action) {
 			return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:true, err:''});
 
 		case FETCH_INCIDENTS_FAILULER:
-			return Object.assign({}, state, { Incidents : '', isFetching:false, fetched:false, err:err});
+			return Object.assign({}, state, { Incidents : '', isFetching:false, fetched:false, err:action.err});
 
 		case SET_FIELDS:
 			state[action.field] = action.value;
@@ -39,6 +47,10 @@ export default function incidents (state = initialState, action) {
 			state['title'] = ''
 			state['recorder'] = ''
 			state['machine'] = ''
+			state['updatedBy'] = ''
+			state['resolvedBy'] = ''
+			state['serialNo'] = ''
+			state['component'] = ''
 
 		case FETCH_INCIDENT_INFORMATION_SUCCESS:
 			return Object.assign({}, state, { Incidents : action.response.data, isFetching:false, fetched:true, err:''});

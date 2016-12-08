@@ -3,6 +3,10 @@ import querystring from 'querystring';
 import moment from 'moment';
 import { hashHistory } from 'react-router';
 
+import '../assets/notify.js'
+
+
+
 import {
 
 	SET_FIELDS,
@@ -34,6 +38,18 @@ export const setFieldValue = (field, value) => ({
 	value,
 });
 
+function showNotification (type, message) {
+	$.notify (
+		message,
+		{	className: type,
+			position:"top-right",
+			arrowShow: true,
+			showAnimation: 'slideDown',
+			gap: 100
+		}
+	);
+}
+
 //========================Actions Releated to Users=============================
 
 export const fetchUsers = ((All, dispatch) => {
@@ -59,7 +75,7 @@ export const deleteUser = ((id) => {
 		let url = `${options.prefix}/users/${id[0]}` ;
 
 		//======To delete multiple user in one attempt =====
-		for(let i=1; i<id.length; i++){
+		for(let i=1; i<id.length; i++) {
 			url += ','+id[i]
 		}
 		//==================================================
@@ -68,10 +84,10 @@ export const deleteUser = ((id) => {
 			url: url
 		})
 			.then((response) => {
-				dispatch({ type: DELETE_USER_SUCCESS, data: response })
+				showNotification("success", "Deleted Successfully ...")
 			})
 			.catch((err) => {
-				dispatch({ type: DELETE_USER_FAILULER, err: err })
+				showNotification("error", "Something went wrong... Try again")
 			})
 		}
 });
@@ -86,13 +102,12 @@ export const editUser = ((row, machineId) => {
 				'machine_id' : machineId
 			})).then(function(response) {
 				if(response.status == 200) {
-					alert("Edited successfully ...")
+					showNotification("info", "Edited Successfully ...")
 				} else {
-					alert("There is some problem in edit ...")
-					console.log("Error :", response.err)
+					showNotification("error", "Something went wrong... Try again")
 				}
 			}).catch(function (err) {
-					console.log('Error From patch User : ', err);
+					showNotification("error", "Something went wrong... Try again")
 			});
 		}
 });
@@ -156,10 +171,10 @@ export const deleteCategory = ((id) => {
 			url: url
 		})
 			.then((response) => {
-				console.log(DELETE_CATEGORY_SUCCESS);
+				showNotification("success", "Deleted Successfully ...")
 			})
 			.catch((err) => {
-				console.log(DELETE_CATEGORY_FAILULER, ':', err);
+				showNotification("error", "Something went wrong... Try again")
 			})
 		}
 });
@@ -173,7 +188,7 @@ export const editCategory = ((row) => {
 				'description' : row.Description,
 			})).then(function(response) {
 					if(response.status == 200) {
-						alert("Edited successfully ...")
+						showNotification("info", "Edited Successfully ...")
 					} else {
 						alert("There is some problem in edit ...")
 						console.log("Error :", response.err)
@@ -240,10 +255,10 @@ export const deleteMachine = ((id) => {
 			url: url
 		})
 			.then((response) => {
-				dispatch({ type: DELETE_MACHINE_SUCCESS, data: response})
+				showNotification("success", "Deleted Successfully ...")
 			})
 			.catch((err) => {
-				dispatch({ type: DELETE_MACHINE_FAILULER, err: err})
+				showNotification("error", "Something went wrong... Try again")
 			})
 		}
 });
@@ -256,7 +271,7 @@ export const editMachine = ((row) => {
 				'name' : row.Name,
 			})).then(function(response) {
 				if(response.status == 200) {
-					alert("Edited successfully ...")
+					showNotification("info", "Edited Successfully ...")
 				} else {
 					alert("There is some problem in edit ...")
 					console.log("Error :", response.err)
@@ -507,6 +522,7 @@ export const editInvoice = (Id, data) => {
 		}))
 		.then(function(response) {
 			hashHistory.push(`/invoices`)
+			showNotification("info", "Edited Successfully ...")
 		})
 		.catch(function (err) {
 				console.log("Error")
@@ -577,7 +593,7 @@ export const editIncident = ((row, componentId) => {
 				'component_id': componentId
 			})).then(function(response) {
 					if(response.status == 200) {
-						alert("Edited successfully ...")
+						showNotification("info", "Edited Successfully ...")
 					} else {
 						alert("There is some problem in edit ...")
 						console.log("Error :", response.err)
@@ -615,6 +631,7 @@ export const addIncidentUpdate = ((incidentId, resolvedBy, description, isResolv
 			.then(function (response) {
 				dispatch({ type: ADD_INCIDENT_UPDATE_SUCCESS, response})
 				hashHistory.push(`/incidents/${incidentId}`)
+				resetStateIncidents(dispatch)
 			})
 			.catch(function (err) {
 				dispatch({ type: ADD_INCIDENT_UPDATE_FAILULER, err})
@@ -634,6 +651,7 @@ export const addReplacedComponent = ((incidentId, resolvedBy, description, compo
 		}))
 			.then(function (response) {
 				hashHistory.push(`/incidents/${incidentId}`)
+				resetStateIncidents(dispatch)
 			})
 			.catch(function (err) {
 				console.log(err);

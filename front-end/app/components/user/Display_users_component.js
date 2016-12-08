@@ -76,6 +76,11 @@ class Display_users extends Component {
 			MachineNames[i] = this.props.state.machines.Machines[i].Name;
 		}
 
+		let users = [];
+		if(this.props.state.users.AllUsers.length) {
+			users = this.props.state.users.AllUsers;
+		}
+
 		return (
 			<div>
 				<div className="clearfix">
@@ -84,7 +89,7 @@ class Display_users extends Component {
 					</div>
 				</div>
 				<div>
-					<BootstrapTable data={this.props.state.users.AllUsers}
+					<BootstrapTable data={ users }
 													pagination={true}
 													options={{
 														afterDeleteRow :this.deleteUser,
