@@ -118,6 +118,7 @@ type DisplayComponentInfo struct {
 	Status string
 	Warranty_timestamp time.Time
 	Warranty_till string
+	Deleted_at *time.Time
 
 }
 
@@ -146,7 +147,8 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	sqlStmt += "components.name AS Component,"
 	sqlStmt += "components.description,"
 	sqlStmt += "components.active,"
-	sqlStmt += "components.warranty_till As Warranty_timestamp"
+	sqlStmt += "components.warranty_till As Warranty_timestamp,"
+	sqlStmt += "components.deleted_at"
 
 	sess := SetupDB()
 	components := DisplayComponentInfo{}

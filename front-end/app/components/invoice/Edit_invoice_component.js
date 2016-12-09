@@ -113,12 +113,12 @@ class Edit_invoice extends Component {
 					<div className="clearfix form-group">
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoice*</label>
-							<input className="textboxSize" type="text" name="Invoice" id="invoice" value={ invoice }  onChange={this.handleFields} placeholder="ex. 12MOUSE1811" />
+							<input className="textboxSize" type="text" name="Invoice" id="invoice" value={ invoice || '' }  onChange={this.handleFields} placeholder="ex. 12MOUSE1811" />
 							<HelpBlock className="errFontStyle"> {this.state.invoiceErr} </HelpBlock>
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Invoicer*</label>
-							<input className="textboxSize" type="text" name="Invoicer" id="invoicer" value={invoicer} onChange={this.handleFields} placeholder="ex. Jay systems" />
+							<input className="textboxSize" type="text" name="Invoicer" id="invoicer" value={ invoicer || '' } onChange={this.handleFields} placeholder="ex. Jay systems" />
 							<HelpBlock className="errFontStyle"> {this.state.invoicerErr} </HelpBlock>
 						</div>
 					</div>
@@ -129,18 +129,18 @@ class Edit_invoice extends Component {
 						</div>
 						<div className = "col-lg-2 col-lg-offset-2">
 							<label >Contact*</label>
-							<input className="textboxSize" type="text" name="Contact" id="contact" value={ contact } onChange={this.handleFields} placeholder="ex. +91 9909970574" />
+							<input className="textboxSize" type="text" name="Contact" id="contact" value={ contact || '' } onChange={this.handleFields} placeholder="ex. +91 9909970574" />
 							<HelpBlock className="errFontStyle"> {this.state.contactErr} </HelpBlock>
 						</div>
 					</div>
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Description</label>
-							<textarea className="textAreaSize" name="Description" id="description" value={ description } onChange={this.handleFields} placeholder="description"/>
+							<textarea className="textAreaSize" name="Description" id="description" value={ description || '' } onChange={this.handleFields} placeholder="description"/>
 						</div>
 						<div className="col-lg-2 col-lg-offset-2">
 							<label >Address</label>
-							<textarea className="textAreaSize" name="Address" id="address" value={ address } onChange={this.handleFields} placeholder="address"/>
+							<textarea className="textAreaSize" name="Address" id="address" value={ address || '' } onChange={this.handleFields} placeholder="address"/>
 						</div>
 					</div>
 				</div>
@@ -176,4 +176,3 @@ class Edit_invoice extends Component {
 export default reduxForm({
 	form: 'Edit_invoice',// a unique identifier for this form
 })(Edit_invoice)
-

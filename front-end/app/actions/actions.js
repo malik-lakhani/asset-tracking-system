@@ -5,8 +5,6 @@ import { hashHistory } from 'react-router';
 
 import '../assets/notify.js'
 
-
-
 import {
 
 	SET_FIELDS,
@@ -87,7 +85,7 @@ export const deleteUser = ((id) => {
 				showNotification("success", "Deleted Successfully ...")
 			})
 			.catch((err) => {
-				showNotification("error", "Something went wrong... Try again")
+				showNotification("error", err)
 			})
 		}
 });
@@ -104,10 +102,10 @@ export const editUser = ((row, machineId) => {
 				if(response.status == 200) {
 					showNotification("info", "Edited Successfully ...")
 				} else {
-					showNotification("error", "Something went wrong... Try again")
+					showNotification("error", response.err)
 				}
 			}).catch(function (err) {
-					showNotification("error", "Something went wrong... Try again")
+					showNotification("error", err)
 			});
 		}
 });
@@ -174,7 +172,7 @@ export const deleteCategory = ((id) => {
 				showNotification("success", "Deleted Successfully ...")
 			})
 			.catch((err) => {
-				showNotification("error", "Something went wrong... Try again")
+				showNotification("error", err)
 			})
 		}
 });
@@ -189,9 +187,8 @@ export const editCategory = ((row) => {
 			})).then(function(response) {
 					if(response.status == 200) {
 						showNotification("info", "Edited Successfully ...")
-					} else {
-						alert("There is some problem in edit ...")
-						console.log("Error :", response.err)
+					} else
+						showNotification("error", response.err)
 					}
 			});
 		}
@@ -258,7 +255,7 @@ export const deleteMachine = ((id) => {
 				showNotification("success", "Deleted Successfully ...")
 			})
 			.catch((err) => {
-				showNotification("error", "Something went wrong... Try again")
+				showNotification("error", err)
 			})
 		}
 });

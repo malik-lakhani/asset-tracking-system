@@ -189,7 +189,7 @@ class Add_incident_update extends Component {
 								<HelpBlock className="errFontStyle"> {this.state.componentErr} </HelpBlock>
 							</div>
 							<div className="modal-body">
-								<Select className="selectcss" id={`category`} value={ category } placeholder="Category" options={ categories } onChange={ this.handleCategoryChange }/>
+								<Select className="selectcss" id={`category`} value={ category } placeholder="Category" clearable={ false } options={ categories } onChange={ this.handleCategoryChange }/>
 								<HelpBlock className="errFontStyle"> {this.state.categoryErr} </HelpBlock>
 							</div>
 							<div className="modal-body">

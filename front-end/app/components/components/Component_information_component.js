@@ -16,6 +16,18 @@ class Component_information extends Component {
 		this.handleMachinesChange = this.handleMachinesChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleDecommission = this.handleDecommission.bind(this);
+		this.renderDeccommission = this.renderDeccommission.bind(this);
+	}
+
+	renderDeccommission() {
+		console.log(this.props.props.components.Components.Deleted_at)
+		if(this.props.props.components.Components.Deleted_at == null ) {
+			return (
+				<div className="pull-right">
+						<button type="button" className="btn btn-info marginLeftRecord setMargin" data-toggle="modal" data-target="#changeMachine">Change Machine</button>
+						<button type="button" className="btn btn-danger" onClick= {this.handleDecommission} > Decommission </button>
+				</div> );
+		}
 	}
 
 	handleDecommission() {
@@ -72,6 +84,10 @@ class Component_information extends Component {
 			if(this.props.props.components.Components.Active == "false") {
 				status = 'Deactive';
 			}
+
+			if(this.props.props.components.Components.Deleted_at != null) {
+				status = 'Decommissioned';
+			}
 		}
 
 		let Machines = [];
@@ -112,10 +128,7 @@ class Component_information extends Component {
 						<h1>{Component}</h1>
 						<h4>({status})</h4>
 					</div>
-					<div className="pull-right">
-						<button type="button" className="btn btn-info marginLeftRecord setMargin" data-toggle="modal" data-target="#changeMachine">Change Machine</button>
-						<button type="button" className="btn btn-danger" onClick= {this.handleDecommission} > Decommission </button>
-					</div>
+					{ this.renderDeccommission() }
 				</div>
 
 				<div className="letterStyle" style= { borderStyle }>
