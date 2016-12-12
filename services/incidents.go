@@ -6,24 +6,24 @@ import (
 )
 
 type IncidentInfo struct {
-	Id int
-	Component_id int
-	Serial_no string
-	Title string
-	Recorder string
-	Component string
+	Id                 int
+	Component_id       int
+	Serial_no          string
+	Title              string
+	Recorder           string
+	Component          string
 	Warranty_timestamp time.Time
-	Warranty_till string
-	Machine *string
-	Description string
-	Status string
-	Resolved_at *time.Time
+	Warranty_till      string
+	Machine            *string
+	Description        string
+	Status             string
+	Resolved_at        *time.Time
 }
 
 func AddIncident(data string) {
 	sess := SetupDB()
 	i := IncidentInfo{}
-	err := json.Unmarshal([]byte(data), &i)//converting JSON Object to GO structure ...
+	err := json.Unmarshal([]byte(data), &i) //converting JSON Object to GO structure ...
 	CheckErr(err)
 	i.Status = "active"
 
@@ -49,10 +49,10 @@ func AddIncident(data string) {
 func EditIncident(incidentId int, componentId string, recorder string, title string, description string) {
 	sess := SetupDB()
 	query := sess.Update("incidents")
-		if(componentId != "") {
-			query.Set("component_id", componentId)
-		}
-		query.Set("title", title).
+	if componentId != "" {
+		query.Set("component_id", componentId)
+	}
+	query.Set("title", title).
 		Set("description", description).
 		Set("recorder", recorder).
 		Where("id = ?", incidentId).
@@ -88,11 +88,11 @@ func DisplayIncidents(all string) []byte {
 		From("incidents i").
 		LeftJoin("components", "i.component_id = components.id")
 
-		if(all == "false") {
-			query.Where("i.status = ?", "active")
-		}
+	if all == "false" {
+		query.Where("i.status = ?", "active")
+	}
 
-		query.LoadStruct(&incidentInfo)
+	query.LoadStruct(&incidentInfo)
 
 	//extract only date from timestamp============================================
 	for i := 0; i < len(incidentInfo); i++ {
@@ -119,13 +119,13 @@ func DisplayIncident(incidentId int) []byte {
 }
 
 type IncidentUpdate struct {
-	Id int
-	Updated_by string
-	Created_at time.Time
+	Id            int
+	Updated_by    string
+	Created_at    time.Time
 	Resolved_Date string
-	ComponentId int64
-	IncidentId int
-	Description string
+	ComponentId   int64
+	IncidentId    int
+	Description   string
 }
 
 func IncidentUpdates(incidentId int, resolvedBy string, description string, isResolved string) {
@@ -139,7 +139,7 @@ func IncidentUpdates(incidentId int, resolvedBy string, description string, isRe
 	CheckErr(err1)
 	//============================================================================
 
- //insert record into incident_updates table ...================================
+	//insert record into incident_updates table ...================================
 	var incident IncidentUpdate
 	incident.ComponentId = id
 	incident.IncidentId = incidentId
@@ -153,32 +153,32 @@ func IncidentUpdates(incidentId int, resolvedBy string, description string, isRe
 	CheckErr(err)
 	//============================================================================
 
-	if(isResolved == "true") {
-	//update status of incident to resolved ...===================================
+	if isResolved == "true" {
+		//update status of incident to resolved ...===================================
 		_, err3 := sess.Update("incidents").
 			Set("status", "resolved").
 			Set("resolved_at", "NOW()").
 			Where("id = ?", incident.IncidentId).
 			Exec()
 		CheckErr(err3)
-	//============================================================================
+		//============================================================================
 	}
 }
 
 type IncidentInformation struct {
-	Status string
-	Recorder string
-	Machine string
-	Component string
+	Status      string
+	Recorder    string
+	Machine     string
+	Component   string
 	ComponentId int
 	Description string
 
-	IncidentUpdates[] IncidentUpdate
+	IncidentUpdates []IncidentUpdate
 }
 
-func IncidentInformations(incident_id int) []byte{
+func IncidentInformations(incident_id int) []byte {
 	sess := SetupDB()
-	m := IncidentInformation {}
+	m := IncidentInformation{}
 	err2 := sess.Select("incidents.status, incidents.recorder, incidents.component_id, components.name as Component, incidents.description").
 		From("incidents").
 		LeftJoin("components", "components.id = incidents.component_id").
@@ -186,7 +186,7 @@ func IncidentInformations(incident_id int) []byte{
 		LoadStruct(&m)
 	CheckErr(err2)
 
-	p := []IncidentUpdate {}
+	p := []IncidentUpdate{}
 	sess.Select("id, description, updated_by, created_at").
 		From("incident_update").
 		Where("incident_id = ? ", incident_id).
@@ -205,40 +205,39 @@ func IncidentInformations(incident_id int) []byte{
 
 type IncidentComponentInfo struct {
 	ComponentId int
-	InvoiceId int
+	InvoiceId   int
 
-	IncidentId int
-	ResolvedBy string
-	CategoryId int
-	Name string
-	SerialNo string
+	IncidentId    int
+	UpdatedBy     string
+	CategoryId    int
+	Name          string
+	SerialNo      string
 	Warranty_till string
-	Description string
-	Active bool
+	Description   string
+	Active        bool
 }
 
 func IncidentAddComponent(incident_id int, resolvedBy string, categoryId int, component string, serialNo string, warranty string, description string) {
 	sess := SetupDB()
 
 	//select component id and invoice id on which incident happen ....============
-	c := IncidentComponentInfo {}
+	c := IncidentComponentInfo{}
 	sess.Select("incidents.component_id, components.invoice_id").
 		From("incidents").
 		Join("components", "components.id = incidents.component_id").
 		Where("incidents.id = ?", incident_id).
 		LoadStruct(&c)
-	//============================================================================
+		//============================================================================
 
-
-	//Add replaces components after resolved ....=================================
-		c.IncidentId = incident_id
-		c.ResolvedBy = resolvedBy
-		c.CategoryId = categoryId
-		c.Name = component
-		c.SerialNo = serialNo
-		c.Warranty_till = warranty
-		c.Description = description
-		c.Active = false
+		//Add replaces components after resolved ....=================================
+	c.IncidentId = incident_id
+	c.UpdatedBy = resolvedBy
+	c.CategoryId = categoryId
+	c.Name = component
+	c.SerialNo = serialNo
+	c.Warranty_till = warranty
+	c.Description = description
+	c.Active = false
 
 	_, err3 := sess.InsertInto("components").
 		Columns("name", "invoice_id", "serial_no", "warranty_till", "description", "category_id", "active").
@@ -246,7 +245,6 @@ func IncidentAddComponent(incident_id int, resolvedBy string, categoryId int, co
 		Exec()
 	CheckErr(err3)
 	//============================================================================
-
 
 	//===Add resolved date in incidents table after resolved component ===========
 	_, err5 := sess.Update("incidents").

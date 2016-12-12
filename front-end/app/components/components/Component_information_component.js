@@ -20,7 +20,6 @@ class Component_information extends Component {
 	}
 
 	renderDeccommission() {
-		console.log(this.props.props.components.Components.Deleted_at)
 		if(this.props.props.components.Components.Deleted_at == null ) {
 			return (
 				<div className="pull-right">

@@ -1,50 +1,50 @@
 package services
 
-import(
+import (
 	"encoding/json"
 	"time"
 )
 
 type AllInvoiceDetails struct {
-	Number string `json:"number"`
-	Description string `json:"description"`
-	Date string `json:"date"`
+	Number          string `json:"number"`
+	Description     string `json:"description"`
+	Date            string `json:"date"`
 	InvoicerDetails struct {
-		Name string `json:"name"`
+		Name    string `json:"name"`
 		Address string `json:"address"`
 		Contact string `json:"contact"`
 	} `json:"invoicer_details"`
 	ComponentDetails struct {
-		Name []string `json:"name"`
-		Description []string `json:"description"`
+		Name         []string `json:"name"`
+		Description  []string `json:"description"`
 		WarrantyTill []string `json:"warranty_till"`
-		SerialNo []string `json:"serial_no"`
-		Category []int `json:"category"`
+		SerialNo     []string `json:"serial_no"`
+		Category     []int    `json:"category"`
 	} `json:"component_details"`
 }
 
 type InvoiceDetails struct {
-	InvoiceNumber string
-	InvoicerName string
-	Invoicer_add string
+	InvoiceNumber    string
+	InvoicerName     string
+	Invoicer_add     string
 	Invoicer_contact string
-	Description string
-	InvoiceDate string
+	Description      string
+	InvoiceDate      string
 }
 
 type ComponentsInfo struct {
-	Name string
-	SerialNo string
-	Description string
+	Name         string
+	SerialNo     string
+	Description  string
 	WarrantyTill string
-	InvoiceId int64
-	CategoryId int
-	Active bool
+	InvoiceId    int64
+	CategoryId   int
+	Active       bool
 }
 
 func AddInvoice(details string) {
 	var m AllInvoiceDetails
-	err := json.Unmarshal([]byte(details), &m)//converting JSON Object to GO structure ...
+	err := json.Unmarshal([]byte(details), &m) //converting JSON Object to GO structure ...
 	CheckErr(err)
 	sess := SetupDB()
 	i := InvoiceDetails{}
@@ -83,9 +83,9 @@ func AddInvoice(details string) {
 		componentId, err2 := sess.Select("MAX(id)").
 			From("components").
 			ReturnInt64()
-			CheckErr(err2)
+		CheckErr(err2)
 
-//======insert in to machine_component table as blank entry ====================
+		//======insert in to machine_component table as blank entry ====================
 		type compo struct {
 			Component_id int64
 		}
@@ -95,20 +95,20 @@ func AddInvoice(details string) {
 			Columns("component_id").
 			Record(c).
 			Exec()
-//==============================================================================
+		//==============================================================================
 
 	}
 }
 
-type DisplayInvoice struct{
-	Id int
-	Invoice_number *string
-	Invoicer_name *string
+type DisplayInvoice struct {
+	Id                int
+	Invoice_number    *string
+	Invoicer_name     *string
 	Invoice_timestamp time.Time
-	Invoice_date string
-	Contact *string
-	Description *string
-	Address *string
+	Invoice_date      string
+	Contact           *string
+	Description       *string
+	Address           *string
 
 	Components []DisplayAllComponents
 }
@@ -137,10 +137,10 @@ func DisplayOneInvoice(invoiceId int) []byte {
 	invoiceDetails := DisplayInvoice{}
 	sess.Select("id, invoice_number, invoicer_name, invoice_date as Invoice_timestamp, invoicer_contact AS contact, description, invoicer_add AS address").
 		From("invoices").
-		Where("id = ?", invoiceId ).
+		Where("id = ?", invoiceId).
 		LoadStruct(&invoiceDetails)
-		t := invoiceDetails.Invoice_timestamp
-		invoiceDetails.Invoice_date = t.Format("2006-01-02")
+	t := invoiceDetails.Invoice_timestamp
+	invoiceDetails.Invoice_date = t.Format("2006-01-02")
 	//============================================================================
 
 	//==============components details related to perticuller invoice ============
@@ -155,8 +155,7 @@ func DisplayOneInvoice(invoiceId int) []byte {
 		Where("c.invoice_id = ?", invoiceId).
 		OrderDir("machine_components.created_at", false)
 
-		query.LoadStruct(&components)
-
+	query.LoadStruct(&components)
 
 	//extract only date from timestamp========
 	for i := 0; i < len(components); i++ {
@@ -164,7 +163,6 @@ func DisplayOneInvoice(invoiceId int) []byte {
 		components[i].Warranty_till = t.Format("2006-01-02")
 	}
 	//=========================================
-
 
 	result := removeDuplicates(components)
 	invoiceDetails.Components = result
@@ -191,6 +189,3 @@ func EditInvoice(id int, invoice string, invoicer string, address string, contac
 		Exec()
 	CheckErr(err)
 }
-
-
-

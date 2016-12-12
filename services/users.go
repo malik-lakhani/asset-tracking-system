@@ -7,23 +7,23 @@ import (
 )
 
 // sess *dbr.Session = SetupDB()
-type UserInformation struct	{
-	Id int
-	Name string
-	Machine_id *int
-	Machine_name *string
+type UserInformation struct {
+	Id            int
+	Name          string
+	Machine_id    *int
+	Machine_name  *string
 	Company_email string
-	Deleted_at time.Time
+	Deleted_at    time.Time
 }
 
 type UsersMachine struct {
-	User_id int64
+	User_id    int64
 	Machine_id string
 }
 
 type userInfo struct {
 	Name, Company_email, Machine_id, Machine_name string
-	Id int64
+	Id                                            int64
 }
 
 func AddNewUser(name string, email string, machineId string) []byte {
@@ -49,7 +49,7 @@ func AddNewUser(name string, email string, machineId string) []byte {
 		From("machines").
 		Where("id= ? ", machineId).
 		ReturnString()
-		CheckErr(err2)
+	CheckErr(err2)
 	m.Machine_name = machine
 
 	addUserMachine := UsersMachine{}
@@ -91,11 +91,11 @@ func DeleteUser(userIds string) {
 	sess := SetupDB()
 
 	//deleting mulitple users ======
-	for i := 0; i<len(ids); i++  {
+	for i := 0; i < len(ids); i++ {
 		_, err := sess.Update("users").
-		Set("deleted_at", "NOW()").
-		Where("id = ?", ids[i]).
-		Exec()
+			Set("deleted_at", "NOW()").
+			Where("id = ?", ids[i]).
+			Exec()
 		CheckErr(err)
 	}
 	//==============================
@@ -103,7 +103,7 @@ func DeleteUser(userIds string) {
 
 func DisplayUser(userId int) []byte {
 	sess := SetupDB()
-	userInfo := UserInformation {}
+	userInfo := UserInformation{}
 	err := sess.Select("users.id, users.name, users.company_email, users_machine.machine_id, machines.name as Machine_name").
 		From("users").
 		LeftJoin("users_machine", "users.id = users_machine.user_id").
@@ -125,7 +125,7 @@ func DisplayUsers(allUsers string) []byte { // Display one User's Information ..
 		LeftJoin("machines", "users_machine.machine_id = machines.id")
 
 	//display all users or active users only ...
-	if(allUsers == "false") {
+	if allUsers == "false" {
 		query.Where("users.deleted_at IS NULL").
 			LoadStruct(&usersInfo)
 	} else {

@@ -53,8 +53,9 @@ class Display_users extends Component {
 	filterUsers(val) {
 		this.setState({activeAll: val.value});
 		var all = false;
-		if(val.value == "all")
+		if(val.value == "all") {
 			all = true
+		}
 		if(this.state.activeAll != val.value)
 			this.props.actions.fetchUsers(all);
 	}
@@ -65,6 +66,11 @@ class Display_users extends Component {
 	}
 
 	render() {
+
+		let width = {
+			width: '500px'
+		}
+
 		let options = [
 			{ value: 'active', label: 'Active' },
 			{ value: 'all', label: 'All' }

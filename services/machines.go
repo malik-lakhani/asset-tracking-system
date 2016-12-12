@@ -7,10 +7,10 @@ import (
 	"time"
 )
 
-type MachineInfo struct{
-	Id int64
-	Name string
-	User *string
+type MachineInfo struct {
+	Id         int64
+	Name       string
+	User       *string
 	Deleted_at *time.Time
 }
 
@@ -52,11 +52,11 @@ func DeleteMachine(machineIds string) {
 	sess := SetupDB()
 
 	//deleting mulitple users ======
-	for i := 0; i<len(ids); i++  {
+	for i := 0; i < len(ids); i++ {
 		_, err := sess.Update("machines").
-		Set("deleted_at", "NOW()").
-		Where("id = ?", ids[i]).
-		Exec()
+			Set("deleted_at", "NOW()").
+			Where("id = ?", ids[i]).
+			Exec()
 		CheckErr(err)
 	}
 	//==============================
@@ -64,22 +64,22 @@ func DeleteMachine(machineIds string) {
 }
 
 func removeDuplicatesUser(elements []MachineInfo) []MachineInfo {
-		// Use map to record duplicates as we find them.
-		encountered := map[int64]bool{}
-		result := []MachineInfo{}
+	// Use map to record duplicates as we find them.
+	encountered := map[int64]bool{}
+	result := []MachineInfo{}
 
-		for v := range elements {
-	if encountered[elements[v].Id] == true {
+	for v := range elements {
+		if encountered[elements[v].Id] == true {
 			// Do not add duplicate.
-	} else {
+		} else {
 			// Record this element as an encountered element.
 			encountered[elements[v].Id] = true
 			// Append to result slice.
 			result = append(result, elements[v])
-	}
 		}
-		// Return the new slice.
-		return result
+	}
+	// Return the new slice.
+	return result
 }
 
 func DisplayMachines(allMachiens string) []byte {
@@ -93,9 +93,9 @@ func DisplayMachines(allMachiens string) []byte {
 		OrderDir("users_machine.created_at", false)
 
 	//display all machines or active machines only ...
-	if(allMachiens == "false") {
+	if allMachiens == "false" {
 		query.Where("machines.deleted_at IS NULL").
-					LoadStruct(&machinesInfo)
+			LoadStruct(&machinesInfo)
 	} else {
 		query.LoadStruct(&machinesInfo)
 	}
@@ -112,8 +112,8 @@ func DisplayMachine(id int) []byte { // Display Single machine's information ...
 
 	sess.Select("u.id, u.name, machines.name").
 		From("users u").
-			LeftJoin("users_machine", "u.id = users_machine.user_id").
-			LeftJoin("machines", "machines.id = users_machine.machine_id").
+		LeftJoin("users_machine", "u.id = users_machine.user_id").
+		LeftJoin("machines", "machines.id = users_machine.machine_id").
 		Where("u.id = 1").
 		LoadStruct(&machineInfo)
 
@@ -123,64 +123,64 @@ func DisplayMachine(id int) []byte { // Display Single machine's information ...
 }
 
 type AllComponents struct {
-	Id *int
-	Name *string
-	SerialNo *string
-	Description *string
-	Warranty *time.Time
+	Id            *int
+	Name          *string
+	SerialNo      *string
+	Description   *string
+	Warranty      *time.Time
 	Warranty_till string
-	Created_at *time.Time
-	AddOn string
+	Created_at    *time.Time
+	AddOn         string
 }
 
 type AllIncidents struct {
-	Id *int
-	LastUpdate *string
-	Title *string
+	Id          *int
+	LastUpdate  *string
+	Title       *string
 	Description *string
-	Status *string
-	Recorder *string
+	Status      *string
+	Recorder    *string
 }
 
 type PastUses struct {
-	Begin NullTime
+	Begin     NullTime
 	BeginDate string
-	End NullTime
-	EndDate string
-	User *string
+	End       NullTime
+	EndDate   string
+	User      *string
 }
 
 type AllInfoOfMachine struct {
-	Id int
-	Name string
-	Machine string
+	Id         int
+	Name       string
+	Machine    string
 	Created_at NullTime
 	UsingSince string
 
-	Components[] AllComponents
-	Incidents[] AllIncidents
-	PastUses[] PastUses
+	Components []AllComponents
+	Incidents  []AllIncidents
+	PastUses   []PastUses
 }
 
 // ========To Handle Null Time stamp from database...===========================
 
 type NullTime struct {
-		Time  time.Time
-		Valid bool // Valid is true if Time is not NULL
+	Time  time.Time
+	Valid bool // Valid is true if Time is not NULL
 }
 
 // Scan implements the Scanner interface.
 func (nt *NullTime) Scan(value interface{}) error {
-		nt.Time, nt.Valid = value.(time.Time)
-		return nil
+	nt.Time, nt.Valid = value.(time.Time)
+	return nil
 }
 
 // Value implements the driver Valuer interface.
 func (nt NullTime) Value() (driver.Value, error) {
-		if !nt.Valid {
-				return nil, nil
-		}
-		return nt.Time, nil
+	if !nt.Valid {
+		return nil, nil
+	}
+	return nt.Time, nil
 }
 
 //==============================================================================
@@ -191,15 +191,15 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 	machineInfo := AllInfoOfMachine{}
 	query2 := sess.Select("machines.id, machines.name AS Machine, users_machine.created_at, users.name, users.id AS UserId").
 		From("machines").
-		LeftJoin("users_machine","users_machine.machine_id = machines.id").
-		LeftJoin("users","users_machine.user_id = users.id").
+		LeftJoin("users_machine", "users_machine.machine_id = machines.id").
+		LeftJoin("users", "users_machine.user_id = users.id").
 		Where("machines.id = ? AND users_machine.deleted_at IS NULL", machineId)
-		query2.LoadStruct(&machineInfo)
+	query2.LoadStruct(&machineInfo)
 
 	//==================================
 
-		t := machineInfo.Created_at.Time
-		machineInfo.UsingSince = t.Format("2006-01-02")
+	t := machineInfo.Created_at.Time
+	machineInfo.UsingSince = t.Format("2006-01-02")
 
 	//all information of machine's components ===========
 	MachineComponents := []AllComponents{}
@@ -207,10 +207,10 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		From("components").
 		Join("machine_components", "machine_components.component_id = components.id")
 
-	query.Where("machine_components.machine_id = ? AND machine_components.deleted_at is NULL", machineId ).
+	query.Where("machine_components.machine_id = ? AND machine_components.deleted_at is NULL", machineId).
 		LoadStruct(&MachineComponents)
 
-	for i := 0; i < len (MachineComponents); i++ {
+	for i := 0; i < len(MachineComponents); i++ {
 		time := MachineComponents[i].Created_at
 		MachineComponents[i].AddOn = time.Format("2006-01-02")
 
@@ -233,13 +233,13 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 		Where("users_machine.machine_id = ?", machineId).
 		LoadStruct(&pastUses)
 
-		for i := 0; i < len(pastUses); i++ {
-			t2 := pastUses[i].Begin.Time
-			pastUses[i].BeginDate = t2.Format("2006-01-02")
+	for i := 0; i < len(pastUses); i++ {
+		t2 := pastUses[i].Begin.Time
+		pastUses[i].BeginDate = t2.Format("2006-01-02")
 
-			t3 := pastUses[i].End.Time
-			pastUses[i].EndDate = t3.Format("2006-01-02")
-		}
+		t3 := pastUses[i].End.Time
+		pastUses[i].EndDate = t3.Format("2006-01-02")
+	}
 
 	//merge all info of machine and it's components in single object=======
 	machineInfo.PastUses = pastUses
@@ -253,7 +253,7 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
 }
 
 type MachineComponents struct {
-	MachineId int
+	MachineId   int
 	ComponentId int
 }
 
@@ -278,7 +278,7 @@ func AddComponentsToMachine(machineId int, componentId int) {
 		Set("active", "true").
 		Where("id = ?", componentId).
 		Exec()
-		CheckErr(err3)
+	CheckErr(err3)
 }
 
 func RemoveComponentsFromMachine(machineId int, componentId int) {
@@ -301,8 +301,7 @@ func ChangeUserFromMachine(machineId int, userId int) {
 	sess := SetupDB()
 	_, err := sess.Update("users_machine").
 		Set("deleted_at", "NOW()").
-		Where("machine_id = ? AND user_id = ?" ,machineId, userId).
+		Where("machine_id = ? AND user_id = ?", machineId, userId).
 		Exec()
 	CheckErr(err)
 }
-

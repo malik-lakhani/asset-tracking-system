@@ -41,10 +41,12 @@ class Display_category extends Component {
 	filterCategory(val) {
 		this.setState({activeAll: val.value});
 		var all = false;
-		if(val.value == "all")
+		if(val.value == "all") {
 			all = true
-		if(this.state.activeAll != val.value)
+		}
+		if(this.state.activeAll != val.value) {
 			this.props.actions.fetchCategories(all);
+		}
 	}
 
 	componentDidMount() {

@@ -29,11 +29,13 @@ class Display_incidents extends Component {
 
 	filterIncidents(val) {
 		let all = false;
-		if(val.value == "all")
+		if(val.value == "all") {
 			all = true
+		}
 		this.setState({activeAll:val.value});
-		if(this.state.activeAll != val.value)
+		if(this.state.activeAll != val.value) {
 			this.props.actions.fetchIncidents(all);
+		}
 	}
 
 	componentDidMount() {
@@ -72,7 +74,7 @@ class Display_incidents extends Component {
 						<TableHeaderColumn width="300" dataSort={true} dataField="Description">Description</TableHeaderColumn>
 						<TableHeaderColumn width="160"  dataSort={true} dataField="Warranty_till" editable={false}>Warranty(YYYY-MM-DD)</TableHeaderColumn>
 						<TableHeaderColumn width="80"  dataSort={true} dataField="Recorder">Recorder</TableHeaderColumn>
-						<TableHeaderColumn width="60"  dataSort={true} dataField="Status" editable={false}>Status</TableHeaderColumn>
+						<TableHeaderColumn width="80"  dataSort={true} dataField="Status" editable={false}>Status</TableHeaderColumn>
 					</BootstrapTable>);
 		} else {
 			table = (<div><div className="panel b block-center text-center"> <h3> You do not have any Data </h3> </div> </div>)

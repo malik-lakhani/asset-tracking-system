@@ -187,7 +187,7 @@ export const editCategory = ((row) => {
 			})).then(function(response) {
 					if(response.status == 200) {
 						showNotification("info", "Edited Successfully ...")
-					} else
+					} else {
 						showNotification("error", response.err)
 					}
 			});
@@ -648,6 +648,7 @@ export const addReplacedComponent = ((incidentId, resolvedBy, description, compo
 		}))
 			.then(function (response) {
 				hashHistory.push(`/incidents/${incidentId}`)
+				this.props.dispatch(push(location));
 				resetStateIncidents(dispatch)
 			})
 			.catch(function (err) {

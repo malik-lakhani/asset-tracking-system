@@ -125,7 +125,7 @@ class Incident_information extends Component {
 									<label >Description :</label>
 								</div>
 								<div className = "col-lg-8 fontStyle">
-									<textarea className="textAreaWidth" value = {t.Description} > </textarea>
+									<textarea className="textAreaWidth" readOnly={ true } value = {t.Description} > </textarea>
 								</div>
 							</div>
 						</div>
