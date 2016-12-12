@@ -1,21 +1,21 @@
 package main
 
 import (
+	_ "github.com/gocraft/dbr"
+	_ "github.com/lib/pq"
+	"github.com/rs/cors"
+	"github.com/zenazn/goji"
+	"github.com/zenazn/goji/web"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	_"github.com/lib/pq"
-	"github.com/zenazn/goji"
-	_"github.com/gocraft/dbr"
-	"github.com/zenazn/goji/web"
-	"github.com/rs/cors"
 
 	"./services"
 )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	all := r.URL.Query().Get("all")//either display all users or only active users ...
-	if all != "true"{//true for display all users ...
+	all := r.URL.Query().Get("all") //either display all users or only active users ...
+	if all != "true" {              //true for display all users ...
 		all = "false" // false for display only active users ...
 	} // default it will display active users only ...
 	b := services.DisplayUsers(all)
@@ -56,7 +56,7 @@ func displayOneUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func machinesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	all := r.URL.Query().Get("all") //either display all machines or only active machines ...
-	if all != "true"{
+	if all != "true" {
 		all = "false"
 	}
 	b := services.DisplayMachines(all) //PATH : /services/machines.go
@@ -93,7 +93,7 @@ func machineComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(c.URLParams["machine_id"]) // converting from string to int ...
 	services.CheckErr(err)
 	all := r.URL.Query().Get("all") //either display all components or only active components ...
-	if all != "true"{
+	if all != "true" {
 		all = "false"
 	}
 	response := services.DisplayMachineComponents(id, all) //PATH : /services/machines.go
@@ -160,8 +160,8 @@ func oneInvoiceDetailsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func incidentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	all := r.URL.Query().Get("all")//either display all users or only active users ...
-	if all != "true"{//true for display all incidents ...
+	all := r.URL.Query().Get("all") //either display all users or only active users ...
+	if all != "true" {              //true for display all incidents ...
 		all = "false" // false for display only active incidents ...
 	} // default it will display active incidents only ...
 	response := services.DisplayIncidents(all) //PATH : /services/incidents.go
@@ -231,7 +231,7 @@ func incidentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	all := r.URL.Query().Get("all") //either display all components or only active components ...
-	if all != "true"{
+	if all != "true" {
 		all = "false"
 	}
 	response := services.DisplayComponents(all) //PATH : /services/components.go
@@ -256,8 +256,8 @@ func componentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func categoriesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	all := r.URL.Query().Get("all")//either display all users or only active users ...
-	if all != "true"{//true for display all users ...
+	all := r.URL.Query().Get("all") //either display all users or only active users ...
+	if all != "true" {              //true for display all users ...
 		all = "false" // false for display only active users ...
 	} // default it will display active users only ...
 	b := services.DisplayCategories(all)
@@ -291,16 +291,16 @@ func deleteCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-//======= Middleware for AJAX Requsests ========================================
+	//======= Middleware for AJAX Requsests ========================================
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
+		AllowedOrigins:   []string{"*"},
 		AllowCredentials: true,
-		AllowedMethods: []string{"GET", "POST", "PATCH", "DELETE"},
-		AllowedHeaders: []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PATCH", "DELETE"},
+		AllowedHeaders:   []string{"*"},
 	})
 
 	goji.Use(c.Handler)
-//==============================================================================
+	//==============================================================================
 
 	//dealing with users ...
 	goji.Get("/users", usersHandler)

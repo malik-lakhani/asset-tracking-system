@@ -14,7 +14,7 @@ func CheckErr(err error) {
 }
 
 type Configuration struct {
-	DbName string
+	DbName   string
 	UserName string
 }
 
@@ -22,13 +22,13 @@ type Configuration struct {
 func DbConnectionString() string {
 	var path string
 	Go_Env := (os.Getenv("GO_ENV2"))
-	if (Go_Env == "") {
+	if Go_Env == "" {
 		Go_Env = "settings"
-		path = "./dbconfig/test-files/"+ Go_Env +".json"
-	} else if(Go_Env == "production") {
-		path = "../dbconfig/test-files/"+ Go_Env +".json"
-	} else if(Go_Env == "testing") {
-		path = "./dbconfig/test-files/"+ Go_Env +".json"
+		path = "./dbconfig/test-files/" + Go_Env + ".json"
+	} else if Go_Env == "production" {
+		path = "../dbconfig/test-files/" + Go_Env + ".json"
+	} else if Go_Env == "testing" {
+		path = "./dbconfig/test-files/" + Go_Env + ".json"
 	}
 	connectionString := dbconfig.PostgresConnectionString(path, "disable") // second parameter for sslmode
 	return connectionString

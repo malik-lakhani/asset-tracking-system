@@ -7,10 +7,10 @@ import (
 )
 
 type Categories struct {
-	Id int64
-	Category string
+	Id          int64
+	Category    string
 	Description *string
-	Deleted_at *time.Time
+	Deleted_at  *time.Time
 }
 
 func AddNewCategory(category string, descritpion string) []byte {
@@ -53,11 +53,11 @@ func DeleteCategory(CategoryIds string) {
 	sess := SetupDB()
 
 	//deleting mulitple users ======
-	for i := 0; i<len(ids); i++  {
+	for i := 0; i < len(ids); i++ {
 		_, err := sess.Update("categories").
-		Set("deleted_at", "NOW()").
-		Where("id = ?", ids[i]).
-		Exec()
+			Set("deleted_at", "NOW()").
+			Where("id = ?", ids[i]).
+			Exec()
 		CheckErr(err)
 	}
 	//==============================
@@ -71,7 +71,7 @@ func DisplayCategories(allCategories string) []byte { // Display one User's Info
 		From("categories")
 
 	//display all users or active users only ...
-	if(allCategories == "false") {
+	if allCategories == "false" {
 		query.Where("deleted_at IS NULL").
 			LoadStruct(&categories)
 	} else {

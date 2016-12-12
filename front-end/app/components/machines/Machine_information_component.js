@@ -40,7 +40,7 @@ class Machine_information extends Component {
 		let PastUses = [];
 		let Components = [];
 		let Incidents = [];
-		console.log(this.props)
+
 		if(this.props.props.machines.MachineInfo.Machine) {
 			MachineName = this.props.props.machines.MachineInfo.Machine;
 			CurrentUser = this.props.props.machines.MachineInfo.Name;
@@ -49,7 +49,9 @@ class Machine_information extends Component {
 			Components = this.props.props.machines.MachineInfo.Components;
 			Incidents = this.props.props.machines.MachineInfo.Incidents;
 		}
-
+		const options = {
+    	sizePerPage: 5  // Showing 5 for the size per page as default
+  	};
 		const { handleSubmit, pristine, reset, submitting } = this.props
 		return (
 
@@ -70,7 +72,7 @@ class Machine_information extends Component {
 						<h4><b> Component(s) </b></h4>
 					</div>
 					<div>
-						<BootstrapTable data={ Components } pagination={true} search={true} striped={true} hover={true}>
+						<BootstrapTable data={ Components } pagination={true} options={ options } search={true} striped={true} hover={true} paginationSize="5" >
 							<TableHeaderColumn width="20"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
 							<TableHeaderColumn width="50" dataSort={true} dataField="SerialNo">Serial</TableHeaderColumn>
 							<TableHeaderColumn width="100" dataSort={true} dataField="Name">Name</TableHeaderColumn>
@@ -84,7 +86,7 @@ class Machine_information extends Component {
 						<h4><b> Incident(s) </b></h4>
 					</div>
 					<div>
-						<BootstrapTable data={ Incidents } pagination={true} search={true} striped={true} hover={true}>
+						<BootstrapTable data={ Incidents } pagination={true} options={ options } search={true} striped={true} hover={true}>
 						<TableHeaderColumn width="50"  dataSort={true} dataField="Id" isKey={true}>#</TableHeaderColumn>
 						<TableHeaderColumn width="180" dataSort={true} dataField="Title">Title</TableHeaderColumn>
 						<TableHeaderColumn width="200" dataSort={true} dataField="Description">Description</TableHeaderColumn>
@@ -96,7 +98,7 @@ class Machine_information extends Component {
 						<h4><b> Past Uses History </b></h4>
 					</div>
 					<div>
-						<BootstrapTable data={ PastUses } pagination={true} search={true} striped={true} hover={true}>
+						<BootstrapTable data={ PastUses } options={ options } pagination={true} search={true} striped={true} hover={true}>
 						<TableHeaderColumn  dataSort={true} dataField="BeginDate" isKey={true}>Begin</TableHeaderColumn>
 						<TableHeaderColumn  dataSort={true} dataField="EndDate">End</TableHeaderColumn>
 						<TableHeaderColumn  dataSort={true} dataField="User">User</TableHeaderColumn>

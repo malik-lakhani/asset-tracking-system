@@ -193,7 +193,7 @@ class Add_incident_update extends Component {
 								<HelpBlock className="errFontStyle"> {this.state.categoryErr} </HelpBlock>
 							</div>
 							<div className="modal-body">
-								<DatePicker className="textboxSize" name="Warranty" id="warranty" selected={ warrantyDate } onChange={this.handleWarrantyDateChange} />
+								<DatePicker className="textboxSize" name="Warranty" id="warranty" dateFormat="DD/MM/YYYY" selected={ warrantyDate } onChange={this.handleWarrantyDateChange} />
 							</div>
 							<div className="modal-body">
 								<textarea name="Description" id="description" className="textAreaWidth" onChange={ this.handleFields } placeholder="Description of Component"/>

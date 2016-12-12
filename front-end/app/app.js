@@ -7,15 +7,14 @@ import { Provider } from 'react-redux'
 import rootReducer  from './reducers/rootReducer'
 import routes from './config/routes';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
-import { createHistory } from 'history';
+// import createLogger from 'redux-logger';
 
 var options = {
   prefix: "http://localhost:8000"
 }
 
-const logger = createLogger();
-const createStoreWithMiddleware = applyMiddleware(thunk.withExtraArgument(options), logger)(createStore);
+// const logger = createLogger();
+const createStoreWithMiddleware = applyMiddleware(thunk.withExtraArgument(options))(createStore);
 const store = createStoreWithMiddleware(rootReducer);
 
 

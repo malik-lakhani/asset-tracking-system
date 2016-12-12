@@ -1,41 +1,41 @@
 package services
 
-import(
+import (
 	"encoding/json"
 	"time"
 )
 
 type DisplayAllComponents struct {
-	Id int
-	Serial_no string
-	Name string
-	Machine *string
-	Invoice_id int
-	Category *string
+	Id                 int
+	Serial_no          string
+	Name               string
+	Machine            *string
+	Invoice_id         int
+	Category           *string
 	Warranty_timestamp *time.Time
-	Warranty_till string
-	Description string
-	Active bool
-	Deleted_at *time.Time
+	Warranty_till      string
+	Description        string
+	Active             bool
+	Deleted_at         *time.Time
 }
 
 func removeDuplicates(elements []DisplayAllComponents) []DisplayAllComponents {
-		// Use map to record duplicates as we find them.
-		encountered := map[int]bool{}
-		result := []DisplayAllComponents{}
+	// Use map to record duplicates as we find them.
+	encountered := map[int]bool{}
+	result := []DisplayAllComponents{}
 
-		for v := range elements {
-	if encountered[elements[v].Id] == true {
+	for v := range elements {
+		if encountered[elements[v].Id] == true {
 			// Do not add duplicate.
-	} else {
+		} else {
 			// Record this element as an encountered element.
 			encountered[elements[v].Id] = true
 			// Append to result slice.
 			result = append(result, elements[v])
-	}
 		}
-		// Return the new slice.
-		return result
+	}
+	// Return the new slice.
+	return result
 }
 
 func DisplayComponents(all string) []byte {
@@ -50,7 +50,7 @@ func DisplayComponents(all string) []byte {
 		OrderDir("machine_components.created_at", false)
 
 	// display all components or active components only ...
-	if(all == "false") {
+	if all == "false" {
 		query.Where("c.deleted_at IS Null").
 			LoadStruct(&components)
 	} else {
@@ -75,13 +75,13 @@ func FilterComponents(category_id int) []byte {
 	components := []DisplayAllComponents{}
 
 	query := sess.Select("c.id, c.invoice_id, c.serial_no, c.name, c.active, c.description, c.warranty_till as Warranty_timestamp, machines.name as Machine, categories.category").
-	From("components c").
+		From("components c").
 		LeftJoin("machine_components", "c.id = machine_components.component_id").
 		LeftJoin("machines", "machines.id = machine_components.machine_id").
 		Join("categories", "c.category_id = categories.id")
 
-		query.Where("c.deleted_at IS NULL AND c.category_id::text like '%%?%%'", category_id).
-			LoadStruct(&components)
+	query.Where("c.deleted_at IS NULL AND c.category_id::text like '%%?%%'", category_id).
+		LoadStruct(&components)
 
 	//extract only date from timestamp========
 	for i := 0; i < len(components); i++ {
@@ -95,49 +95,48 @@ func FilterComponents(category_id int) []byte {
 }
 
 type ComponentLog struct {
-	Id int
-	Machine string
+	Id         int
+	Machine    string
 	Created_at NullTime
-	Added_at string
+	Added_at   string
 	Deleted_at NullTime
 	Removed_at string
 }
 
 type DisplayComponentInfo struct {
-	Incidents []Incidents
+	Incidents    []Incidents
 	ComponentLog []ComponentLog
 
-	User User
-	Machine Machine
+	User                 User
+	Machine              Machine
 	Machine_component_id int
-	Invoice_id int
-	Invoice_number string
-	Component string
-	Description string
-	Active string
-	Status string
-	Warranty_timestamp time.Time
-	Warranty_till string
-	Deleted_at *time.Time
-
+	Invoice_id           int
+	Invoice_number       string
+	Component            string
+	Description          string
+	Active               string
+	Status               string
+	Warranty_timestamp   time.Time
+	Warranty_till        string
+	Deleted_at           *time.Time
 }
 
 type Incidents struct {
-	Id int
-	Title string
+	Id          int
+	Title       string
 	Description string
-	Recorder string
-	Status string
+	Recorder    string
+	Status      string
 }
 
 type Machine struct {
-	Id int
-	Name string
+	Id                   int
+	Name                 string
 	Machine_component_id int
 }
 
 type User struct {
-	Id int
+	Id   int
 	Name string
 }
 
@@ -161,12 +160,12 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	CheckErr(err)
 
 	//extract only date from timestamp========
-		t := components.Warranty_timestamp
-		components.Warranty_till = t.Format("2006-01-02")
+	t := components.Warranty_timestamp
+	components.Warranty_till = t.Format("2006-01-02")
 	//================================
 
 	components.Status = "Active"
-	if(components.Active == "false"){
+	if components.Active == "false" {
 		components.Status = "Not Active"
 	}
 
@@ -181,21 +180,21 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	machine := Machine{}
 	sess.Select("machines.id, machines.Name, machine_components.id AS Machine_component_id").
 		From("machines").
-		Join("machine_components","machine_components.machine_id = machines.id").
+		Join("machine_components", "machine_components.machine_id = machines.id").
 		Where("machine_components.Component_id = ? AND machine_components.deleted_at IS NULL", ComponentId).
 		OrderDir("machine_components.id", false).
 		Limit(1).
 		LoadStruct(&machine)
 
 	//Get User's Information owned machine to which component connected if owned...
-	if(machine.Name != "") {
+	if machine.Name != "" {
 		user := User{}
 		sess.Select("users.id, users.name").
 			From("users").
 			LeftJoin("users_machine", "users.id = users_machine.user_id").
 			Where("users_machine.machine_id = ?", machine.Id).
 			LoadStruct(&user)
-			components.User = user
+		components.User = user
 	}
 
 	//===== Will Give entire history of component ================================
@@ -226,10 +225,3 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	CheckErr(err5)
 	return b
 }
-
-
-
-
-
-
-
