@@ -8,6 +8,7 @@ Internal Assets Tracking System for Maintain different Components.
 * Go 1.6
 * [Glide](https://github.com/Masterminds/glide) - Package manager for Go
 * PostgreSQL 9.4.4+
+* npm
 
 ## Run postgres inside docker container from project directory
 ```
@@ -15,6 +16,9 @@ docker run -d -it -v /Users/ashwin/cantaloupe/src/github.com/improwised/cantalou
 ```
 
 ## Installation
+
+### Back - end
+
 * Setup go workspace by following this [Guide](https://golang.org/doc/code.html#Organization)
 * Set Go vendor flag. Add the following to your `.bashrc` or `.zshrc` along with `$GOPATH` above
 ```
@@ -32,10 +36,26 @@ $ create database cantaloupe
 ```
 $ go run ./db/migration.go
 ```
+
+### Front - end
+
+* switch to front-end directory.
+
+* Run following commands to download dependencies.
+```
+    $ npm init
+
+    $ npm install
+```
+
+* start server by $ npm start
+
+* access system on port 8080
+
 ## Testing
 
 TODO: How to run tests
-s
+
 Run following command from cantaloupe
 ```
 GO_ENV2=testing go test

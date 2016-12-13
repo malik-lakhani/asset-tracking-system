@@ -52,7 +52,7 @@ func DeleteCategory(CategoryIds string) {
 	ids := strings.Split(CategoryIds, ",")
 	sess := SetupDB()
 
-	//deleting mulitple users ======
+	//deleting mulitple categories ======
 	for i := 0; i < len(ids); i++ {
 		_, err := sess.Update("categories").
 			Set("deleted_at", "NOW()").
@@ -64,13 +64,13 @@ func DeleteCategory(CategoryIds string) {
 
 }
 
-func DisplayCategories(allCategories string) []byte { // Display one User's Information ..
+func DisplayCategories(allCategories string) []byte { // Display one category ..
 	sess := SetupDB()
 	categories := []Categories{}
 	query := sess.Select("id, category, description").
 		From("categories")
 
-	//display all users or active users only ...
+	//display all categories or active categories only ...
 	if allCategories == "false" {
 		query.Where("deleted_at IS NULL").
 			LoadStruct(&categories)
