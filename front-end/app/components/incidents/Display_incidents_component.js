@@ -9,6 +9,13 @@ function incidentInformation(cell, row) {
 	return <Link to={`/incidents/${row.Id}`}>{ cell }</Link>
 }
 
+function Validator(value) {
+	if(!value) {
+		return "*required";
+	}
+	return true;
+}
+
 let Components = [];
 let ComponentIds = [];
 class Display_incidents extends Component {

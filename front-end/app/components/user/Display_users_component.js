@@ -14,7 +14,7 @@ var selectRowProp = {
 
 function Validator(value){
 	if(!value){
-		return '  *'
+		return '*required'
 	}
 	return true;
 }
@@ -63,6 +63,7 @@ class Display_users extends Component {
 	componentDidMount() {
 		this.props.actions.fetchUsers(false);
 		this.props.actions.fetchMachines(false);
+		$('.modal-content').css("width", "500px");
 	}
 
 	render() {

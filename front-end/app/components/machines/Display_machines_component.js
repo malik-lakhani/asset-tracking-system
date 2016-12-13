@@ -7,7 +7,7 @@ import './styles.css';
 
 function Validator(value){
 	if(!value){
-		return "*"
+		return "*required"
 	}
 	return true;
 }
@@ -57,6 +57,7 @@ class Display_machines extends Component {
 	componentDidMount() {
 		this.props.actions.fetchMachines(false, this.props.dispatch);
 		this.props.actions.fetchUsers(false, this.props.dispatch);
+		$('.modal-content').css("width", "400px");
 	}
 
 	render() {

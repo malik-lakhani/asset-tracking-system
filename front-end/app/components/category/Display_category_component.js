@@ -8,7 +8,7 @@ import './styles.css';
 
 function Validator(value){
 	if(!value){
-		return "*";
+		return "*required";
 	}
 	return true;
 }
@@ -51,6 +51,7 @@ class Display_category extends Component {
 
 	componentDidMount() {
 		this.props.actions.fetchCategories(false);
+		$('.modal-content').css("width", "500px");
 	}
 
 	render() {

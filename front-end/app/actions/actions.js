@@ -644,11 +644,13 @@ export const addReplacedComponent = ((incidentId, resolvedBy, description, compo
 			resolvedBy: resolvedBy,
 			component: component,
 			category: category,
-			warranty: warranty.value
+			warranty: warranty.value,
+			serialNo: serialNo
 		}))
 			.then(function (response) {
 				hashHistory.push(`/incidents/${incidentId}`)
-				this.props.dispatch(push(location));
+				location.reload()
+				// this.props.dispatch(push(location));
 				resetStateIncidents(dispatch)
 			})
 			.catch(function (err) {
