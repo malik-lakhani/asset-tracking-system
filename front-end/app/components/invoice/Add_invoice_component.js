@@ -141,7 +141,7 @@ class Add_invoice extends Component {
 		return (
 			<div >
 				<form onSubmit={ this.handleSubmit }>
-					<button className="btn btn-info " >Save</button>
+					<button className="btn btn-info floatRight" >Save</button>
 				</form>
 
 				<div>

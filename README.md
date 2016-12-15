@@ -36,6 +36,12 @@ $ create database cantaloupe
 ```
 $ go run ./db/migration.go
 ```
+* Run project from cantaloupe
+```
+go run main.go
+```
+* access system on port 8000
+
 
 ### Front - end
 
