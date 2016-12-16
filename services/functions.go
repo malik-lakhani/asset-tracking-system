@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/improwised/cantaloupe/dbconfig"
-	"github.com/improwised/cantaloupe/vendor/github.com/gocraft/dbr"
+	"github.com/gocraft/dbr"
 )
 
 func CheckErr(err error) {

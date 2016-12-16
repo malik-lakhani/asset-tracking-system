@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"./services"
+	"github.com/improwised/cantaloupe/services"
 )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
