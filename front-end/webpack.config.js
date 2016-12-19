@@ -5,9 +5,9 @@ module.exports = {
 	devtool: 'eval',
 	entry: './app/App.js',
 	output: {
-	 path:'public/',
+	 path:'',
 	 filename: 'bundle.js',
-	 publicPath: 'public/'
+	 publicPath: ''
  },
 	//
 	resolve: {
