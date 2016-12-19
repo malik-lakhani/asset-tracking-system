@@ -2,7 +2,6 @@ package services
 
 import (
 	"os"
-
 	"github.com/improwised/cantaloupe/dbconfig"
 	"github.com/gocraft/dbr"
 )
@@ -34,9 +33,17 @@ func DbConnectionString() string {
 	return connectionString
 }
 
-func SetupDB() *dbr.Session {
+func DbConneection() *dbr.Connection {
 	connectionString := DbConnectionString()
 	conn, _ := dbr.Open("postgres", connectionString, nil)
+	return conn
+}
+
+var conn *dbr.Connection
+func SetupDB() *dbr.Session {
+	if(conn == nil) {
+		conn = DbConneection()
+	}
 
 	// create a session for each business unit of execution
 	sess := conn.NewSession(nil)
