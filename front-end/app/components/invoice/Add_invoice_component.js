@@ -143,6 +143,7 @@ class Add_invoice extends Component {
 				<form onSubmit={ this.handleSubmit }>
 					<button className="btn btn-info floatRight" >Save</button>
 				</form>
+				<button className="btn btn-success pull-right fixPosition" onClick={this.addInputField}> Add Component </button>
 
 				<div>
 				<h2 className="center"> Add Invoice </h2>
@@ -186,7 +187,7 @@ class Add_invoice extends Component {
 
 				<div className="setWidth">
 					<label className="control-label text-center">Components </label>
-					<button className="btn btn-success pull-right" onClick={this.addInputField}> Add Component </button>
+
 					<br/>
 					<HelpBlock className="center errFontStyle"> { this.state.componentErr } </HelpBlock>
 					<br/>

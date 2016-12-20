@@ -68,3 +68,9 @@
 .marginRight {
 	margin-right: 60px;
 }
+
+.fixPosition {
+	position: fixed;
+	right: 93px;
+	margin-right: 10px
+}
