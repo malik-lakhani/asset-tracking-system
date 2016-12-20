@@ -454,16 +454,16 @@ export const addInvoice = ((data) => {
 	let category = [];
 
 	for (let i=0; i< data.data.length; i++ ) {
-			serialNos[i] = data.data[i]["serial_" + i]
-			names[i] = data.data[i]["component_" + i]
-			//if warranty date not selected for component, it will taken date of today ...
-			if(data.data[i]["date_" + i] == undefined) {
-				data.data[i]["date_" + i] = moment();
-			}
-			warrantyDate[i] = data.data[i]["date_" + i].toDate();
-			descriptions[i] = data.data[i]["description_" + i]
-			category[i] = data.data[i]["category_" + i]
+		serialNos[i] = data.data[i]["serial_" + i]
+		names[i] = data.data[i]["component_" + i]
+		//if warranty date not selected for component, it will taken date of today ...
+		if(data.data[i]["date_" + i] == undefined) {
+			data.data[i]["date_" + i] = moment();
 		}
+		warrantyDate[i] = data.data[i]["date_" + i].toDate();
+		descriptions[i] = data.data[i]["description_" + i]
+		category[i] = data.data[i]["category_" + i]
+	}
 
 	let invoicer_details = {
 		name: data.invoicer,
@@ -506,17 +506,49 @@ export const editInvoice = (Id, data) => {
 		date = data.Invoice_date.format()
 	}
 
+	let serialNos = [];
+	let names = [];
+	let warrantyDate = [];
+	let descriptions = [];
+	let category = [];
+
+	for (let i=0; i< data.data.length; i++ ) {
+		serialNos[i] = data.data[i]["serial_" + i]
+		names[i] = data.data[i]["component_" + i]
+		//if warranty date not selected for component, it will taken date of today ...
+		if(data.data[i]["date_" + i] == undefined) {
+			data.data[i]["date_" + i] = moment();
+		}
+		warrantyDate[i] = data.data[i]["date_" + i].toDate();
+		descriptions[i] = data.data[i]["description_" + i]
+		category[i] = data.data[i]["category_" + i]
+	}
+
+	let invoicer_details = {
+		name: data.invoicer,
+		address: data.address,
+		contact: data.contact
+	}
+
+	let component_details = {
+		serial_no: serialNos,
+		name: names,
+		warranty_till: warrantyDate,
+		description: descriptions,
+		category: category
+	}
+
+	let invoice = {
+		number: data.invoice,
+		description: data.description,
+		date: data.Invoice_date,
+		invoicer_details: invoicer_details,
+		component_details: component_details
+	}
+
 	return function( dispatch, getState, options) {
 		let url = `${options.prefix}/invoices/${Id}`;
-		axios.patch(url,
-		querystring.stringify({
-			'invoice' : data.invoice,
-			'invoicer' : data.invoicer,
-			'address' : data.address,
-			'contact': data.contact,
-			'description' : data.description,
-			'date' : date
-		}))
+		axios.patch(url, invoice)
 		.then(function(response) {
 			hashHistory.push(`/invoices`)
 			showNotification("info", "Edited Successfully ...")

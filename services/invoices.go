@@ -96,7 +96,6 @@ func AddInvoice(details string) {
 			Record(c).
 			Exec()
 		//==============================================================================
-
 	}
 }
 
@@ -174,18 +173,64 @@ func DisplayOneInvoice(invoiceId int) []byte {
 	return b
 }
 
-func EditInvoice(id int, invoice string, invoicer string, address string, contact string, description string, date string) {
+func EditInvoice(id int64, details string) {
 	sess := SetupDB()
 
-	_, err := sess.Update("invoices").
-		Set("invoice_number", invoice).
-		Set("invoicer_name", invoicer).
-		Set("invoicer_add", address).
-		Set("invoicer_contact", contact).
-		Set("description", description).
-		Set("invoice_date", date).
+	var m AllInvoiceDetails
+	err := json.Unmarshal([]byte(details), &m) //converting JSON Object to GO structure ...
+	CheckErr(err)
+
+	i := InvoiceDetails{}
+	i.InvoiceNumber = m.Number
+	i.InvoicerName = m.InvoicerDetails.Name
+	i.Invoicer_add = m.InvoicerDetails.Address
+	i.Invoicer_contact = m.InvoicerDetails.Contact
+	i.Description = m.Description
+	i.InvoiceDate = m.Date
+
+	_, err2 := sess.Update("invoices").
+		Set("invoice_number", i.InvoiceNumber).
+		Set("invoicer_name", i.InvoicerName).
+		Set("invoicer_add", i.Invoicer_add ).
+		Set("invoicer_contact", i.Invoicer_contact).
+		Set("description", i.Description).
+		Set("invoice_date", i.InvoiceDate).
 		Set("modified_at", "NOW()").
 		Where("id = ?", id).
 		Exec()
-	CheckErr(err)
+	CheckErr(err2)
+
+	c := ComponentsInfo{}
+	c.InvoiceId = id
+	c.Active = false
+	for i := 0; i < len(m.ComponentDetails.Name); i++ {
+		c.Name = m.ComponentDetails.Name[i]
+		c.SerialNo = m.ComponentDetails.SerialNo[i]
+		c.CategoryId = m.ComponentDetails.Category[i]
+		c.Description = m.ComponentDetails.Description[i]
+		c.WarrantyTill = m.ComponentDetails.WarrantyTill[i]
+		_, err3 := sess.InsertInto("components").
+			Columns("invoice_id", "serial_no", "name", "category_id", "warranty_till", "description", "active").
+			Record(c).
+			Exec()
+		CheckErr(err3)
+
+		componentId, err4 := sess.Select("MAX(id)").
+			From("components").
+			ReturnInt64()
+		CheckErr(err4)
+
+		//======insert in to machine_component table as blank entry ====================
+		type compo struct {
+			Component_id int64
+		}
+		c := compo{}
+		c.Component_id = componentId
+		sess.InsertInto("machine_components").
+			Columns("component_id").
+			Record(c).
+			Exec()
+		//==============================================================================
+
+	}
 }

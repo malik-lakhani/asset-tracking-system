@@ -1,15 +1,15 @@
 package main
 
 import (
+	"io/ioutil"
+	"net/http"
+	"strconv"
+
 	_ "github.com/gocraft/dbr"
 	_ "github.com/lib/pq"
 	"github.com/rs/cors"
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
-	"io/ioutil"
-	"net/http"
-	"strconv"
-
 	"github.com/improwised/cantaloupe/services"
 )
 
@@ -140,15 +140,11 @@ func addInvoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func editInvoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-	invoice_id, err := strconv.Atoi(c.URLParams["invoice_id"]) // converting from string to int ...
+	invoice_id, err := strconv.ParseInt(c.URLParams["invoice_id"], 10, 64) // converting from string to int64 ...
 	services.CheckErr(err)
-	invoice := r.FormValue("invoice")
-	invoicer := r.FormValue("invoicer")
-	address := r.FormValue("address")
-	contact := r.FormValue("contact")
-	description := r.FormValue("description")
-	date := r.FormValue("date")
-	services.EditInvoice(invoice_id, invoice, invoicer, address, contact, description, date) //PATH : /services/invoices.go
+	body, err3 := ioutil.ReadAll(r.Body) // read all dara of form ...
+	services.CheckErr(err3)
+	services.EditInvoice(invoice_id, string(body)) //PATH : /services/invoices.go
 }
 
 func oneInvoiceDetailsHandler(c web.C, w http.ResponseWriter, r *http.Request) {

@@ -14,6 +14,7 @@ class Edit_invoice extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			inputs :[],
 			date: moment(),
 
 			invoiceErr:'',
@@ -26,16 +27,52 @@ class Edit_invoice extends Component {
 		this.handleFields = this.handleFields.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleInvoiceDateChange = this.handleInvoiceDateChange.bind(this);
+		this.addInputField = this.addInputField.bind(this);
+		this.removeInputField = this.removeInputField.bind(this);
+		this.handleCategoryChange = this.handleCategoryChange.bind(this);
+		this.handleDateChange = this.handleDateChange.bind(this);
+		this.handleFieldsComponent = this.handleFieldsComponent.bind(this);
 	}
 
 	handleInvoiceDateChange(date) {
 		this.setState({date: date});
 		let id = `Invoice_date`
 		this.props.actions.setFieldForInvoice(id, date);
+		this.props.actions.fetchCategories(false, this.props.dispatch);
+	}
+
+	handleFieldsComponent(event) {
+		this.props.actions.setFieldForComponent(event.target.id, event.target.value);
 	}
 
 	handleFields(event) {
 		this.props.actions.setFieldForInvoice(event.target.id, event.target.value);
+	}
+
+	handleDateChange(componentId, date) {
+		this.setState({startDate: date});
+		let id = `date_${ componentId }`
+		this.props.actions.setFieldForComponent(id, date);
+
+	}
+
+	handleCategoryChange(componentId, event) {
+		this.setState({category: event.label});
+		let id = `category_${ componentId }`
+		this.props.actions.setFieldForComponent(id, event.value);
+	}
+
+	addInputField(e) {
+		e.preventDefault();
+		var inputs = this.state.inputs;
+		inputs.push({name: null});
+		this.setState({inputs : inputs});
+	}
+
+	removeInputField(index) {
+		var inputs = this.state.inputs;
+		inputs.splice(index, 1);
+		this.setState({inputs : inputs});
 	}
 
 	handleSubmit(e) {
@@ -68,10 +105,10 @@ class Edit_invoice extends Component {
 	componentDidMount() {
 		let { invoiceId } = this.props.params;
 		this.props.actions.fetchInvoiceDetails(invoiceId);
+		this.props.actions.fetchCategories(false, this.props.dispatch);
 	}
 
 	render() {
-
 		//============style=========================================================
 
 		let borderStyle = {
@@ -79,6 +116,11 @@ class Edit_invoice extends Component {
 			borderWidth: '2px',
 			padding: '20px 25px 20px 100px'
 		};
+
+		let selectcss ={
+			width: '80%',
+			overflow: 'scroll'
+		}
 
 		//==========================================================================
 
@@ -89,6 +131,14 @@ class Edit_invoice extends Component {
 		let description;
 		let address;
 		let components = [];
+
+		let allInvoiceData = this.props.props.invoices.data;
+
+		let categories = [];
+		for(let i = 0; i < this.props.props.category.AllCategories.length; i++){
+			let ComponentInfo = { value : this.props.props.category.AllCategories[i].Id, label: this.props.props.category.AllCategories[i].Category };
+			categories[i] = ComponentInfo;
+		}
 
 		if(this.props.props.invoices.invoice || this.props.props.invoices.invoicer) {
 			invoice = this.props.props.invoices.invoice
@@ -167,6 +217,58 @@ class Edit_invoice extends Component {
 						<TableHeaderColumn width="100" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
 					</BootstrapTable>
 				</div>
+
+				<div className="setWidth">
+					<label className="control-label text-center">Components </label>
+					<button className="btn btn-success pull-right" onClick={this.addInputField}> Add Component </button>
+					<br/>
+					<HelpBlock className="center errFontStyle"> { this.state.componentErr } </HelpBlock>
+					<br/>
+
+					{this.state.inputs.map(function (input, index) {
+						let date = moment(); // default date will shows today's date ...
+						if (allInvoiceData[index] && allInvoiceData[index][`date_${index}`]) { // after change the date ...
+							date = allInvoiceData[index][`date_${index}`];
+						}
+
+						let category;
+						if (allInvoiceData[index] && allInvoiceData[index][`category_${index}`]) { // after change the category ...
+							category = allInvoiceData[index][`category_${index}`];
+						}
+
+					//============== To Display add component ============================
+						let ref = `input_${index}`;
+						return (
+							<div key={ref}>
+								<div className="block">
+									<div className="clearfix">
+										<span className="pull-right" onClick={this.removeInputField.bind(this, index)} id={ref} ><button type="button" className="btn btn-danger btn-sm">Remove</button></span>
+										<label className="paddingTop"> Component #{index + 1} </label>
+									</div>
+									<div>
+										<div className="clearfix" className="setPaddingleft">
+											<input type="text" className="col-lg-2 textboxSize" onChange={ this.handleFieldsComponent} id={`serial_${index}`} placeholder="Serial" />
+											<input type="text" className="col-lg-2 col-lg-offset-1 textboxSize marginRight" onChange={ this.handleFieldsComponent } id={`component_${index}`} placeholder="Component Name" />
+											<DatePicker className="col-lg-2 col-lg-offset-1 textboxSize" id={`warrantyDate_${ index }`} dateFormat="DD/MM/YYYY" selected={ date } onChange={this.handleDateChange.bind(this, index)} placeholder="Component Name"/>
+										</div>
+										<br/>
+										<div className="clearfix">
+											<Select className="col-lg-3 pull-left" style={selectcss} id={`warrantyDate_${ index }`} value={ category } placeholder="Category" options={ categories } onChange={ this.handleCategoryChange.bind(this, index) }/>
+											<div>
+												<textarea className="textAreaSize1 col-lg-3" name="Address" id={`description_${index}`} onChange={ this.handleFieldsComponent } placeholder="Description"/>
+											</div>
+										</div>
+									</div>
+									<br/>
+								</div>
+								<br/>
+							</div>
+						)
+					//====================================================================
+
+					}.bind(this))}
+				</div>
+
 				</div>
 			</div>
 		)
