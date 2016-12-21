@@ -92,28 +92,39 @@ class Display_users extends Component {
 			<div>
 				<div className="clearfix">
 					<div className="col-lg-2">
-						<Select searchable={ false } className="activeStyle" clearable={ false } placeholder="Active" value={ this.state.activeAll } options={ options } onChange={ this.filterUsers }/>
+
+						<Select
+							searchable={ false }
+							className="activeStyle"
+							clearable={ false }
+							placeholder="Active"
+							value={ this.state.activeAll }
+							options={ options }
+							onChange={ this.filterUsers }
+						/>
+
 					</div>
 				</div>
 				<div>
-					<BootstrapTable data={ users }
-													pagination={true}
-													options={{
-														afterDeleteRow :this.deleteUser,
-														onAddRow :this.addUser
-													}}
-													deleteRow={true}
-													selectRow={selectRowProp}
-													insertRow={true}
-													exportCSV={true} // to export data in CSV format ....
-													cellEdit={{
-						                mode: "dbclick",
-						                blurToSave: true,
-						                afterSaveCell: this.editUser
-					                }}
-													search={true}
-													striped={true}
-													hover={true}>
+					<BootstrapTable
+						data={ users }
+						pagination={true}
+						options={{
+							afterDeleteRow :this.deleteUser,
+							onAddRow :this.addUser
+						}}
+						deleteRow={true}
+						selectRow={selectRowProp}
+						insertRow={true}
+						exportCSV={true} // to export data in CSV format ....
+						cellEdit={{
+              mode: "dbclick",
+              blurToSave: true,
+              afterSaveCell: this.editUser
+            }}
+						search={true}
+						striped={true}
+						hover={true}>
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
 						<TableHeaderColumn width="260" dataSort={true} dataField="Name" editable={{ validator:Validator }} >User</TableHeaderColumn>
 						<TableHeaderColumn width="350" dataSort={true} dataField="Company_email" editable={{ validator:Validator }}>E-mail</TableHeaderColumn>

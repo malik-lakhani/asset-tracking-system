@@ -109,7 +109,13 @@ class Component_information extends Component {
 							</div>
 							<div className="modal-body">
 								<label >Select Machine</label>
-								<Select name="Machine" id="machine" value={ this.state.machine } options={ Machines } onChange={ this.handleMachinesChange } />
+								<Select
+									name="Machine"
+									id="machine"
+									value={ this.state.machine }
+									options={ Machines }
+									onChange={ this.handleMachinesChange }
+								/>
 							</div>
 							<div className="modal-footer">
 								<form onSubmit={ this.handleSubmit } >
@@ -149,8 +155,13 @@ class Component_information extends Component {
 					</div>
 					<div className="clearfix form-group">
 						<div className="col-lg-2 col-lg-offset-2">
-							<label >Description</label>
-							<textarea disabled className="textAreaSize" name="Description" value={ this.props.props.components.Components.Description } />
+							<label>Description</label>
+							<textarea
+								className="textAreaSize"
+								disabled
+								name="Description"
+								value={ this.props.props.components.Components.Description }
+							/>
 						</div>
 						<div className="col-lg-2 col-lg-offset-2">
 							<Field component={rendreLabel} label="User" name="user" /> { User }

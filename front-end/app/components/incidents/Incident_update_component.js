@@ -177,31 +177,102 @@ class Add_incident_update extends Component {
 								<h4 className="modal-title center">Add Component</h4>
 							</div>
 							<div className="modal-body">
-								<input type="text" name="ResolvedBy" id="resolvedBy" placeholder="Update By" onChange={ this.handleFields } className="textBoxWidth"/>
+
+								<input
+									className="textBoxWidth"
+									id="resolvedBy"
+									name="ResolvedBy"
+									onChange={ this.handleFields }
+									placeholder="Update By"
+									type="text"
+								/>
+
 								<HelpBlock className="errFontStyle"> {this.state.updateByErr} </HelpBlock>
 							</div>
 							<div className="modal-body">
-								<input type="text" name="SerialNo" id="serialNo" placeholder="Serial No." onChange={ this.handleFields } className="textBoxWidth"/>
+
+								<input
+									className="textBoxWidth"
+									id="serialNo"
+									name="SerialNo"
+									onChange={ this.handleFields }
+									placeholder="Serial No."
+									type="text"
+								/>
+
 								<HelpBlock className="errFontStyle"> {this.state.serialErr} </HelpBlock>
 							</div>
 							<div className="modal-body">
-								<input type="text" name="Component" id="component" placeholder="Component Name" onChange={ this.handleFields } className="textBoxWidth"/>
+
+								<input
+									className="textBoxWidth"
+									id="component"
+									name="Component"
+									onChange={ this.handleFields }
+									placeholder="Component Name"
+									type="text"
+								/>
+
 								<HelpBlock className="errFontStyle"> {this.state.componentErr} </HelpBlock>
 							</div>
 							<div className="modal-body">
-								<Select className="selectcss" id={`category`} value={ category } placeholder="Category" clearable={ false } options={ categories } onChange={ this.handleCategoryChange }/>
+
+								<Select
+									className="selectcss"
+									clearable={ false }
+									id={`category`}
+									options={ categories }
+									onChange={ this.handleCategoryChange }
+									placeholder="Category"
+									value={ category }
+								/>
+
 								<HelpBlock className="errFontStyle"> {this.state.categoryErr} </HelpBlock>
 							</div>
 							<div className="modal-body">
-								<DatePicker className="textboxSize" name="Warranty" id="warranty" selected={ warrantyDate } onChange={this.handleWarrantyDateChange} />
+
+								<DatePicker
+									className="textboxSize"
+									dropdownMode="select"
+									dateFormat="DD/MM/YYYY"
+									id="warranty"
+									name="Warranty"
+									onChange={this.handleWarrantyDateChange}
+									peekNextMonth
+									selected={ warrantyDate }
+									showYearDropdown
+									showMonthDropdown
+								/>
+
 							</div>
 							<div className="modal-body">
-								<textarea name="Description" id="description" className="textAreaWidth" onChange={ this.handleFields } placeholder="Description of Component"/>
+
+								<textarea
+									className="textAreaWidth"
+									id="description"
+									name="Description"
+									onChange={ this.handleFields }
+									placeholder="Description of Component"
+								/>
+
 							</div>
 							<div className="modal-footer">
 								<form onSubmit={ this.handleAddComponent }>
-									<button type="submit" id="changeMachine" className="btn btn-success">Resolved</button>
-									<button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+
+									<button
+										className="btn btn-success"
+										id="changeMachine"
+										type="submit">
+										Resolved
+									</button>
+
+									<button
+										className="btn btn-danger"
+										data-dismiss="modal"
+										type="button">
+										Close
+									</button>
+
 								</form>
 							</div>
 						</div>
@@ -228,7 +299,17 @@ class Add_incident_update extends Component {
 								<label>Updated By :</label>
 							</div>
 							<div className="col-lg-offset-1">
-								<input type="text" name="UpdateBy" id="updatedBy" value={this.props.state.incidents.updateBy} onChange={ this.handleFields } placeholder="Update by" className="textBoxWidth"/>
+
+								<input
+									className="textBoxWidth"
+									id="updatedBy"
+									name="UpdateBy"
+									onChange={ this.handleFields }
+									placeholder="Update by"
+									type="text"
+									value={this.props.state.incidents.updateBy}
+								/>
+
 								<HelpBlock className="errFontStyle"> {this.state.resolvedByErr} </HelpBlock>
 							</div>
 						</div>
@@ -237,7 +318,15 @@ class Add_incident_update extends Component {
 								<label >Description :</label>
 							</div>
 							<div className="col-lg-offset-1">
-								<textarea name="Description" id="description" onChange={ this.handleFields } placeholder="Description" className="textAreaWidth" />
+
+								<textarea
+									className="textAreaWidth"
+									id="description"
+									name="Description"
+								 	onChange={ this.handleFields }
+									placeholder="Description"
+							 />
+
 							</div>
 						</div>
 					</div>
