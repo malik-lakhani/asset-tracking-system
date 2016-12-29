@@ -108,7 +108,7 @@ class Display_components extends Component {
 							onChange={ this.handleCategoryChange }
 							placeholder="Filter By Category"
 							style={ categoryStyle }
-							searchable={ false }
+							searchable={ true }
 							value={ this.state.category }
 						/>
 					</div>
