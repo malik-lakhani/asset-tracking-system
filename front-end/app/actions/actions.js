@@ -668,22 +668,7 @@ export const addIncidentUpdate = ((incidentId, resolvedBy, description, isResolv
 		}
 });
 
-function formatDate(date) {
-	var d = new Date(date),
-		month = '' + (d.getMonth() + 1),
-		day = '' + d.getDate(),
-		year = d.getFullYear();
-
-	if (month.length < 2) month = '0' + month;
-	if (day.length < 2) day = '0' + day;
-
-	return [year, month, day].join('-');
-}
-
-export const addReplacedComponent = ((incidentId, resolvedBy, description, component, category, serialNo, warranty) => {
-	var initial = warranty.value.split(/\//); // => 'dd/mm/yyyy'
-	var date = [ initial[1], initial[0], initial[2] ].join('/'); //=> 'mm/dd/yyyy'
-
+export const addReplacedComponent = ((incidentId, resolvedBy, description, component, category, serialNo) => {
 	return function(dispatch, getState, options) {
 		let url = `${options.prefix}/incidents/${incidentId}/addComponent`;
 			axios.post(url, querystring.stringify({
@@ -691,7 +676,6 @@ export const addReplacedComponent = ((incidentId, resolvedBy, description, compo
 				resolvedBy: resolvedBy,
 				component: component,
 				category: category,
-				warranty: date,
 				serialNo: serialNo
 			}))
 			.then(function (response) {
