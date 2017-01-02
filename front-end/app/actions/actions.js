@@ -26,7 +26,9 @@ import {
 		FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER, RESET_STATE_INVOICES,
 
 	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER, RESET_STATE_INCIDENTS, FETCH_INCIDENT_INFORMATION_SUCCESS,
-	FETCH_INCIDENT_INFORMATION_FAILULER, ADD_INCIDENT_UPDATE_SUCCESS, ADD_INCIDENT_UPDATE_FAILULER
+	FETCH_INCIDENT_INFORMATION_FAILULER, ADD_INCIDENT_UPDATE_SUCCESS, ADD_INCIDENT_UPDATE_FAILULER,
+	COMPONENT_REPLACED_SUCCESS, COMPONENT_REPLACED_FAILULER, COMPONENT_ACTIVE_SUCCESS, COMPONENT_ACTIVE_FAILULER,
+	COMPONENT_DEACTIVE_SUCCESS, COMPONENT_DEACTIVE_FAILULER,
 
 } from '../../constants';
 
@@ -686,6 +688,32 @@ export const addReplacedComponent = ((incidentId, resolvedBy, description, compo
 		})
 			.catch(function (err) {
 				console.log(err);
+			});
+		}
+});
+
+export const activeComponent = ((componentId) => {
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/components/${componentId}/activeIt`;
+			axios.get(url)
+			.then(function (response) {
+				dispatch({ type: COMPONENT_ACTIVE_SUCCESS})
+		})
+			.catch(function (err) {
+				dispatch({ type: COMPONENT_ACTIVE_FAILULER})
+			});
+    }
+});
+
+export const deactiveComponent = ((componentId) => {
+	return function(dispatch, getState, options) {
+		let url = `${options.prefix}/components/${componentId}/deactiveIt`;
+			axios.get(url)
+			.then(function (response) {
+				dispatch({ type: COMPONENT_DEACTIVE_SUCCESS})
+		})
+			.catch(function (err) {
+				dispatch({ type: COMPONENT_DEACTIVE_SUCCESS})
 			});
     }
 });

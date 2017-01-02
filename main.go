@@ -213,8 +213,7 @@ func addComponentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	component := r.FormValue("component")
 	categoryId, err2 := strconv.Atoi(r.FormValue("category"))
 	services.CheckErr(err2)
-	warranty := r.FormValue("warranty")
-	services.IncidentAddComponent(incident_id, resolvedBy, categoryId, component, serialNo, warranty, description) //PATH : /services/incidents.go
+	services.IncidentAddComponent(incident_id, resolvedBy, categoryId, component, serialNo, description) //PATH : /services/incidents.go
 }
 
 func incidentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -233,6 +232,18 @@ func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 	response := services.DisplayComponents(all) //PATH : /services/components.go
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(response))
+}
+
+func setActiveComponentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	componentId, err := strconv.Atoi(c.URLParams["component_id"]) // converting from string to int ...
+	services.CheckErr(err)
+	services.ActiveComponent(componentId) //PATH : /services/components.go
+}
+
+func setDeactivecomponentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
+	componentId, err := strconv.Atoi(c.URLParams["component_id"]) // converting from string to int ...
+	services.CheckErr(err)
+	services.DeactiveComponent(componentId) //PATH : /services/components.go
 }
 
 func filterComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -337,6 +348,8 @@ func main() {
 	goji.Get("/components/categories", categoriesHandler)
 	goji.Get("/components/filter", filterComponentsHandler)
 	goji.Get("/components/:component_id", componentInfoHandler)
+	goji.Get("/components/:component_id/activeIt", setActiveComponentHandler)
+	goji.Get("/components/:component_id/deactiveIt", setDeactivecomponentHandler)
 	goji.Post("/components/categories", addCategoryHandler)
 	goji.Patch("/components/categories/:category_id", editCategoryInfoHandler)
 	goji.Delete("/components/categories/:category_id", deleteCategoryHandler)
