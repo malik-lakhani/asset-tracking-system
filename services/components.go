@@ -140,7 +140,7 @@ type User struct {
 	Name string
 }
 
-func DisplayComponentInformation(ComponentId int) []byte {
+func DisplayComponentInformation(componentId int) []byte {
 	sqlStmt := "invoices.id AS Invoice_id,"
 	sqlStmt += "invoices.invoice_number,"
 	sqlStmt += "components.name AS Component,"
@@ -155,7 +155,7 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	err := sess.Select(sqlStmt).
 		From("invoices").
 		RightJoin("components", "invoices.id = components.invoice_id").
-		Where("components.id= ?", ComponentId).
+		Where("components.id= ?", componentId).
 		LoadStruct(&components)
 	CheckErr(err)
 
@@ -173,7 +173,7 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	incidents := []Incidents{}
 	sess.Select("id, title, description, status, recorder").
 		From("incidents").
-		Where("Component_id = ?", ComponentId).
+		Where("Component_id = ?", componentId).
 		LoadStruct(&incidents)
 
 	//Get Machine Information to which component connected if connected ...
@@ -181,7 +181,7 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	sess.Select("machines.id, machines.Name, machine_components.id AS Machine_component_id").
 		From("machines").
 		Join("machine_components", "machine_components.machine_id = machines.id").
-		Where("machine_components.Component_id = ? AND machine_components.deleted_at IS NULL", ComponentId).
+		Where("machine_components.Component_id = ? AND machine_components.deleted_at IS NULL", componentId).
 		OrderDir("machine_components.id", false).
 		Limit(1).
 		LoadStruct(&machine)
@@ -202,7 +202,7 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	sess.Select("machine_components.id, machines.name AS Machine, machine_components.created_at, machine_components.deleted_at").
 		From("machine_components").
 		LeftJoin("machines", "machine_components.machine_id = machines.id").
-		Where("machine_components.component_id= ?", ComponentId).
+		Where("machine_components.component_id= ?", componentId).
 		LoadStruct(&log)
 
 	//extract only date from timestamp========
@@ -224,4 +224,22 @@ func DisplayComponentInformation(ComponentId int) []byte {
 	b, err5 := json.Marshal(components)
 	CheckErr(err5)
 	return b
+}
+
+func ActiveComponent(componentId int) {
+	sess := SetupDB()
+	_, err := sess.Update("components").
+		Set("active", "true").
+		Where("id = ?", componentId).
+		Exec()
+	CheckErr(err)
+}
+
+func DeactiveComponent(componentId int) {
+	sess := SetupDB()
+	_, err := sess.Update("components").
+		Set("active", "false").
+		Where("id = ?", componentId).
+		Exec()
+	CheckErr(err)
 }
