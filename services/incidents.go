@@ -212,17 +212,17 @@ type IncidentComponentInfo struct {
 	CategoryId    int
 	Name          string
 	SerialNo      string
-	Warranty_till string
+	Warranty_till *time.Time
 	Description   string
 	Active        bool
 }
 
-func IncidentAddComponent(incident_id int, resolvedBy string, categoryId int, component string, serialNo string, warranty string, description string) {
+func IncidentAddComponent(incident_id int, resolvedBy string, categoryId int, component string, serialNo string, description string) {
 	sess := SetupDB()
 
 	//select component id and invoice id on which incident happen ....============
 	c := IncidentComponentInfo{}
-	sess.Select("incidents.component_id, components.invoice_id").
+	sess.Select("incidents.component_id, components.invoice_id, components.warranty_till").
 		From("incidents").
 		Join("components", "components.id = incidents.component_id").
 		Where("incidents.id = ?", incident_id).
@@ -235,7 +235,6 @@ func IncidentAddComponent(incident_id int, resolvedBy string, categoryId int, co
 	c.CategoryId = categoryId
 	c.Name = component
 	c.SerialNo = serialNo
-	c.Warranty_till = warranty
 	c.Description = description
 	c.Active = false
 

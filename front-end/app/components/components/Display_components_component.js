@@ -76,12 +76,12 @@ class Display_components extends Component {
 									search={true}>
 									<TableHeaderColumn isKey={true} hidden={true} dataSort={true} dataField="Id">#</TableHeaderColumn>
 									<TableHeaderColumn width="120" dataSort={true} dataField="Serial_no">Serial</TableHeaderColumn>
-									<TableHeaderColumn width="120" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
+									<TableHeaderColumn width="190" dataSort={true} dataField="Name" dataFormat={componentInformation}>Name</TableHeaderColumn>
 									<TableHeaderColumn width="70" dataSort={true} dataField="Active">Active</TableHeaderColumn>
 									<TableHeaderColumn width="150" dataSort={true} dataField="Category">Category</TableHeaderColumn>
 									<TableHeaderColumn width="140" dataField="Warranty_till">Warranty Till(Y-M-D)</TableHeaderColumn>
 									<TableHeaderColumn hidden={true} dataField="invoice_id">Invoice</TableHeaderColumn>
-									<TableHeaderColumn width="240" dataSort={true} dataField="Description">Description</TableHeaderColumn>
+									<TableHeaderColumn width="200" dataSort={true} dataField="Description">Description</TableHeaderColumn>
 									<TableHeaderColumn width="150" dataSort={true} dataField="Machine">Machine</TableHeaderColumn>
 								</BootstrapTable>
 							);

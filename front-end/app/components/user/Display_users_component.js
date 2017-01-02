@@ -19,6 +19,19 @@ function Validator(value){
 	return true;
 }
 
+function Validator(value){
+	if(!value){
+		return '*required'
+	}
+	if(this.type == 'email') {
+		var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+		if((re.test(value)) == false) {
+			return 'invalid email'
+		}
+	}
+	return true;
+}
+
 let MachineNames = [];
 let MachineIds = [];
 class Display_users extends Component {
@@ -118,16 +131,16 @@ class Display_users extends Component {
 						insertRow={true}
 						exportCSV={true} // to export data in CSV format ....
 						cellEdit={{
-              mode: "dbclick",
-              blurToSave: true,
-              afterSaveCell: this.editUser
-            }}
+							mode: "dbclick",
+							blurToSave: true,
+							afterSaveCell: this.editUser
+						}}
 						search={true}
 						striped={true}
 						hover={true}>
 						<TableHeaderColumn width="60"  dataSort={true} dataField="Id" editable={false} isKey={true} autoValue={true} hidden={true} >Id</TableHeaderColumn>
 						<TableHeaderColumn width="260" dataSort={true} dataField="Name" editable={{ validator:Validator }} >User</TableHeaderColumn>
-						<TableHeaderColumn width="350" dataSort={true} dataField="Company_email" editable={{ validator:Validator }}>E-mail</TableHeaderColumn>
+						<TableHeaderColumn width="350" dataSort={true} dataField="Company_email" editable={{ type: 'email', validator:Validator }}>E-mail</TableHeaderColumn>
 						<TableHeaderColumn width="150" dataSort={true} dataField="Machine_name" editable={{type:'select', options:{ values:MachineNames }}}>Machine</TableHeaderColumn>
 					</BootstrapTable>
 				</div>

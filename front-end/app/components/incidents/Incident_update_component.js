@@ -4,8 +4,6 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import Select from 'react-select';
 import { Link } from 'react-router';
 import { HelpBlock } from 'react-bootstrap'
-import moment from 'moment';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-select/dist/react-select.css';
 import './styles.css';
@@ -24,7 +22,6 @@ class Add_incident_update extends Component {
 		this.handleFields = this.handleFields.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleAddComponent = this.handleAddComponent.bind(this);
-		this.handleWarrantyDateChange = this.handleWarrantyDateChange.bind(this);
 		this.handleCategoryChange = this.handleCategoryChange.bind(this);
 		this.handleResolveIncident = this.handleResolveIncident.bind(this);
 	}
@@ -98,13 +95,8 @@ class Add_incident_update extends Component {
 		//==========================================================================
 
 		if (status) {
-			this.props.actions.addReplacedComponent(incidentId, resolvedBy, description, component, category, serial, warranty);
+			this.props.actions.addReplacedComponent(incidentId, resolvedBy, description, component, category, serial);
 		}
-	}
-
-	handleWarrantyDateChange(date) {
-		let id = `warranty`
-		this.props.actions.setFieldValue(id, date);
 	}
 
 	handleCategoryChange(event) {
@@ -134,11 +126,6 @@ class Add_incident_update extends Component {
 	}
 
 	render() {
-		let warrantyDate = moment();
-		if(this.props.state.incidents.warranty) {
-			warrantyDate = this.props.state.incidents.warranty;
-		}
-
 		let categories = [];
 		for(let i = 0; i < this.props.state.category.AllCategories.length; i++){
 			let ComponentInfo = { value : this.props.state.category.AllCategories[i].Id, label: this.props.state.category.AllCategories[i].Category };
@@ -228,22 +215,6 @@ class Add_incident_update extends Component {
 								/>
 
 								<HelpBlock className="errFontStyle"> {this.state.categoryErr} </HelpBlock>
-							</div>
-							<div className="modal-body">
-
-								<DatePicker
-									className="textboxSize"
-									dropdownMode="select"
-									dateFormat="DD/MM/YYYY"
-									id="warranty"
-									name="Warranty"
-									onChange={this.handleWarrantyDateChange}
-									peekNextMonth
-									selected={ warrantyDate }
-									showYearDropdown
-									showMonthDropdown
-								/>
-
 							</div>
 							<div className="modal-body">
 
