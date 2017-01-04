@@ -17,7 +17,8 @@ import {
 
 	ADD_MACHINE_SUCCESS, ADD_MACHINE_FAILULER, FETCH_MACHINES_SUCCESS, FETCH_MACHINES_FAILULER,
 		EDIT_MACHINE_SUCCESS, EDIT_MACHINE_FAILULER, DELETE_MACHINE_SUCCESS, DELETE_MACHINE_FAILULER,
-		FETCH_MACHINES_INFORMATION_SUCCESS, FETCH_MACHINES_INFORMATION_FAILULER,
+		FETCH_MACHINES_INFORMATION_SUCCESS, FETCH_MACHINES_INFORMATION_FAILULER, ASSIGN_MACHINE_SUCCESS,
+		ASSIGN_MACHINE_FAILULER,
 
 	FETCH_COMPONENTS_SUCCESS, FETCH_COMPONENTS_FAILULER, FETCH_COMPONENT_INFORMATION_SUCCESS,
 		FETCH_COMPONENT_INFORMATION_FAILULER, FILTER_COMPONENTS_SUCCESS, FILTER_COMPONENTS_FAILULER,
@@ -26,9 +27,9 @@ import {
 		FETCH_ONE_INVOICE_SUCCESS, FETCH_ONE_INVOICE_FAILULER, RESET_STATE_INVOICES,
 
 	FETCH_INCIDENTS_SUCCESS,FETCH_INCIDENTS_FAILULER, RESET_STATE_INCIDENTS, FETCH_INCIDENT_INFORMATION_SUCCESS,
-	FETCH_INCIDENT_INFORMATION_FAILULER, ADD_INCIDENT_UPDATE_SUCCESS, ADD_INCIDENT_UPDATE_FAILULER,
-	COMPONENT_REPLACED_SUCCESS, COMPONENT_REPLACED_FAILULER, COMPONENT_ACTIVE_SUCCESS, COMPONENT_ACTIVE_FAILULER,
-	COMPONENT_DEACTIVE_SUCCESS, COMPONENT_DEACTIVE_FAILULER,
+		FETCH_INCIDENT_INFORMATION_FAILULER, ADD_INCIDENT_UPDATE_SUCCESS, ADD_INCIDENT_UPDATE_FAILULER,
+		COMPONENT_REPLACED_SUCCESS, COMPONENT_REPLACED_FAILULER, COMPONENT_ACTIVE_SUCCESS, COMPONENT_ACTIVE_FAILULER,
+		COMPONENT_DEACTIVE_SUCCESS, COMPONENT_DEACTIVE_FAILULER,
 
 } from '../../constants';
 
@@ -98,8 +99,8 @@ export const editUser = ((row, machineId) => {
 		axios.patch(url,
 			querystring.stringify({
 				'name' : row.Name,
-				'company_email' : row.Company_email,
-				'machine_id' : machineId
+				'companyEmail' : row.Company_email,
+				'machineId' : machineId
 			})).then(function(response) {
 				if(response.status == 200) {
 					showNotification("info", "Edited Successfully ...")
@@ -118,8 +119,8 @@ export const addUser = ((row, machineId) => {
 		axios.post(url,
 			querystring.stringify({
 				'name' : row.Name,
-				'company_email' : row.Company_email,
-				'machine_id' : machineId
+				'companyEmail' : row.Company_email,
+				'machineId' : machineId
 			})).then(function(response) {
 				dispatch({ type: ADD_USER_SUCCESS, response: response })
 			}).catch(function (err) {
@@ -336,10 +337,10 @@ export const fetchComponents = ((Action, dispatch) => {
 		}
 });
 
-export const filterComponents = ((category_id) => {
+export const filterComponents = ((categoryId) => {
 	return function(dispatch, getState, options) {
 		const URL = `${options.prefix}/components/filter`;
-		axios.get(URL, { params: { category_id: category_id }})
+		axios.get(URL, { params: { categoryId: categoryId }})
 			.then((response) => {
 				dispatch({ type: FILTER_COMPONENTS_SUCCESS, response })
 			})
@@ -368,7 +369,7 @@ export const changeMachine = ((componentId, machineId) => {
 		let URL = `${options.prefix}/machines/${machineId}/components`
 		axios.post(URL,
 			querystring.stringify({
-				'component_id' : componentId
+				'componentId' : componentId
 			})).then((response) => {
 				hashHistory.push(`components/${componentId}`);
 			})
@@ -621,7 +622,7 @@ export const editIncident = ((row, componentId) => {
 				'title' : row.Title,
 				'description' : row.Description,
 				'recorder' : row.Recorder,
-				'component_id': componentId
+				'componentId': componentId
 			})).then(function(response) {
 					if(response.status == 200) {
 						showNotification("info", "Edited Successfully ...")
@@ -681,10 +682,9 @@ export const addReplacedComponent = ((incidentId, resolvedBy, description, compo
 				serialNo: serialNo
 			}))
 			.then(function (response) {
-				hashHistory.push(`/incidents/${incidentId}`)
+				// hashHistory.push(`/incidents/${incidentId}`)
 				location.reload()
-				// this.props.dispatch(push(location));
-			resetStateIncidents(dispatch)
+				resetStateIncidents(dispatch)
 		})
 			.catch(function (err) {
 				console.log(err);
