@@ -68,7 +68,7 @@ func DisplayComponents(all string) []byte {
   }
 
   //extract only date from timestamp========
-  for i := 0; i < len(components); i++ {
+  for i := 0; i < len(components); i += 1 {
     t := components[i].Warranty_timestamp
     components[i].Warranty_till = t.Format("2006-01-02")
   }
@@ -102,7 +102,7 @@ func FilterComponents(category_id int) []byte {
     LoadStruct(&components)
 
   //extract only date from timestamp========
-  for i := 0; i < len(components); i++ {
+  for i := 0; i < len(components); i += 1 {
     t := components[i].Warranty_timestamp
     components[i].Warranty_till = t.Format("2006-01-02")
   }
@@ -229,7 +229,7 @@ func DisplayComponentInformation(componentId int) []byte {
     LoadStruct(&log)
 
   //extract only date from timestamp========
-  for i := 0; i < len(log); i++ {
+  for i := 0; i < len(log); i += 1 {
     t := log[i].Created_at.Time
     log[i].Added_at = t.Format("2006-01-02")
 

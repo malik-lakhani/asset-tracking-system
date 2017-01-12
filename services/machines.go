@@ -52,7 +52,7 @@ func DeleteMachine(machineIds string) {
   sess := SetupDB()
 
   //deleting mulitple users ======
-  for i := 0; i < len(ids); i++ {
+  for i := 0; i < len(ids); i += 1 {
     _, err := sess.Update("machines").
       Set("deleted_at", "NOW()").
       Where("id = ?", ids[i]).
@@ -219,7 +219,7 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
   query.Where("machine_components.machine_id = ? AND machine_components.deleted_at is NULL", machineId).
     LoadStruct(&MachineComponents)
 
-  for i := 0; i < len(MachineComponents); i++ {
+  for i := 0; i < len(MachineComponents); i += 1 {
     time := MachineComponents[i].Created_at
     MachineComponents[i].AddOn = time.Format("2006-01-02")
 
@@ -242,7 +242,7 @@ func DisplayMachineComponents(machineId int, allComponents string) []byte {
     Where("users_machine.machine_id = ?", machineId).
     LoadStruct(&pastUses)
 
-  for i := 0; i < len(pastUses); i++ {
+  for i := 0; i < len(pastUses); i += 1 {
     t2 := pastUses[i].Begin.Time
     pastUses[i].BeginDate = t2.Format("2006-01-02")
 

@@ -297,7 +297,7 @@ func deleteCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 func main() {
 
   //======= Middleware for AJAX Requsests ========================================
-  c := cors.New(cors.Options{
+  c := cors.New(cors.Options {
     AllowedOrigins:   []string{"*"},
     AllowCredentials: true,
     AllowedMethods:   []string{"GET", "POST", "PATCH", "DELETE"},

@@ -68,7 +68,7 @@ func AddInvoice(details string) {
   c := ComponentsInfo{}
   c.InvoiceId = recentInsertedId
   c.Active = false
-  for i := 0; i < len(m.ComponentDetails.Name); i++ {
+  for i := 0; i < len(m.ComponentDetails.Name); i += 1 {
     c.Name = m.ComponentDetails.Name[i]
     c.SerialNo = m.ComponentDetails.SerialNo[i]
     c.CategoryId = m.ComponentDetails.Category[i]
@@ -119,7 +119,7 @@ func DisplayInvoices() []byte {
     From("invoices").
     LoadStruct(&invoicesDetails)
   //extract only date from timestamp========
-  for i := 0; i < len(invoicesDetails); i++ {
+  for i := 0; i < len(invoicesDetails); i += 1 {
     t := invoicesDetails[i].Invoice_timestamp
     invoicesDetails[i].Invoice_date = t.Format("2006-01-02")
   }
@@ -173,7 +173,7 @@ func DisplayOneInvoice(invoiceId int) []byte {
   query.LoadStruct(&components)
 
   //extract only date from timestamp========
-  for i := 0; i < len(components); i++ {
+  for i := 0; i < len(components); i += 1 {
     t := components[i].Warranty_timestamp
     components[i].Warranty_till = t.Format("2006-01-02")
   }
@@ -219,7 +219,7 @@ func EditInvoice(id int64, details string) {
   c := ComponentsInfo{}
   c.InvoiceId = id
   c.Active = false
-  for i := 0; i < len(m.ComponentDetails.Name); i++ {
+  for i := 0; i < len(m.ComponentDetails.Name); i += 1 {
     c.Name = m.ComponentDetails.Name[i]
     c.SerialNo = m.ComponentDetails.SerialNo[i]
     c.CategoryId = m.ComponentDetails.Category[i]

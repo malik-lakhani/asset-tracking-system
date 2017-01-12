@@ -53,7 +53,7 @@ func DeleteCategory(CategoryIds string) {
   sess := SetupDB()
 
   //deleting mulitple categories ======
-  for i := 0; i < len(ids); i++ {
+  for i := 0; i < len(ids); i += 1 {
     _, err := sess.Update("categories").
       Set("deleted_at", "NOW()").
       Where("id = ?", ids[i]).

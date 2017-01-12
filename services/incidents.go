@@ -102,7 +102,7 @@ func DisplayIncidents(all string) []byte {
   query.LoadStruct(&incidentInfo)
 
   //extract only date from timestamp============================================
-  for i := 0; i < len(incidentInfo); i++ {
+  for i := 0; i < len(incidentInfo); i += 1 {
     t := incidentInfo[i].Warranty_timestamp
     incidentInfo[i].Warranty_till = t.Format("2006-01-02")
   }
@@ -203,7 +203,7 @@ func IncidentInformations(incident_id int) []byte {
     Where("incident_id = ? ", incident_id).
     LoadStruct(&p)
 
-  for i := 0; i < len(p); i++ {
+  for i := 0; i < len(p); i += 1 {
     t := p[i].Created_at
     p[i].Resolved_Date = t.Format("2006-01-02")
   }

@@ -94,7 +94,7 @@ func DeleteUser(userIds string) {
   sess := SetupDB()
 
   //deleting mulitple users ======
-  for i := 0; i < len(ids); i++ {
+  for i := 0; i < len(ids); i += 1 {
     _, err := sess.Update("users").
       Set("deleted_at", "NOW()").
       Where("id = ?", ids[i]).
