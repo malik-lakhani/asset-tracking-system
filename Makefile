@@ -8,6 +8,7 @@ GOTEST=$(GO) test -v
 EXENAME=main
 
 export GOPATH= $(HOME)/goWorkspace
+export GO15VENDOREXPERIMENT=1
 
 makedir:
 	@echo "start building tree..."
