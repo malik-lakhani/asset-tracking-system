@@ -9,11 +9,12 @@ EXENAME=main
 
 export GOPATH= $(HOME)/goWorkspace
 export GO15VENDOREXPERIMENT=1
+export GOBIN=$GOPATH/bin
 
 makedir:
 	@echo "start building tree..."
-	@if [ ! -d $(BUILDPATH)/bin ] ; then mkdir -p $(BUILDPATH)/bin ; fi
-	@if [ ! -d $(BUILDPATH)/pkg ] ; then mkdir -p $(BUILDPATH)/pkg ; fi
+	@if [ ! -d $(GOPATH)/bin ] ; then mkdir -p $(GOPATH)/bin ; fi
+	@if [ ! -d $(GOPATH)/pkg ] ; then mkdir -p $(GOPATH)/pkg ; fi
 
 get:
 	@echo "start downloading dependencies ..."
@@ -34,7 +35,7 @@ test:
 
 clean:
 	@echo "cleanning"
-	@rm -rf $(BUILDPATH)/bin/$(EXENAME)
+	@rm -rf $(GOPATH)/bin/$(EXENAME)
 	@rm -rf $(BUILDPATH)/pkg
 	@rm -rf $(BUILDPATH)/vendor
 

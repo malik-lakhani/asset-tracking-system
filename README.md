@@ -41,6 +41,7 @@ $ go run ./db/migration.go
 $ go run main.go
 ```
 * access system on port 8000
+
 # OR
 ### Using Makefile
 
@@ -76,7 +77,7 @@ To delete project dependencies and executable files.
 
 To make diractories, download dependencies, generating executable and then run the project.
 ```
-    $make all
+    $ make all
 ```
 
 ### Front - end
