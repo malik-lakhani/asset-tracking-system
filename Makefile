@@ -3,6 +3,7 @@ GO=$(shell which go)
 GOBUILD=$(GO) build
 GOCLEAN=$(GO) clean
 GOGET=glide up
+GOTEST=$(GO) test -v
 
 EXENAME=main
 
@@ -28,12 +29,12 @@ run:
 
 test:
 	@echo "start testing..."
-	GO test -v
+	$(GOTEST)
 
 clean:
 	@echo "cleanning"
 	@rm -rf $(BUILDPATH)/bin/$(EXENAME)
 	@rm -rf $(BUILDPATH)/pkg
-	@rm -rf $(BUILDPATH)/src/github.com
+	@rm -rf $(BUILDPATH)/vendor
 
-all: makedir get build
+all: makedir get build run
