@@ -11,6 +11,7 @@ import (
   "github.com/rs/cors"
   "github.com/zenazn/goji"
   "github.com/zenazn/goji/web"
+  "github.com/zenazn/goji/web/middleware"
 )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -19,7 +20,6 @@ func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
     all = "false" // false for display only active users ...
   } // default it will display active users only ...
   b := services.DisplayUsers(all)
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(b))
 }
 
@@ -28,7 +28,6 @@ func addUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   companyEmail := r.FormValue("companyEmail")
   machineId := r.FormValue("machineId")
   response := services.AddNewUser(name, companyEmail, machineId) //PATH : /services/users.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -50,7 +49,6 @@ func displayOneUserHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   userId, err := strconv.Atoi(c.URLParams["userId"]) // converting from string to int ...
   services.CheckErr(err)
   b := services.DisplayUser(userId) //PATH : /services/users.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(b))
 }
 
@@ -60,14 +58,12 @@ func machinesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
     all = "false"
   }
   b := services.DisplayMachines(all) //PATH : /services/machines.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(b))
 }
 
 func addMachineHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   name := r.FormValue("name")
   response := services.AddNewMachine(name) //PATH : /services/machines.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -97,7 +93,6 @@ func machineComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
     all = "false"
   }
   response := services.DisplayMachineComponents(id, all) //PATH : /services/machines.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -127,7 +122,6 @@ func changeUserFromMachine(c web.C, w http.ResponseWriter, r *http.Request) {
 
 func invoiceHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   b := services.DisplayInvoices() //PATH : /services/invoices.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(b))
 }
 
@@ -149,7 +143,6 @@ func oneInvoiceDetailsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   invoiceId, err := strconv.Atoi(c.URLParams["invoiceId"]) // converting from string to int ...
   services.CheckErr(err)
   b := services.DisplayOneInvoice(invoiceId) //PATH : /services/invoices.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(b))
 }
 
@@ -159,7 +152,6 @@ func incidentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
     all = "false" // false for display only active incidents ...
   } // default it will display active incidents only ...
   response := services.DisplayIncidents(all) //PATH : /services/incidents.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -189,7 +181,6 @@ func displayIncidentHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   incidentId, err := strconv.Atoi(c.URLParams["incidentId"]) // converting from string to int ...
   services.CheckErr(err)
   response := services.DisplayIncident(incidentId) //PATH : /services/incidents.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -218,7 +209,6 @@ func incidentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   incidentId, err := strconv.Atoi(c.URLParams["incidentId"]) // converting from string to int ...
   services.CheckErr(err)
   response := services.IncidentInformations(incidentId) //PATH : /services/incidents.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -228,7 +218,6 @@ func componentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
     all = "false"
   }
   response := services.DisplayComponents(all) //PATH : /services/components.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -248,7 +237,6 @@ func filterComponentsHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   category, err := strconv.Atoi(r.URL.Query().Get("categoryId")) // converting from string to int ...
   services.CheckErr(err)
   response := services.FilterComponents(category) //PATH : /services/components.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -256,7 +244,6 @@ func componentInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   componentId, err := strconv.Atoi(c.URLParams["componentId"]) // converting from string to int ...
   services.CheckErr(err)
   response := services.DisplayComponentInformation(componentId) //PATH : /services/components.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -266,7 +253,6 @@ func categoriesHandler(c web.C, w http.ResponseWriter, r *http.Request) {
     all = "false" // false for display only active users ...
   } // default it will display active users only ...
   b := services.DisplayCategories(all)
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(b))
 }
 
@@ -274,7 +260,6 @@ func addCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
   category := r.FormValue("category")
   description := r.FormValue("description")
   response := services.AddNewCategory(category, description) //PATH : /services/category.go
-  w.Header().Set("Content-Type", "application/json")
   w.Write([]byte(response))
 }
 
@@ -287,17 +272,23 @@ func editCategoryInfoHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-Type", "application/json")
-  w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-
   ids := c.URLParams["categoryId"]
   services.DeleteCategory(ids) //PATH : /services/users.go
+}
+
+//middleware for set Content-Type in applpication/json.
+func setJSONResponse(h http.Handler) http.Handler {
+  fn := func(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+    h.ServeHTTP(w, r)
+  }
+  return http.HandlerFunc(fn)
 }
 
 func main() {
 
   //======= Middleware for AJAX Requsests ========================================
-  c := cors.New(cors.Options {
+  c := cors.New(cors.Options{
     AllowedOrigins:   []string{"*"},
     AllowCredentials: true,
     AllowedMethods:   []string{"GET", "POST", "PATCH", "DELETE"},
@@ -307,50 +298,55 @@ func main() {
   goji.Use(c.Handler)
   //==============================================================================
 
+  APIs := web.New()
+  goji.Handle("/*", APIs)
+  APIs.Use(middleware.SubRouter)
+  APIs.Use(setJSONResponse)
+
   //dealing with users ...
-  goji.Get("/users", usersHandler)
-  goji.Post("/users", addUserHandler)
-  goji.Patch("/users/:userId", editUserInfoHandler)
-  goji.Delete("/users/:userId", deleteUserHandler)
-  goji.Get("/users/:userId", displayOneUserHandler)
+  APIs.Get("/users", usersHandler)
+  APIs.Post("/users", addUserHandler)
+  APIs.Patch("/users/:userId", editUserInfoHandler)
+  APIs.Delete("/users/:userId", deleteUserHandler)
+  APIs.Get("/users/:userId", displayOneUserHandler)
 
   //dealing with machines, it's user and its components ...
-  goji.Get("/machines", machinesHandler)
-  goji.Post("/machines", addMachineHandler)
-  goji.Patch("/machines/:machineId", editMachineHandler)
-  goji.Delete("/machines/:machineId", deleteMachineHandler)
-  goji.Get("/machines/:machineId", displayMachineHandler)
-  goji.Get("/machines/:machineId/components", machineComponentsHandler)
-  goji.Post("/machines/:machineId/components", addComponentsToMachine)
-  goji.Delete("/machines/:machineId/components/:componentId", removeComponentsFromMachine)
-  goji.Delete("/machines/:machineId/users/:userId", changeUserFromMachine)
+  APIs.Get("/machines", machinesHandler)
+  APIs.Post("/machines", addMachineHandler)
+  APIs.Patch("/machines/:machineId", editMachineHandler)
+  APIs.Delete("/machines/:machineId", deleteMachineHandler)
+  APIs.Get("/machines/:machineId", displayMachineHandler)
+  APIs.Get("/machines/:machineId/components", machineComponentsHandler)
+  APIs.Post("/machines/:machineId/components", addComponentsToMachine)
+  APIs.Delete("/machines/:machineId/components/:componentId", removeComponentsFromMachine)
+  APIs.Delete("/machines/:machineId/users/:userId", changeUserFromMachine)
 
   //dealing with invoices ...
-  goji.Post("/invoices", addInvoiceHandler)
-  goji.Get("/invoices", invoiceHandler)
-  goji.Get("/invoices/:invoiceId", oneInvoiceDetailsHandler)
-  goji.Patch("/invoices/:invoiceId", editInvoiceHandler)
+  APIs.Post("/invoices", addInvoiceHandler)
+  APIs.Get("/invoices", invoiceHandler)
+  APIs.Get("/invoices/:invoiceId", oneInvoiceDetailsHandler)
+  APIs.Patch("/invoices/:invoiceId", editInvoiceHandler)
 
   //dealing with incidents and its updates ...
-  goji.Get("/incidents", incidentsHandler)
-  goji.Post("/incidents", addIncidentHandler)
-  goji.Patch("/incidents/:incidentId", editIncidentHandler)
-  goji.Delete("/incidents/:incidentId", deleteIncidentHandler)
-  goji.Get("/incidents/:incidentId", displayIncidentHandler)
-  goji.Get("/incidents/:incidentId/incidentInfo", incidentInfoHandler)
-  goji.Post("/incidents/:incidentId/update", incidentsUpdateHandler)
-  goji.Post("/incidents/:incidentId/addComponent", addComponentHandler)
+  APIs.Get("/incidents", incidentsHandler)
+  APIs.Post("/incidents", addIncidentHandler)
+  APIs.Patch("/incidents/:incidentId", editIncidentHandler)
+  APIs.Delete("/incidents/:incidentId", deleteIncidentHandler)
+  APIs.Get("/incidents/:incidentId", displayIncidentHandler)
+  APIs.Get("/incidents/:incidentId/incidentInfo", incidentInfoHandler)
+  APIs.Post("/incidents/:incidentId/update", incidentsUpdateHandler)
+  APIs.Post("/incidents/:incidentId/addComponent", addComponentHandler)
 
   //dealing with components ...
-  goji.Get("/components", componentsHandler)
-  goji.Get("/components/categories", categoriesHandler)
-  goji.Get("/components/filter", filterComponentsHandler)
-  goji.Get("/components/:componentId", componentInfoHandler)
-  goji.Get("/components/:componentId/activeIt", setActiveComponentHandler)
-  goji.Get("/components/:componentId/deactiveIt", setDeactivecomponentHandler)
-  goji.Post("/components/categories", addCategoryHandler)
-  goji.Patch("/components/categories/:categoryId", editCategoryInfoHandler)
-  goji.Delete("/components/categories/:categoryId", deleteCategoryHandler)
+  APIs.Get("/components", componentsHandler)
+  APIs.Get("/components/categories", categoriesHandler)
+  APIs.Get("/components/filter", filterComponentsHandler)
+  APIs.Get("/components/:componentId", componentInfoHandler)
+  APIs.Get("/components/:componentId/activeIt", setActiveComponentHandler)
+  APIs.Get("/components/:componentId/deactiveIt", setDeactivecomponentHandler)
+  APIs.Post("/components/categories", addCategoryHandler)
+  APIs.Patch("/components/categories/:categoryId", editCategoryInfoHandler)
+  APIs.Delete("/components/categories/:categoryId", deleteCategoryHandler)
 
   goji.Serve()
 }

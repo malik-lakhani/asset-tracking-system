@@ -11,6 +11,8 @@ export GOPATH= $(HOME)/goWorkspace
 export GO15VENDOREXPERIMENT=1
 export GOBIN=$GOPATH/bin
 
+.PHONY: makedir get build run test clean all
+
 makedir:
 	@echo "start building tree..."
 	@if [ ! -d $(GOPATH)/bin ] ; then mkdir -p $(GOPATH)/bin ; fi
