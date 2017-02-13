@@ -7,3 +7,5 @@ import:
 - package: github.com/gocraft/dbr
   version: v2.1
 - package: github.com/DavidHuie/gomigrate
+- package: github.com/joho/godotenv
+  version: ~1.1.0

@@ -2,6 +2,7 @@ package main
 
 import (
   "io/ioutil"
+  "log"
   "net/http"
   "strconv"
 
@@ -12,6 +13,7 @@ import (
   "github.com/zenazn/goji"
   "github.com/zenazn/goji/web"
   "github.com/zenazn/goji/web/middleware"
+  "github.com/joho/godotenv"
 )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -286,6 +288,11 @@ func setJSONResponse(h http.Handler) http.Handler {
 }
 
 func main() {
+
+  err := godotenv.Load("example_development.env")
+  if err != nil {
+    log.Fatal("Error loading .env file", err)
+  }
 
   //======= Middleware for AJAX Requsests ========================================
   c := cors.New(cors.Options{
