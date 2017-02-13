@@ -11,6 +11,13 @@ Internal Assets Tracking System for Maintain different Components.
 * npm
 
 ## Run postgres inside docker container from project directory
+
+```
+docker-compose up -d
+```
+
+## OR
+
 ```
 docker run -d -it -v /Users/ashwin/cantaloupe/src/github.com/improwised/cantaloupe/postgres_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123123 -e POSTGRES_USER=postgres -e POSTGRES_DB=cantaloupe -p 5432:5432 postgres:9.6-alpine
 ```
