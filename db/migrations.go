@@ -20,7 +20,7 @@ func main() {
     os.Setenv("GO_ENV2", "production")
   }
 
-    connectionString = dbconfig.PostgresConnectionString("", "disable")
+    connectionString = dbconfig.PostgresConnectionString("disable")
     db, _ = sql.Open("postgres", connectionString)
 
     migrator, err2 := gomigrate.NewMigrator(db, gomigrate.Postgres{}, "../db/migrations")

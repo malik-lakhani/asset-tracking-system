@@ -6,6 +6,7 @@ package dbconfig
 
 import (
 	"strings"
+	"os"
 )
 
 /*
@@ -31,14 +32,26 @@ used by the github.com/lib/pq package like for example:
 The first parameter is the path to the database settings configuration (json) file
 and the second paramater defines the sslmode.
 */
-func PostgresConnectionString(path string, sslmode string) string {
-	settings := Settings(path)
+func PostgresConnectionString(sslmode string) string {
+	// settings := Settings(path)
+
+	// connection := []string{
+	// 	"host=", settings["host"], " ",
+	// 	"password=", settings["password"], " ",
+	// 	"user=", settings["username"], " ",
+	// 	"dbname=", settings["database"], " ",
+	// 	"sslmode=", sslmode}
+
+	host := os.Getenv("APP_HOST")
+	password := os.Getenv("PGDB_PASSWORD")
+	user := os.Getenv("PGDB_USER")
+	dbname := os.Getenv("PG_DB")
 
 	connection := []string{
-		"host=", settings["host"], " ",
-		"password=", settings["password"], " ",
-		"user=", settings["username"], " ",
-		"dbname=", settings["database"], " ",
+		"host=", host, " ",
+		"password=", password, " ",
+		"user=", user, " ",
+		"dbname=", dbname, " ",
 		"sslmode=", sslmode}
 
 	return strings.Join(connection, "")

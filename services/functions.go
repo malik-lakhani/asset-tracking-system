@@ -17,7 +17,7 @@ type Configuration struct {
 }
 
 func DbConneection() *dbr.Connection {
-  connectionString := dbconfig.PostgresConnectionString("", "disable")
+  connectionString := dbconfig.PostgresConnectionString("disable")
   conn, _ := dbr.Open("postgres", connectionString, nil)
   return conn
 }
