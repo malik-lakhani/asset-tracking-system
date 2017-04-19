@@ -1,12 +1,5 @@
-FROM golang:1.6
-
-# Install glide - dependencies manager.
-RUN mkdir /tools
-WORKDIR /tools
-RUN wget https://github.com/Masterminds/glide/releases/download/0.10.2/glide-0.10.2-linux-386.tar.gz
-RUN tar -zxvf glide-0.10.2-linux-386.tar.gz
-RUN mv linux-386/ glide/
-ENV PATH /tools/glide:$PATH
+# go with glide dependecy manager
+FROM cgoes/goglide
 
 # Add project
 ADD ./ /go/src/github.com/improwised/cantaloupe
