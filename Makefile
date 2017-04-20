@@ -7,7 +7,7 @@ GOTEST=$(GO) test -v
 
 EXENAME=main
 
-export GOPATH= $(HOME)/goWorkspace
+export GOPATH= $(HOME)/go
 export GO15VENDOREXPERIMENT=1
 export GOBIN=$GOPATH/bin
 

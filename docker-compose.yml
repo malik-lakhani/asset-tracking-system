@@ -1,8 +1,6 @@
 version: '2'
 services:
   postgres:
-    # env_file:
-    #   - ./example_development.env
     image: postgres:9.6-alpine
     ports:
       - "5432:5432"
@@ -20,13 +18,21 @@ services:
       context: ../cantaloupe
     ports:
       - "8000:8000"
+    environment:
+      POSTGRES_PASSWORD: 123123
+      POSTGRES_USER: postgres
+      POSTGRES_DB: cantaloupe
+      APP_HOST: postgres
+
     links:
       - postgres
 
-# cantaloupe front-end.
-  cantaloupe-web:
-    build:
-      context: ../cantaloupe/front-end
-    links:
-      - cantaloupe-api
+
+
+# # cantaloupe front-end.
+#   cantaloupe-web:
+#     build:
+#       context: ../cantaloupe/front-end
+#     links:
+#       - cantaloupe-api
 
