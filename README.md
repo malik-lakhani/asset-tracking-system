@@ -87,9 +87,17 @@ To make diractories, download dependencies, generating executable and then run t
     $ make all
 ```
 
+# OR
+
+### Docker-way
+* Create database `cantaloupe`.
+* Run migrations script from db directory `go run migrations.go`.
+* Execute `docker-compose  up` from root.
+
+
 ### Front - end
 
-* switch to front-end directory.
+* Switch to front-end directory.
 
 * Run following commands to download dependencies.
 ```
@@ -98,9 +106,9 @@ To make diractories, download dependencies, generating executable and then run t
     $ npm install
 ```
 
-* start server by $ npm start
+* Start server by $ npm start
 
-* access system on port 8080
+* Access system on port 8080
 
 ## Testing
 
