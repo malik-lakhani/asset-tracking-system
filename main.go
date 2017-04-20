@@ -1,9 +1,11 @@
 package main
 
 import (
+  "flag"
   "io/ioutil"
   "log"
   "net/http"
+  "os"
   "strconv"
 
   _ "github.com/gocraft/dbr"
@@ -14,6 +16,7 @@ import (
   "github.com/zenazn/goji/web"
   "github.com/zenazn/goji/web/middleware"
   "github.com/joho/godotenv"
+  _ "github.com/joho/godotenv/autoload"
 )
 
 func usersHandler(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -355,5 +358,10 @@ func main() {
   APIs.Patch("/components/categories/:categoryId", editCategoryInfoHandler)
   APIs.Delete("/components/categories/:categoryId", deleteCategoryHandler)
 
+  port := os.Getenv("PORT") // if port set to different port.
+
+  if port != "" {
+      flag.Set("bind", ":"+port)
+  }
   goji.Serve()
 }
