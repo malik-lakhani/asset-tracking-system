@@ -22,6 +22,11 @@ docker-compose up -d
 docker run -d -it -v /Users/ashwin/cantaloupe/src/github.com/improwised/cantaloupe/postgres_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123123 -e POSTGRES_USER=postgres -e POSTGRES_DB=cantaloupe -p 5432:5432 postgres:9.6-alpine
 ```
 
+## Run The Project.
+* For Mac, Run binary file from root .`./cantaloupe` .
+* For linux, Run `cantaloupe_linux`.
+* For Windows, Run exe file. `cantaloupe_windows.exe`.
+
 ## Installation
 
 ### Back - end
