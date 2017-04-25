@@ -8,3 +8,4 @@ import:
 - package: github.com/DavidHuie/gomigrate
 - package: github.com/joho/godotenv
   version: ~1.1.0
+- package: github.com/bradrydzewski/go.auth

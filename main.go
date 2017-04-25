@@ -1,6 +1,7 @@
 package main
 
 import (
+  "fmt"
   "flag"
   "io/ioutil"
   "log"
@@ -8,6 +9,7 @@ import (
   "os"
   "strconv"
 
+  "github.com/bradrydzewski/go.auth"
   _ "github.com/gocraft/dbr"
   "github.com/improwised/cantaloupe/services"
   _ "github.com/lib/pq"
@@ -283,12 +285,56 @@ func deleteCategoryHandler(c web.C, w http.ResponseWriter, r *http.Request) {
 
 //middleware for set Content-Type in applpication/json.
 func setJSONResponse(h http.Handler) http.Handler {
+
   fn := func(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     h.ServeHTTP(w, r)
   }
   return http.HandlerFunc(fn)
 }
+
+
+var homepage = `
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <div>Welcome to the go.auth Google demo</div>
+    <div><a href="/auth/login">Authenticate with your Google Id</a><div>
+  </body>
+</html>
+`
+
+var privatepage = `
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <div>oauth url: <a href="%s" target="_blank">%s</a></div>
+    <div><a href="/auth/logout">Logout</a><div>
+  </body>
+</html>
+`
+
+// private webpage, authentication required
+func Private(w http.ResponseWriter, r *http.Request) {
+  user := r.URL.User.Username()
+  fmt.Fprintf(w, fmt.Sprintf(privatepage, user, user))
+}
+
+// public webpage, no authentication required
+func Public(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprintf(w, homepage)
+}
+
+// logout handler
+func Logout(w http.ResponseWriter, r *http.Request) {
+  auth.DeleteUserCookie(w, r)
+  // http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
 
 func main() {
 
@@ -306,7 +352,40 @@ func main() {
   })
 
   goji.Use(c.Handler)
-  //==============================================================================
+  //============================================================================
+
+
+  //*******************Oauth2***************************************************
+
+   // You should pass in your access key and secret key as args.
+  // Or you can set your access key and secret key by replacing the default values below (2nd input param in flag.String)
+  googleAccessKey := flag.String("access_key", "259288536282-phk6hfku3cjj980nm1lhnggnfa1ru8o4.apps.googleusercontent.com", "your oauth access key")
+  googleSecretKey := flag.String("secret_key", "cO8GQvlv9Ica0xADgAcdrOIM", "your oauth secret key")
+  flag.Parse()
+
+  //url that google should re-direct to
+  googleRedirect := "http://localhost:8000/auth/login"
+
+  // set the auth parameters
+  auth.Config.CookieSecret = []byte("7H9xiimk2QdTdYI7rDddfJeV")
+  auth.Config.LoginSuccessRedirect = "/private"
+  auth.Config.CookieSecure = false
+
+  // login handler
+  googHandler := auth.Google(*googleAccessKey, *googleSecretKey, googleRedirect)
+  http.Handle("/auth/login", googHandler)
+
+  // logout handler
+    http.HandleFunc("/auth/logout", Logout)
+
+  // public urls
+  // http.HandleFunc("/", Public)
+
+  // private, secured urls
+  http.HandleFunc("/private", auth.SecureFunc(Private))
+
+  //****************************************************************************
+
 
   APIs := web.New()
   goji.Handle("/*", APIs)
