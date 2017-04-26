@@ -1,0 +1,94 @@
+# Group Categories
+
+perform different category releated operations.
+
+- **id** : id of category(string, Required)
+- **category** : Name of Category(string, Required)
+- **description** : description of Category(string, required)
+
+## All Categories [/categories{?all}]
+
+Display All Categories.
+
++ Parameters
+    + all : true - Display all Categories. On false it will display only active categories.
+              By default it will display active categories only.
+
+### List All Category [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+                "id": 1,
+                "category": "electronics",
+                "description": "description of category ",
+                "deleted_at": null
+            }]
+
+## All Categories [/categories]
+
+### Add New Category[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + category: `electronics`
+        + description: `description of category`
+
++ Response 201
+
+    + body
+
+            {
+                "id": 1,
+                "category": "electronics",
+                "description": "description of category ",
+                "deleted_at": null
+            }
+
+## Edit Category [/categories/{category_id}]
+
+### Edit Category[PATCH]
+
++ Parameters
+    + category_id : 1 - Id of category whose information wants to update.
+
++ Request (application/json)
+
+    + Attributes
+        + category: `electronics`
+        + description: `description`
+
++ Response 200
+
+### Delete Category[DELETE]
+
++ Parameters
+    + category_id : 1 - Id of category wants to remove.
+
++ Response 204
+
+### Display One Category[GET]
+
++ Parameters
+    + category_id: 1 - Id of category whose information wants to display.
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            {
+            "category_id": 1,
+            "category": "electronics",
+            "description": "description of category"
+            }
+
+
+
+

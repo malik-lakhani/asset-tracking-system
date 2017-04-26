@@ -1,0 +1,120 @@
+# Group Invoices
+
+- **id** : invoice Id(string, Required)
+- **number** : Invoice Number(string, Required)
+- **invoicer_name** : Name Of Invoicer(string, Required)
+- **invoicer_address** : Address Of Invoicer(string, Optional)
+- **invoicer_contact** : Contact Of Invoicer(string, Optional)
+- **components** : Group Of Components(string[], Required)
+- **category** : Category of Component(string[], Required)
+- **warranty_till** : Warrenty of Components(string[], Required)
+- **component_description** : Description of Each Component(string[], Optional)
+- **invoice_description** : Description Of Invoice(string, Optional)
+- **invoice_date** : Date of Invoice(string, Required)
+
+## invoice [/invoices]
+
+Add New Invoice
+
+### Add Invoice [POST]
+
++ Request (application/json)
+
+     + Attributes
+      + invoice
+          + number : `12SOECE11230`
+          + invoicer_details
+              + name:ashvin
+              + address:Rajkot
+              + contact:9909970574
+
+          + components_detail(array)
+              - (object)
+                  - serial_no : 12SOECE11230(string)
+                  - name : Mouse(string)
+                  - category : 1(number)
+                  - warranty_till : 10/5/2017(string)
+                  - description : Nothing(string)
+
+          + description : `Invoice Description Should Mention Here`
+          + date : `10-08-2016`
+
++ Response 201
+
+
+### List All Invoices [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+            "id": 1,
+            "number": "MOU1122",
+            "invoicer": "improwised technologies",
+            "date" : `11-12-2016`
+            }]
+
+
+## Edit Invoice [/invoices/{invoice_id}]
+
+### Edit Invoice[PATCH]
+
++ Parameters
+    + invoice_id : 1 - Id of invoice whose information wants to update.
+
++ Request (application/json)
+
+     + Attributes
+      + invoice
+          + number : `12SOECE11230`
+          + invoicer_details
+              + name:ashvin
+              + address:Rajkot
+              + contact:9909970574
+
+          + components_detail(array)
+              - (object)
+                  - serial_no : 12SOECE11230(string)
+                  - name : Mouse(string)
+                  - category : 1(number)
+                  - warranty_till : 10/5/2017(string)
+                  - description : Nothing(string)
+
+          + description : `Invoice Description Should Mention Here`
+          + date : `10-08-2016`
+
++ Response 200
+
+### Display One Invoice[GET]
+
++ Parameters
+    + invoice_id: 1 - Id of invoice whose information wants to display.
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+              {
+                "number" : "12SOECE11230",
+                "name" : "Ashvin",
+                "address" : "address",
+                "contact" : "9909970574",
+                "components":[{
+                                "id" : 1,
+                                "name" : "Mouse",
+                                "serial_no" : "12SO11",
+                                "category" : "Electronics",
+                                "category_id" : 1,
+                                "description" : "description of component",
+                                "warranty_till" : "2017-12-11"
+                }]
+              }
+
+
+
+

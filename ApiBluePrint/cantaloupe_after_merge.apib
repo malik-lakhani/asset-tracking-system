@@ -1,0 +1,716 @@
+# Canaloupe - API Documentation
+
+## Cantaloupe
+
+Cantaloupe is an asset tracking system to deals with the components and easily keep its records.
+
+## Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+
+# Group Users
+
+perform different user releated operations.
+
+- **id** : id of user(string, Required)
+- **name** : Name of User(string, Required)
+- **machine_id** : Id of Machine(string, required)
+- **machine_name** : Name of Machine(string, optional)
+- **company_email** : Company Email Id of User(string, Required)
+- **deleted_at** : Deleted Timesramo of User(string, Required)
+
+## All Users [/users{?all}]
+
+Display All Users.
+
++ Parameters
+    + all : true - Display all Users. On false it will display only active users.
+              By default it will display active users only.
+
+### List All User [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+            "id": 1,
+            "name": "ashvin",
+            "company_email": "ashvin @improwised.com ",
+            "machine_id" : 1,
+            "machine_name" : "mako",
+            "deleted_at": "2016-08-08T02:15:15Z"
+            }]
+
+## All Users [/users]
+
+### Add New User[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + name: `Ashvin Kumbhani`
+        + company_email: `ashvin@improwised.com`
+        + machine_id: `1`
+
++ Response 201
+
+    + body
+
+            {
+                "id" : 1,
+                "name" : "ashvin",
+                "company_email" : "ashvin@improwised.com",
+                "machine_id" : 1,
+                "machine_name" : "mako"
+            }
+
+
+## Edit User [/users/{user_id}]
+
+### Edit User[PATCH]
+
++ Parameters
+    + user_id : 1 - Id of user whose information wants to update.
+
++ Request (application/json)
+
+    + Attributes
+        + name: `Ashvin Kumbhani`
+        + company_email: `ashvin@improwised.com`
+        + machine_id: `1`
+
++ Response 200
+
+### Delete User[DELETE]
+
++ Parameters
+    + user_id : 1 - Id of user wants to remove.
+
++ Response 204
+
+### Display One User[GET]
+
++ Parameters
+    + user_id: 1 - Id of user whose information wants to display.
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            {
+            "id": 1,
+            "name": "ashvin",
+            "machine_id": 1,
+            "machine_name" : "mako",
+            "company_email": "ashvin @improwised.com ",
+            "deleted_at": "2016-08-08T02:15:15Z"
+            }
+
+
+
+
+
+# Group Machines
+
+perform different machines releated operations.
+
+- **id** : id of machine(string, Required)
+- **name** : Name Of Machine(string, Required)
+- **component_id** : Id of Component(string, Required)
+- **component_name** : Name of Component(string, Required)
+- **user** : Name Of User(string, Required)
+- **deleted_at** : Deleted Timesramo of Machine(string, Optional)
+
+## All Machines [/machines{?all}]
+
+Display All Machines.
+
++ Parameters
+    + all: true - Either Display all Machines or only active Machines. true for all machines and false for active machines only.
+               By Default active machines will be display
+
+### List All Machines [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            [{
+                "id" : "1",
+                "name" : "mako",
+                "user" : "Ashivn",
+                "deleted_at" : "2016-08-08T02:15:15Z"
+            }]
+
+## Add New Machine [/machines]
+
+### Add New Machine[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + name: `mako`
+
++ Response 201
+
+    + body
+
+            {
+                "id" : 1,
+                "name" : "mako",
+                "user" : null,
+                "deleted_at" : null
+            }
+
+## Edit Machine [/machines/{machine_id}]
+
+### Edit Machine[PATCH]
+
++ Parameters
+    + machine_id: 2 - Id of machine to be update
+
++ Request (application/json)
+
+    + Attributes
+        + name: `Thor`
+
++ Response 200
+
+### Delete Machine[DELETE]
+
++ Parameters
+    + machine_id : 1 - Id of machine to be delete
+
++ Response 204
+
+### Display One Machine Info [GET]
+
++ Parameters
+    + machine_id : 3 - Id of machine to display information of it.
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            {
+                "id" : 1,
+                "name" : "mako",
+                "user" : "Ashvin",
+                "deleted_at" : "2016-08-08T02:15:15Z"
+            }
+
+## Display All Components With Machine [/machines/{machine_id}/components{?all}]
+
+Display Machine Components.
+
++ Parameters
+    + all : true - Display all components included deleted components. On false it will display only active components.
+              By default it will display active components only.
+    + machine_id : 1 - Id of Machine to Display Components
+
+### Display Components [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            {
+                "id" : "1",
+                "name" : "mako",
+                "usingSince" : "2015-12-11",
+                "components":[{
+                        "id" : 1,
+                        "name" : "Mouse",
+                        "serial_no" : "12SO11",
+                        "description" : "description of component",
+                        "warranty_till" : "2017-12-11"
+                }],
+                "incidents":[{
+                        "title" : "title of description",
+                        "description" : "description of incident",
+                        "recorder" : "shailesh davara",
+                        "status" : "Active"
+                }],
+                "pastUses":[{
+                        "begin" : "2015-12-11",
+                        "end" : "2017-12-11",
+                        "user" : "ashvin"
+                }],
+
+            }
+
+## Add Component to machine [/machines/{machine_id}/components]
+
++ Parameters
+    + machine_id : 1 - Id of Machine
+
+### Add Component to Machine [POST]
+
++ Request (application/json)
+
+    + Attributes
+        + id : `1`
+        + machine_id : `2`
+        + components_id : 2
+
++ Response 201
+
+## Remove Component From Machine [/machines/{machine_id}/components/{component_id}]
+
++ Parameters
+    + machine_id : 1 - Id of Machine
+    + component_id : 1 - id of Component
+
+### Remove Component From Machine [DELETE]
+
++ Parameters
+    + component_id : 1 - Id to Remove Component From Machine.
+
++ Response 204
+
+## Remove User From Machine [/machines/{machine_id}/users/{user_id}]
+
+### Remove User From Machine[DELETE]
+
++ Parameters
+    +  user_id : 1 - id of user to Remove Machine
+    +  machine_id : 2 - id of Machine
+
++ Response 204
+
+# Group Invoices
+
+- **id** : invoice Id(string, Required)
+- **number** : Invoice Number(string, Required)
+- **invoicer_name** : Name Of Invoicer(string, Required)
+- **invoicer_address** : Address Of Invoicer(string, Optional)
+- **invoicer_contact** : Contact Of Invoicer(string, Optional)
+- **components** : Group Of Components(string[], Required)
+- **category** : Category of Component(string[], Required)
+- **warranty_till** : Warrenty of Components(string[], Required)
+- **component_description** : Description of Each Component(string[], Optional)
+- **invoice_description** : Description Of Invoice(string, Optional)
+- **invoice_date** : Date of Invoice(string, Required)
+
+## invoice [/invoices]
+
+Add New Invoice
+
+### Add Invoice [POST]
+
++ Request (application/json)
+
+     + Attributes
+      + invoice
+          + number : `12SOECE11230`
+          + invoicer_details
+              + name:ashvin
+              + address:Rajkot
+              + contact:9909970574
+
+          + components_detail(array)
+              - (object)
+                  - serial_no : 12SOECE11230(string)
+                  - name : Mouse(string)
+                  - category : 1(number)
+                  - warranty_till : 10/5/2017(string)
+                  - description : Nothing(string)
+
+          + description : `Invoice Description Should Mention Here`
+          + date : `10-08-2016`
+
++ Response 201
+
+
+### List All Invoices [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+            "id": 1,
+            "number": "MOU1122",
+            "invoicer": "improwised technologies",
+            "date" : `11-12-2016`
+            }]
+
+
+## Edit Invoice [/invoices/{invoice_id}]
+
+### Edit Invoice[PATCH]
+
++ Parameters
+    + invoice_id : 1 - Id of invoice whose information wants to update.
+
++ Request (application/json)
+
+     + Attributes
+      + invoice
+          + number : `12SOECE11230`
+          + invoicer_details
+              + name:ashvin
+              + address:Rajkot
+              + contact:9909970574
+
+          + components_detail(array)
+              - (object)
+                  - serial_no : 12SOECE11230(string)
+                  - name : Mouse(string)
+                  - category : 1(number)
+                  - warranty_till : 10/5/2017(string)
+                  - description : Nothing(string)
+
+          + description : `Invoice Description Should Mention Here`
+          + date : `10-08-2016`
+
++ Response 200
+
+### Display One Invoice[GET]
+
++ Parameters
+    + invoice_id: 1 - Id of invoice whose information wants to display.
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+              {
+                "number" : "12SOECE11230",
+                "name" : "Ashvin",
+                "address" : "address",
+                "contact" : "9909970574",
+                "components":[{
+                                "id" : 1,
+                                "name" : "Mouse",
+                                "serial_no" : "12SO11",
+                                "category" : "Electronics",
+                                "category_id" : 1,
+                                "description" : "description of component",
+                                "warranty_till" : "2017-12-11"
+                }]
+              }
+
+
+
+
+
+# Group  Incidents
+
+- **id** : Id of incident(string, Required)
+- **component_id** : Id of component on which incident happened(string, Required)
+- **component** : Name of incident on which incident happened(string, Required)
+- **machine** : Name of Machine(string, Required)
+- **title** : Brief title of incident(string, Required)
+- **description** : Entire description of incident (string, Optional)
+- **status** : status of comonent whether its in process or not(string, Required)
+- **resolved_at** : Timestamp of resolved component(string, Required)
+
+
+## Incidents [/incidents]
+
+Incidents dealing with components.
+
+### List Incidents [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            [{
+                "id" : 1,
+                "component_id" : 1,
+                "component" : "Mouse",
+                "machine" : "Mako",
+                "recorder" : "Rakshit Menpara",
+                "title" : "Component Damaged",
+                "description" : "component damaged Due to power cut",
+                "status" : "active",
+                "resolved_at" : "2016-08-08T02:15:15Z"
+            }]
+
+### Add New Incident [POST]
+
++ Request (application/json)
+
+    + Attributes
+        + component_id: `1`
+        + recorder: `Rakshit Menpara`
+        + title: `Component Damaged`
+        + description: `Component damaged Due to power cut`
+
++ Response 201
+
+## Edit incident [/incidents/{incident_id}]
+
+### Edit incident[PATCH]
+
++ Parameters
+    + incident_id: 1 - Id of incident to be update
+
++ Request (application/json)
+
+    + Attributes
+        + component_id: `1`,
+        + title: `Component Damaged`,
+        + recorder: `Shailesh Davara`,
+        + description: `Component damaged Due to power cut`
+
++ Response 200
+
+### Delete Incident[DELETE]
+
++ Parameters
+    +  incident_id : 1 - id of incident to delete
+
++ Response 204
+
+
+### Display Info of One Incident[GET]
+
++ Parameters
+    + incident_id : 1 - Id of incident to display
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            {
+                "id" : 1,
+                "component_id" : 1,
+                "title" : "Component Damaged",
+                "description" : "component damaged Due to power cut",
+                "recorder" : "Rakshit Menpara",
+                "status" : "active",
+                "resolved_at" : "2016-08-08T02:15:15Z",
+                "created_at" : "2016-08-08T02:15:15Z",
+                "modified_at" : "2016-08-08T02:15:15Z"
+            }
+
+## Update incident [/incidents/{incident_id}/update{?resolved}]
+
+### Add incident update[POST]
+
++ Parameters
+    + incident_id: 1 - Id of incident to be update
+    + resolved: false - true If incident is resolved successfully or component replace with new component successfully.
+
++ Request (application/json)
+
+    + Attributes
+        + incident_id: `1`,
+        + updated_by: `Rakshit Menpara`,
+        + description: `Component has been depatured for replacement`
+
++ Response 200
+
+###Add Replaced Component [/incidents/{incident_id}/addComponent]
+
+## Add Replaced Component[POST]
+
++ Parameters
+    +  incident_id : 1 - id of incident to delete
+
++ Request (application/json)
+
+    + Attributes
+        + incident_id: `1`,
+        + updated_by: `Rakshit Menpara`,
+        + component(object)
+          - serial_no : `12SOECE11230`
+          - name : Mouse(string)
+          - category : 1
+          - description : 'This component has been replaced successfully after incident happened on it.'
+
++ Response 200
+
+
+# Group Components
+
+- **id** : Id of Component(string, Required)
+- **name** : Name of Component(string, Required)
+- **invoice_id** : Id of Invoice(string, Required)
+- **category** : Category of Component(string, Required)
+- **warranty_till** : Warranty of Component(string, Required)
+- **description** : Description(string, Optional)
+- **active** : Component is active(string, Required) or not
+- **deleted_at** : Deleted Timestamp of Component(string, Optional)
+- **machine_name** : Name of Machine to With Component Connected(string, Optional)
+
+## Display Components [/components{?all}]
+
+Display All Components
+
+### Display Components [GET]
+
++ Parameters
+    + all : true - Display all Components. On false it will display only active Components.
+              By default it will display active Components only.
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+            "id": 1,
+            "serial_no":"12SOECE11230",
+            "name": "Mouse",
+            "machine_name": "mako",
+            "category":"Electronics",
+            "invoice_id": 1,
+            "warranty_till": "12-04-2017 ",
+            "description": "description of mouse",
+            "active": true,
+            "deleted_at":"08-08-2016T12:12:12"
+            }]
+
+## Display Component Incidents [/components/1]
+
+Display Component Incidents
+
+### Component Incidents [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            {
+            "invoice_id": 1,
+            "invoice_number":"12SOECE11230",
+            "component_id": 1,
+            "component": "Mouse",
+            "category":"electronics",
+            "user_id": 1,
+            "user": "ashivn",
+            "machine_id": 1,
+            "machine": "mako",
+            "description":"description of component",
+            "status":"active",
+            "warranty_till":"08-08-2016",
+            "incidents":[{
+                                "id" : 1,
+                                "title" : "title of incidents",
+                                "description" : "description of incidents",
+                                "status" : active
+                }]
+            }
+
+
+
+
+# Group Categories
+
+perform different category releated operations.
+
+- **id** : id of category(string, Required)
+- **category** : Name of Category(string, Required)
+- **description** : description of Category(string, required)
+
+## All Categories [/categories{?all}]
+
+Display All Categories.
+
++ Parameters
+    + all : true - Display all Categories. On false it will display only active categories.
+              By default it will display active categories only.
+
+### List All Category [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + body
+
+            [{
+                "id": 1,
+                "category": "electronics",
+                "description": "description of category ",
+                "deleted_at": null
+            }]
+
+## All Categories [/categories]
+
+### Add New Category[POST]
+
++ Request (application/json)
+
+    + Attributes
+        + category: `electronics`
+        + description: `description of category`
+
++ Response 201
+
+    + body
+
+            {
+                "id": 1,
+                "category": "electronics",
+                "description": "description of category ",
+                "deleted_at": null
+            }
+
+## Edit Category [/categories/{category_id}]
+
+### Edit Category[PATCH]
+
++ Parameters
+    + category_id : 1 - Id of category whose information wants to update.
+
++ Request (application/json)
+
+    + Attributes
+        + category: `electronics`
+        + description: `description`
+
++ Response 200
+
+### Delete Category[DELETE]
+
++ Parameters
+    + category_id : 1 - Id of category wants to remove.
+
++ Response 204
+
+### Display One Category[GET]
+
++ Parameters
+    + category_id: 1 - Id of category whose information wants to display.
+
++ Response 200 (application/json)
+
+    + Headers
+
+    + Body
+
+            {
+            "category_id": 1,
+            "category": "electronics",
+            "description": "description of category"
+            }
+
+
+
+
