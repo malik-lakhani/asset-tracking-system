@@ -2,6 +2,8 @@
 
 Internal Assets Tracking System for Maintain different Components.
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/improwised/cantaloupe)](https://goreportcard.com/report/github.com/improwised/cantaloupe)
+
 # Development
 
 ## Dependencies
