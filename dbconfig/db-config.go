@@ -5,14 +5,14 @@ and generates a connection string for the github.com/lib/pq and github.com/go-sq
 package dbconfig
 
 import (
-	"strings"
 	"os"
+	"strings"
 )
 
 /*
 Settings returns the database settings from the database.yml file from a given application
-and the corresponding application enviroment. The location to the database.yml file and
-the enviroment is configured in the settings json configuration file.
+and the corresponding application environment. The location to the database.yml file and
+the environment is configured in the settings json configuration file.
 If environment is NOT configured, you can set the environment variable APPLICATION_ENV (on os level).
 If this is also not defined "development" is the default.
 */
