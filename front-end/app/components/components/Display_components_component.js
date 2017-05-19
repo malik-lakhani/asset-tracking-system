@@ -1,6 +1,6 @@
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import React, {Component} from 'react';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import './styles.css';
